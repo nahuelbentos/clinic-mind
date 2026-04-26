@@ -3,6 +3,8 @@
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 import { patientSchema } from "@/lib/validations";
+import { isFeatureEnabled } from "@/lib/feature-flags";
+import { PLAN_LIMITS } from "@/lib/plan-limits";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -35,6 +37,22 @@ export async function createPatientAction(
   }
 
   const db = getDb(session.user.id);
+
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: { plan: true },
+  });
+  const limit = PLAN_LIMITS[user?.plan ?? "FREE"]?.maxPatients ?? 5;
+  const count = await db.patient.count({
+    where: { userId: session.user.id, deletedAt: null },
+  });
+  if (count >= limit) {
+    return {
+      error:
+        "Alcanzaste el límite de pacientes de tu plan Free. Actualizá a Pro para continuar.",
+    };
+  }
+
   const patient = await db.patient.create({
     data: {
       userId: session.user.id,
@@ -79,4 +97,27 @@ export async function updatePatientStatusAction(
 
   revalidatePath(`/dashboard/pacientes/${patientId}`);
   revalidatePath("/dashboard/pacientes");
+}
+
+export async function deletePatient(patientId: string) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "No autorizado" };
+
+  const canDelete = await isFeatureEnabled("DELETE_PATIENTS", session.user.id);
+  if (!canDelete)
+    return { error: "No tienes permiso para eliminar pacientes" };
+
+  const db = getDb(session.user.id);
+  const patient = await db.patient.findFirst({
+    where: { id: patientId, userId: session.user.id },
+  });
+  if (!patient) return { error: "Paciente no encontrado" };
+
+  await db.patient.update({
+    where: { id: patientId },
+    data: { deletedAt: new Date() },
+  });
+
+  revalidatePath("/dashboard/pacientes");
+  return { success: true };
 }

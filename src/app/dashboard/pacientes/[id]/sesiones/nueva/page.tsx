@@ -17,6 +17,7 @@ export default function NuevaSesionPage() {
   const params = useParams();
   const patientId = params.id as string;
   const [notes, setNotes] = useState("");
+  const [meetLink, setMeetLink] = useState("");
 
   const boundAction = createSessionAction.bind(null, patientId);
   const [state, action, pending] = useActionState(boundAction, null);
@@ -128,6 +129,43 @@ export default function NuevaSesionPage() {
                 min={0}
                 className="w-full px-4 py-2.5 rounded-lg border border-warm-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500 outline-none text-sm"
               />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-warm-200 p-6 space-y-5">
+          <h2 className="text-lg font-semibold text-warm-900">Reunión online</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="meetLink" className="block text-sm font-medium text-warm-700 mb-1">
+                Link de reunión
+              </label>
+              <input
+                id="meetLink"
+                name="meetLink"
+                type="url"
+                value={meetLink}
+                onChange={(e) => setMeetLink(e.target.value)}
+                placeholder="https://meet.google.com/..."
+                className="w-full px-4 py-2.5 rounded-lg border border-warm-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500 outline-none text-sm"
+              />
+            </div>
+            <div>
+              <label htmlFor="meetProvider" className="block text-sm font-medium text-warm-700 mb-1">
+                Plataforma
+              </label>
+              <select
+                id="meetProvider"
+                name="meetProvider"
+                disabled={!meetLink}
+                className="w-full px-4 py-2.5 rounded-lg border border-warm-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500 outline-none text-sm disabled:opacity-50 disabled:bg-warm-50"
+              >
+                <option value="">Seleccionar...</option>
+                <option value="GOOGLE_MEET">Google Meet</option>
+                <option value="ZOOM">Zoom</option>
+                <option value="TEAMS">Teams</option>
+                <option value="OTHER">Otro</option>
+              </select>
             </div>
           </div>
         </div>

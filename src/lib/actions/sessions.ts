@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 import { sessionSchema } from "@/lib/validations";
+import { isFeatureEnabled } from "@/lib/feature-flags";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -23,6 +24,8 @@ export async function createSessionAction(
     nextSessionGoal: formData.get("nextSessionGoal") as string,
     paymentStatus: formData.get("paymentStatus") as string,
     paymentAmount: formData.get("paymentAmount") as string,
+    meetLink: formData.get("meetLink") as string,
+    meetProvider: formData.get("meetProvider") as string,
   };
 
   const result = sessionSchema.safeParse(raw);
@@ -38,6 +41,7 @@ export async function createSessionAction(
   });
   if (!patient) return { error: "Paciente no encontrado" };
 
+  const meetLinkValue = result.data.meetLink || null;
   await db.session.create({
     data: {
       patientId,
@@ -49,9 +53,33 @@ export async function createSessionAction(
       nextSessionGoal: result.data.nextSessionGoal || null,
       paymentStatus: result.data.paymentStatus,
       paymentAmount: result.data.paymentAmount || null,
+      meetLink: meetLinkValue,
+      meetProvider: meetLinkValue ? (result.data.meetProvider || null) : null,
     },
   });
 
   revalidatePath(`/dashboard/pacientes/${patientId}`);
   redirect(`/dashboard/pacientes/${patientId}`);
+}
+
+export async function deleteSession(sessionId: string) {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "No autorizado" };
+
+  const canDelete = await isFeatureEnabled("DELETE_SESSIONS", session.user.id);
+  if (!canDelete) return { error: "No tienes permiso para eliminar sesiones" };
+
+  const db = getDb(session.user.id);
+  const record = await db.session.findFirst({
+    where: { id: sessionId, patient: { userId: session.user.id } },
+  });
+  if (!record) return { error: "Sesión no encontrada" };
+
+  await db.session.update({
+    where: { id: sessionId },
+    data: { deletedAt: new Date() },
+  });
+
+  revalidatePath(`/dashboard/pacientes/${record.patientId}`);
+  return { success: true };
 }

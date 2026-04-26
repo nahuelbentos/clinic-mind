@@ -1,6 +1,9 @@
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
+import { isFeatureEnabled } from "@/lib/feature-flags";
+import { PLAN_LIMITS } from "@/lib/plan-limits";
 import Link from "next/link";
+import DeletePatientButton from "@/components/dashboard/DeletePatientButton";
 
 export default async function PacientesPage({
   searchParams,
@@ -16,25 +19,36 @@ export default async function PacientesPage({
 
   const db = getDb(session.user.id);
 
-  const patients = await db.patient.findMany({
-    where: {
-      userId: session.user.id,
-      ...(statusFilter && {
-        status: statusFilter as "ACTIVE" | "PAUSED" | "DISCHARGED",
-      }),
-      ...(query && {
-        OR: [
-          { firstName: { contains: query, mode: "insensitive" } },
-          { lastName: { contains: query, mode: "insensitive" } },
-          { email: { contains: query, mode: "insensitive" } },
-        ],
-      }),
-    },
-    include: {
-      sessions: { orderBy: { date: "desc" }, take: 1 },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  const [patients, user, canDeletePatients] = await Promise.all([
+    db.patient.findMany({
+      where: {
+        userId: session.user.id,
+        deletedAt: null,
+        ...(statusFilter && {
+          status: statusFilter as "ACTIVE" | "PAUSED" | "DISCHARGED",
+        }),
+        ...(query && {
+          OR: [
+            { firstName: { contains: query, mode: "insensitive" } },
+            { lastName: { contains: query, mode: "insensitive" } },
+            { email: { contains: query, mode: "insensitive" } },
+          ],
+        }),
+      },
+      include: {
+        sessions: { where: { deletedAt: null }, orderBy: { date: "desc" }, take: 1 },
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    db.user.findUnique({
+      where: { id: session.user.id },
+      select: { plan: true },
+    }),
+    isFeatureEnabled("DELETE_PATIENTS", session.user.id),
+  ]);
+
+  const limit = PLAN_LIMITS[user?.plan ?? "FREE"]?.maxPatients ?? 5;
+  const atLimit = (user?.plan === "FREE") && patients.length >= limit;
 
   const statusLabels: Record<string, { label: string; style: string }> = {
     ACTIVE: { label: "Activo", style: "bg-sage-100 text-sage-700" },
@@ -56,6 +70,12 @@ export default async function PacientesPage({
           Nuevo paciente
         </Link>
       </div>
+
+      {atLimit && (
+        <div className="bg-cream-50 border border-cream-300 text-cream-800 px-4 py-3 rounded-lg text-sm">
+          Límite de pacientes alcanzado. Actualizá tu plan para agregar más.
+        </div>
+      )}
 
       {/* Filters */}
       <form className="flex flex-col sm:flex-row gap-3">
@@ -101,31 +121,35 @@ export default async function PacientesPage({
             const lastSession = patient.sessions[0];
             const statusInfo = statusLabels[patient.status];
             return (
-              <Link
-                key={patient.id}
-                href={`/dashboard/pacientes/${patient.id}`}
-                className="flex items-center gap-4 p-4 hover:bg-warm-50 transition"
-              >
-                <div className="w-11 h-11 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center text-sm font-semibold shrink-0">
-                  {patient.firstName[0]}
-                  {patient.lastName[0]}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-warm-900">
-                    {patient.firstName} {patient.lastName}
-                  </p>
-                  <p className="text-xs text-warm-500">
-                    {lastSession
-                      ? `Última sesión: ${new Date(lastSession.date).toLocaleDateString("es-AR")}`
-                      : "Sin sesiones"}
-                  </p>
-                </div>
-                <span
-                  className={`text-xs px-2.5 py-1 rounded-full font-medium ${statusInfo.style}`}
+              <div key={patient.id} className="flex items-center gap-4 p-4 hover:bg-warm-50 transition">
+                <Link
+                  href={`/dashboard/pacientes/${patient.id}`}
+                  className="flex-1 flex items-center gap-4 min-w-0"
                 >
-                  {statusInfo.label}
-                </span>
-              </Link>
+                  <div className="w-11 h-11 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center text-sm font-semibold shrink-0">
+                    {patient.firstName[0]}
+                    {patient.lastName[0]}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-warm-900">
+                      {patient.firstName} {patient.lastName}
+                    </p>
+                    <p className="text-xs text-warm-500">
+                      {lastSession
+                        ? `Última sesión: ${new Date(lastSession.date).toLocaleDateString("es-AR")}`
+                        : "Sin sesiones"}
+                    </p>
+                  </div>
+                  <span
+                    className={`text-xs px-2.5 py-1 rounded-full font-medium ${statusInfo.style}`}
+                  >
+                    {statusInfo.label}
+                  </span>
+                </Link>
+                {canDeletePatients && (
+                  <DeletePatientButton patientId={patient.id} />
+                )}
+              </div>
             );
           })}
         </div>

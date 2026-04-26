@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { deleteSession } from "@/lib/actions/sessions";
 
 const MDPreview = dynamic(() => import("@uiw/react-md-editor").then((mod) => mod.default.Markdown), {
   ssr: false,
@@ -37,6 +38,8 @@ interface PatientProps {
       paymentStatus: string;
       paymentAmount: number | null;
       duration: number;
+      meetLink: string | null;
+      meetProvider: string | null;
     }[];
     appointments: {
       id: string;
@@ -48,7 +51,10 @@ interface PatientProps {
 
 const tabs = ["Info", "Sesiones", "Citas"];
 
-export default function PatientTabs({ patient }: PatientProps) {
+export default function PatientTabs({
+  patient,
+  canDeleteSessions,
+}: PatientProps & { canDeleteSessions: boolean }) {
   const [active, setActive] = useState("Info");
 
   return (
@@ -70,7 +76,7 @@ export default function PatientTabs({ patient }: PatientProps) {
       </div>
 
       {active === "Info" && <InfoTab patient={patient} />}
-      {active === "Sesiones" && <SessionsTab sessions={patient.sessions} />}
+      {active === "Sesiones" && <SessionsTab sessions={patient.sessions} canDeleteSessions={canDeleteSessions} />}
       {active === "Citas" && <AppointmentsTab appointments={patient.appointments} />}
     </div>
   );
@@ -101,7 +107,13 @@ function InfoTab({ patient }: PatientProps) {
   );
 }
 
-function SessionsTab({ sessions }: { sessions: PatientProps["patient"]["sessions"] }) {
+function SessionsTab({
+  sessions,
+  canDeleteSessions,
+}: {
+  sessions: PatientProps["patient"]["sessions"];
+  canDeleteSessions: boolean;
+}) {
   const statusLabels: Record<string, { label: string; style: string }> = {
     COMPLETED: { label: "Completada", style: "bg-sage-100 text-sage-700" },
     SCHEDULED: { label: "Programada", style: "bg-lilac-100 text-lilac-700" },
@@ -112,6 +124,12 @@ function SessionsTab({ sessions }: { sessions: PatientProps["patient"]["sessions
     PAID: "Pagado",
     PENDING: "Pendiente",
     EXEMPT: "Exento",
+  };
+  const providerLabels: Record<string, string> = {
+    GOOGLE_MEET: "Google Meet",
+    ZOOM: "Zoom",
+    TEAMS: "Teams",
+    OTHER: "Otro",
   };
 
   if (sessions.length === 0) {
@@ -136,6 +154,11 @@ function SessionsTab({ sessions }: { sessions: PatientProps["patient"]["sessions
                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${si.style}`}>
                   {si.label}
                 </span>
+                {s.meetLink && (
+                  <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-lilac-100 text-lilac-700">
+                    {s.meetProvider ? providerLabels[s.meetProvider] ?? s.meetProvider : "Online"}
+                  </span>
+                )}
               </div>
               <div className="flex items-center gap-3 text-xs text-warm-500">
                 <span>{new Date(s.date).toLocaleDateString("es-AR")}</span>
@@ -144,6 +167,20 @@ function SessionsTab({ sessions }: { sessions: PatientProps["patient"]["sessions
                   {paymentLabels[s.paymentStatus]}
                   {s.paymentAmount ? ` ($${s.paymentAmount})` : ""}
                 </span>
+                {s.meetLink && (
+                  <a
+                    href={s.meetLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-sage-600 text-white hover:bg-sage-700 transition font-medium"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Unirse
+                  </a>
+                )}
+                {canDeleteSessions && (
+                  <DeleteSessionButton sessionId={s.id} />
+                )}
               </div>
             </div>
             {s.notes && (
@@ -223,5 +260,21 @@ function InfoRow({ label, value }: { label: string; value: string }) {
       <p className="text-xs text-warm-500">{label}</p>
       <p className="text-sm text-warm-900 mt-0.5">{value}</p>
     </div>
+  );
+}
+
+function DeleteSessionButton({ sessionId }: { sessionId: string }) {
+  async function handleDelete() {
+    if (!confirm("¿Eliminar esta sesión? Esta acción no se puede deshacer.")) return;
+    const result = await deleteSession(sessionId);
+    if (result?.error) alert(result.error);
+  }
+  return (
+    <button
+      onClick={handleDelete}
+      className="text-xs text-red-500 hover:text-red-700 px-2 py-1 rounded hover:bg-red-50 transition"
+    >
+      Eliminar
+    </button>
   );
 }

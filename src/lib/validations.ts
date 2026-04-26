@@ -38,6 +38,8 @@ export const sessionSchema = z.object({
   nextSessionGoal: z.string().optional(),
   paymentStatus: z.enum(["PAID", "PENDING", "EXEMPT"]),
   paymentAmount: z.coerce.number().optional(),
+  meetLink: z.string().url("URL de reunión inválida").optional().or(z.literal("")),
+  meetProvider: z.enum(["GOOGLE_MEET", "ZOOM", "TEAMS", "OTHER"]).optional(),
 });
 
 export const appointmentSchema = z.object({

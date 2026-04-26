@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
+import { isFeatureEnabled } from "@/lib/feature-flags";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import PatientTabs from "@/components/dashboard/PatientTabs";
@@ -16,14 +17,17 @@ export default async function PatientDetailPage({
   const { id } = await params;
   const db = getDb(session.user.id);
 
-  const patient = await db.patient.findFirst({
-    where: { id, userId: session.user.id },
-    include: {
-      clinicalProfile: true,
-      sessions: { orderBy: { date: "desc" } },
-      appointments: { orderBy: { scheduledAt: "desc" } },
-    },
-  });
+  const [patient, canDeleteSessions] = await Promise.all([
+    db.patient.findFirst({
+      where: { id, userId: session.user.id },
+      include: {
+        clinicalProfile: true,
+        sessions: { where: { deletedAt: null }, orderBy: { date: "desc" } },
+        appointments: { orderBy: { scheduledAt: "desc" } },
+      },
+    }),
+    isFeatureEnabled("DELETE_SESSIONS", session.user.id),
+  ]);
 
   if (!patient) notFound();
 
@@ -71,7 +75,7 @@ export default async function PatientDetailPage({
         </div>
       </div>
 
-      <PatientTabs patient={patient} />
+      <PatientTabs patient={patient} canDeleteSessions={canDeleteSessions} />
     </div>
   );
 }
