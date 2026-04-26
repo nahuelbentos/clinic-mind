@@ -8,17 +8,19 @@ datasource db {
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String
-  email         String     @unique
+  email         String        @unique
   password      String
   profession    String?
   licenseNumber String?
-  plan          Plan       @default(FREE)
-  isActive      Boolean    @default(true)
-  createdAt     DateTime   @default(now())
+  plan          Plan          @default(FREE)
+  role          Role          @default(THERAPIST)
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
   patients      Patient[]
   feedbacks     Feedback[]
+  featureFlags  FeatureFlag[]
 }
 
 model Patient {
@@ -36,6 +38,7 @@ model Patient {
   status           PatientStatus    @default(ACTIVE)
   emergencyContact String?
   createdAt        DateTime         @default(now())
+  deletedAt        DateTime?
   clinicalProfile  ClinicalProfile?
   sessions         Session[]
   appointments     Appointment[]
@@ -68,7 +71,10 @@ model Session {
   nextSessionGoal String?
   paymentStatus   PaymentStatus @default(PENDING)
   paymentAmount   Float?
+  meetLink        String?
+  meetProvider    MeetProvider?
   createdAt       DateTime      @default(now())
+  deletedAt       DateTime?
 
   @@index([patientId])
 }
@@ -162,4 +168,34 @@ enum FeedbackStatus {
   SEEN
   IN_PROGRESS
   DONE
+}
+
+enum Role {
+  THERAPIST
+  ADMIN
+}
+
+enum MeetProvider {
+  GOOGLE_MEET
+  ZOOM
+  TEAMS
+  OTHER
+}
+
+enum FeatureFlagScope {
+  GLOBAL
+  PER_USER
+}
+
+model FeatureFlag {
+  id        String           @id @default(cuid())
+  key       String
+  enabled   Boolean          @default(false)
+  scope     FeatureFlagScope @default(GLOBAL)
+  userId    String?
+  user      User?            @relation(fields: [userId], references: [id])
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@unique([key, userId])
 }

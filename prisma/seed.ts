@@ -10,6 +10,7 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   // Clean existing data
+  await prisma.featureFlag.deleteMany();
   await prisma.feedback.deleteMany();
   await prisma.appointment.deleteMany();
   await prisma.session.deleteMany();
@@ -18,22 +19,22 @@ async function main() {
   await prisma.patient.deleteMany();
   await prisma.user.deleteMany();
 
-  // Create demo user
-  const hashedPassword = await hash("demo1234", 12);
-  const user = await prisma.user.create({
+  // ─── Usuario 1: Demo ────────────────────────────────────────────────────────
+  const demoPassword = await hash("demo1234", 12);
+  const demoUser = await prisma.user.create({
     data: {
       name: "Dra. Demo García",
       email: "demo@ejemplo.com",
-      password: hashedPassword,
+      password: demoPassword,
       profession: "Psicóloga",
       licenseNumber: "MN 12345",
+      role: "THERAPIST",
     },
   });
 
-  // Create patients
   const patient1 = await prisma.patient.create({
     data: {
-      userId: user.id,
+      userId: demoUser.id,
       firstName: "María",
       lastName: "López",
       email: "maria.lopez@email.com",
@@ -55,7 +56,7 @@ async function main() {
 
   const patient2 = await prisma.patient.create({
     data: {
-      userId: user.id,
+      userId: demoUser.id,
       firstName: "Juan",
       lastName: "Martínez",
       email: "juan.martinez@email.com",
@@ -77,7 +78,7 @@ async function main() {
 
   const patient3 = await prisma.patient.create({
     data: {
-      userId: user.id,
+      userId: demoUser.id,
       firstName: "Lucía",
       lastName: "Fernández",
       email: "lucia.fernandez@email.com",
@@ -97,7 +98,6 @@ async function main() {
     },
   });
 
-  // Create sessions
   const now = new Date();
 
   await prisma.session.createMany({
@@ -160,7 +160,6 @@ async function main() {
     ],
   });
 
-  // Create upcoming appointments
   await prisma.appointment.createMany({
     data: [
       {
@@ -176,10 +175,9 @@ async function main() {
     ],
   });
 
-  // Create feedback
   await prisma.feedback.create({
     data: {
-      userId: user.id,
+      userId: demoUser.id,
       type: "FEATURE_REQUEST",
       title: "Exportar sesiones a PDF",
       description:
@@ -190,8 +188,175 @@ async function main() {
     },
   });
 
+  // ─── Usuario 2: Micaela Vulcano ──────────────────────────────────────────────
+  const micaelaPassword = await hash("micaela1234", 12);
+  const micaelaUser = await prisma.user.create({
+    data: {
+      name: "Micaela Julieta Vulcano",
+      email: "micaela@clinicmind.com",
+      password: micaelaPassword,
+      profession: "Licenciada en Psicología",
+      role: "THERAPIST",
+    },
+  });
+
+  const micaelaPaciente1 = await prisma.patient.create({
+    data: {
+      userId: micaelaUser.id,
+      firstName: "Valentina",
+      lastName: "Ríos",
+      email: "valentina.rios@email.com",
+      phone: "+54 11 3344-5566",
+      birthDate: new Date("1995-06-20"),
+      gender: "female",
+      status: "ACTIVE",
+      clinicalProfile: {
+        create: {
+          consultationReason: "Ataques de pánico y fobia social",
+          background: "Sin antecedentes previos de tratamiento psicológico.",
+          currentMedication: "Ninguna",
+          previousTherapy: "Primera vez en terapia",
+          actValues: "Libertad, conexión social, desarrollo profesional",
+        },
+      },
+    },
+  });
+
+  const micaelaPaciente2 = await prisma.patient.create({
+    data: {
+      userId: micaelaUser.id,
+      firstName: "Rodrigo",
+      lastName: "Sosa",
+      email: "rodrigo.sosa@email.com",
+      phone: "+54 11 7788-9900",
+      birthDate: new Date("1988-02-14"),
+      gender: "male",
+      status: "ACTIVE",
+      clinicalProfile: {
+        create: {
+          consultationReason: "Procrastinación crónica y baja autoestima",
+          background: "TDAH diagnosticado en la infancia, sin medicación actual.",
+          currentMedication: "Ninguna",
+          previousTherapy: "Psicopedagogía en la adolescencia",
+          actValues: "Productividad, familia, salud mental",
+        },
+      },
+    },
+  });
+
+  await prisma.session.createMany({
+    data: [
+      {
+        patientId: micaelaPaciente1.id,
+        date: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 30),
+        sessionNumber: 1,
+        duration: 50,
+        status: "COMPLETED",
+        notes: `## Sesión inicial\n\nValentina describe episodios de pánico en situaciones sociales. Se realiza evaluación inicial y psicoeducación sobre ansiedad desde ACT.\n\n### Observaciones\nMuy motivada para el tratamiento. Buena alianza terapéutica.`,
+        nextSessionGoal: "Introducir técnicas de defusión cognitiva",
+        paymentStatus: "PAID",
+        paymentAmount: 9000,
+      },
+      {
+        patientId: micaelaPaciente1.id,
+        date: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 16),
+        sessionNumber: 2,
+        duration: 50,
+        status: "COMPLETED",
+        notes: `## Sesión 2 — Defusión\n\nSe trabajan ejercicios de defusión cognitiva. Valentina logra distanciarse de pensamientos catastróficos con la técnica "hojas en el río".\n\n### Tarea\nPráctica diaria de 5 minutos de mindfulness.`,
+        nextSessionGoal: "Exposición gradual a situaciones sociales",
+        paymentStatus: "PAID",
+        paymentAmount: 9000,
+        meetLink: "https://meet.google.com/abc-defg-hij",
+        meetProvider: "GOOGLE_MEET",
+      },
+      {
+        patientId: micaelaPaciente1.id,
+        date: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2),
+        sessionNumber: 3,
+        duration: 50,
+        status: "COMPLETED",
+        notes: `## Sesión 3 — Exposición\n\nPrimer ejercicio de exposición: asistir a una reunión de trabajo. Valentina lo realizó con éxito. Procesa la experiencia con valores de libertad y conexión.\n\n### Avances notables\nReducción significativa de la intensidad del pánico.`,
+        nextSessionGoal: "Consolidar logros y planificar nuevas exposiciones",
+        paymentStatus: "PENDING",
+        paymentAmount: 9000,
+      },
+      {
+        patientId: micaelaPaciente2.id,
+        date: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 25),
+        sessionNumber: 1,
+        duration: 50,
+        status: "COMPLETED",
+        notes: `## Sesión inicial\n\nRodrigo describe patrón de procrastinación que afecta su trabajo y vida personal. Se explora historia de TDAH y estrategias previas.\n\n### Plan terapéutico\nEnfoque ACT para aumentar flexibilidad psicológica y comprometerse con acciones valiosas.`,
+        nextSessionGoal: "Identificar valores y patrones de evitación",
+        paymentStatus: "PAID",
+        paymentAmount: 9000,
+      },
+      {
+        patientId: micaelaPaciente2.id,
+        date: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 11),
+        sessionNumber: 2,
+        duration: 50,
+        status: "COMPLETED",
+        notes: `## Sesión 2 — Valores\n\nTrabajo profundo sobre valores de Rodrigo. Identifica que la procrastinación es evitación del miedo al fracaso.\n\n### Ejercicio realizado\nMatriz ACT completa. Acciones comprometidas para la semana.`,
+        nextSessionGoal: "Revisar acciones comprometidas",
+        paymentStatus: "PAID",
+        paymentAmount: 9000,
+        meetLink: "https://meet.google.com/xyz-uvwx-yz1",
+        meetProvider: "GOOGLE_MEET",
+      },
+      {
+        patientId: micaelaPaciente2.id,
+        date: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 4),
+        sessionNumber: 3,
+        duration: 60,
+        status: "COMPLETED",
+        notes: `## Sesión 3 — Compromisos\n\nRodrigo completó 4 de 5 acciones comprometidas. Celebración del avance. Se trabaja la autocompasión ante el paso no completado.\n\n### Observaciones\nMejora notable en autoestima y percepción de eficacia.`,
+        nextSessionGoal: "Mantenimiento y prevención de recaídas",
+        paymentStatus: "PENDING",
+        paymentAmount: 9000,
+      },
+    ],
+  });
+
+  await prisma.appointment.createMany({
+    data: [
+      {
+        patientId: micaelaPaciente1.id,
+        scheduledAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 5, 9, 0),
+        status: "CONFIRMED",
+      },
+      {
+        patientId: micaelaPaciente2.id,
+        scheduledAt: new Date(now.getFullYear(), now.getMonth(), now.getDate() + 7, 11, 0),
+        status: "CONFIRMED",
+      },
+    ],
+  });
+
+  // ─── Usuario 3: Nahuel Bentos (Admin) ────────────────────────────────────────
+  const nahuelPassword = await hash("nahuel1234", 12);
+  await prisma.user.create({
+    data: {
+      name: "Nahuel Bentos",
+      email: "nahuel@clinicmind.com",
+      password: nahuelPassword,
+      role: "ADMIN",
+    },
+  });
+
+  // ─── Feature Flags globales ──────────────────────────────────────────────────
+  await prisma.featureFlag.createMany({
+    data: [
+      { key: "DELETE_PATIENTS", enabled: false, scope: "GLOBAL" },
+      { key: "DELETE_SESSIONS", enabled: false, scope: "GLOBAL" },
+    ],
+  });
+
   console.log("Seed completed successfully!");
-  console.log(`User: ${user.email} / demo1234`);
+  console.log(`Demo:    demo@ejemplo.com / demo1234`);
+  console.log(`Micaela: micaela@clinicmind.com / micaela1234`);
+  console.log(`Nahuel:  nahuel@clinicmind.com / nahuel1234`);
 }
 
 main()
