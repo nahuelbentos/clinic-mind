@@ -1,8 +1,8 @@
 .PHONY: dev build start lint install deploy preview logs \
-       db-generate db-push db-migrate db-seed db-studio db-reset \
-       setup
+       db-generate db-push db-migrate db-seed db-studio db-reset setup \
+       docker-up docker-down docker-build docker-setup docker-logs
 
-# --- Desarrollo ---
+# --- Desarrollo local ---
 
 dev:
 	npm run dev
@@ -19,7 +19,7 @@ lint:
 install:
 	npm install
 
-# --- Base de datos ---
+# --- Base de datos (local) ---
 
 db-generate:
 	npx prisma generate
@@ -39,10 +39,34 @@ db-studio:
 db-reset:
 	npx prisma migrate reset
 
-# --- Setup inicial (primera vez) ---
+# --- Setup local (primera vez) ---
 
 setup: install db-generate db-push db-seed
 	@echo "Setup completo. Ejecutá 'make dev' para iniciar."
+
+# --- Docker ---
+
+docker-build:
+	docker compose build
+
+docker-up:
+	docker compose up -d
+
+docker-down:
+	docker compose down
+
+docker-setup:
+	docker compose --profile setup run --rm db-setup
+
+docker-logs:
+	docker compose logs -f app
+
+# Primera vez con Docker: build + levantar + crear tablas + seed
+docker-init: docker-build docker-up
+	@echo "Esperando que la base de datos esté lista..."
+	@sleep 3
+	$(MAKE) docker-setup
+	@echo "Listo. App corriendo en http://localhost:3000"
 
 # --- Deploy (Vercel) ---
 

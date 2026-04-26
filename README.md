@@ -12,7 +12,8 @@ Sistema de gestión de pacientes para profesionales de salud mental. Combina un 
 - **Zod v4** — validacion de formularios
 - **@uiw/react-md-editor** — editor Markdown para notas de sesion
 - **Resend** — emails transaccionales (notificaciones de feedback)
-- **Vercel** — deploy
+- **Docker** — contenedores para desarrollo y produccion
+- **Vercel** — deploy con CI automatico en push a main
 
 ## Arquitectura
 
@@ -67,16 +68,36 @@ Enums: `Plan`, `PatientStatus`, `SessionStatus`, `PaymentStatus`, `AppointmentSt
 
 ## Inicio rapido
 
-### 1. Clonar e instalar
+### Opcion A: Con Docker (recomendado)
+
+Solo necesitas Docker instalado. Un comando levanta todo:
+
+```bash
+make docker-init
+```
+
+Esto hace: build de la imagen → levanta Postgres + app → crea tablas → inserta datos de ejemplo.
+
+La app queda corriendo en [http://localhost:3000](http://localhost:3000).
+
+Para detener:
+
+```bash
+make docker-down
+```
+
+> Si necesitas pasar `AUTH_SECRET` u otras variables, crealas en un `.env` en la raiz y docker compose las levanta automaticamente.
+
+### Opcion B: Sin Docker (desarrollo local)
+
+#### 1. Clonar e instalar
 
 ```bash
 git clone <repo-url> && cd clinic-mind
 make install
 ```
 
-### 2. Variables de entorno
-
-Copiar `.env.local.example` a `.env.local` y completar:
+#### 2. Variables de entorno
 
 ```bash
 cp .env.local.example .env.local
@@ -89,11 +110,13 @@ Variables requeridas:
 | `DATABASE_URL` | Connection string de PostgreSQL |
 | `AUTH_SECRET` | Secret para NextAuth (generar con `openssl rand -base64 32`) |
 | `AUTH_URL` | URL de la app (`http://localhost:3000` en dev) |
-| `RESEND_API_KEY` | API key de Resend para emails |
-| `DEVELOPER_EMAIL` | Email que recibe notificaciones de feedback |
-| `NEXT_PUBLIC_GA_ID` | Google Analytics 4 Measurement ID |
+| `RESEND_API_KEY` | API key de Resend para emails (opcional en dev) |
+| `DEVELOPER_EMAIL` | Email que recibe notificaciones de feedback (opcional en dev) |
+| `NEXT_PUBLIC_GA_ID` | Google Analytics 4 Measurement ID (opcional) |
 
-### 3. Setup de base de datos
+#### 3. Setup de base de datos
+
+Necesitas un PostgreSQL corriendo. Luego:
 
 ```bash
 make setup
@@ -101,23 +124,29 @@ make setup
 
 Esto ejecuta: `install` → `db-generate` → `db-push` → `db-seed`.
 
+#### 4. Desarrollo
+
+```bash
+make dev
+```
+
+### Datos de ejemplo
+
 El seed crea un usuario demo:
 - **Email:** `demo@ejemplo.com`
 - **Password:** `demo1234`
 
 Con 3 pacientes, 5 sesiones con notas Markdown, 2 citas y 1 feedback de ejemplo.
 
-### 4. Desarrollo
-
-```bash
-make dev
-```
+### URLs
 
 - Sitio publico: [http://localhost:3000](http://localhost:3000)
 - Login: [http://localhost:3000/login](http://localhost:3000/login)
 - Dashboard: [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
 
 ## Comandos disponibles
+
+### Desarrollo local
 
 | Comando | Descripcion |
 |---|---|
@@ -126,12 +155,33 @@ make dev
 | `make start` | Iniciar build de produccion |
 | `make lint` | Ejecutar ESLint |
 | `make setup` | Setup inicial completo (install + db) |
+
+### Base de datos
+
+| Comando | Descripcion |
+|---|---|
 | `make db-generate` | Generar cliente Prisma |
 | `make db-push` | Sincronizar schema con la DB (sin migraciones) |
 | `make db-migrate` | Crear y aplicar migracion |
 | `make db-seed` | Insertar datos de ejemplo |
 | `make db-studio` | Abrir Prisma Studio (GUI de la DB) |
 | `make db-reset` | Resetear DB y re-aplicar migraciones |
+
+### Docker
+
+| Comando | Descripcion |
+|---|---|
+| `make docker-init` | Primera vez: build + up + setup DB completo |
+| `make docker-build` | Buildear imagen |
+| `make docker-up` | Levantar contenedores (app + db) |
+| `make docker-down` | Detener y remover contenedores |
+| `make docker-setup` | Crear tablas + seed (requiere db corriendo) |
+| `make docker-logs` | Ver logs de la app en tiempo real |
+
+### Deploy
+
+| Comando | Descripcion |
+|---|---|
 | `make deploy` | Deploy a produccion en Vercel |
 | `make preview` | Deploy preview en Vercel |
 | `make logs` | Ver logs de produccion |
@@ -149,9 +199,29 @@ make dev
 | `/dashboard/feedback` | Reportar bugs o sugerir mejoras (envia email) |
 | `/dashboard/perfil` | Editar nombre, profesion y matricula |
 
-## Deploy en Vercel
+## CI/CD
 
-1. Conectar el repo en Vercel
-2. Configurar las variables de entorno en el panel de Vercel
-3. Agregar `npx prisma generate` como parte del build command (o usar `prisma generate && next build`)
-4. `make deploy`
+### GitHub Actions
+
+Cada push a `main` y cada PR ejecuta automaticamente:
+1. `npm ci` — instala dependencias
+2. `prisma generate` — genera cliente Prisma
+3. `npm run lint` — linting
+4. `npm run build` — build de produccion
+
+El workflow esta en `.github/workflows/ci.yml`.
+
+### Vercel
+
+El proyecto esta conectado al repo de GitHub. Vercel hace deploy automatico:
+- **Push a `main`** → deploy a produccion
+- **Push a otra branch / PR** → deploy preview
+
+Para que funcione necesitas:
+1. Tener el proyecto linkeado en Vercel (`vercel link`)
+2. Configurar las variables de entorno en el dashboard de Vercel:
+   - `DATABASE_URL` — desde Neon u otro Postgres del Marketplace
+   - `AUTH_SECRET`
+   - `AUTH_URL` — URL de produccion
+   - `RESEND_API_KEY` (opcional)
+   - `DEVELOPER_EMAIL` (opcional)

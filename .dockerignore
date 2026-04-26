@@ -1,0 +1,15 @@
+node_modules
+.next
+.git
+.gitignore
+.env*
+!.env.local.example
+Makefile
+README.md
+CLAUDE.md
+AGENTS.md
+.vercel
+.DS_Store
+*.md
+!content/**/*.md
+!content/**/*.mdx
