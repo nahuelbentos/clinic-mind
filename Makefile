@@ -1,6 +1,7 @@
 .PHONY: dev build start lint install deploy preview logs \
        db-generate db-push db-migrate db-seed db-studio db-reset setup \
-       docker-up docker-down docker-build docker-setup docker-logs
+       docker-up docker-down docker-build docker-setup docker-logs \
+       vercel-env-pull db-push-prod db-seed-prod db-setup-prod
 
 # --- Desarrollo local ---
 
@@ -78,3 +79,20 @@ preview:
 
 logs:
 	vercel logs --prod
+
+# --- Base de datos remota (Vercel/Produccion) ---
+
+vercel-env-pull:
+	vercel env pull --environment=production .env.vercel.local
+
+db-push-prod: vercel-env-pull
+	@echo "Aplicando schema a la DB de produccion..."
+	env $$(grep -E '^DATABASE_URL' .env.vercel.local | tr -d '"') npx prisma db push
+
+db-seed-prod: vercel-env-pull
+	@echo "Insertando seed en la DB de produccion..."
+	env $$(grep -E '^DATABASE_URL' .env.vercel.local | tr -d '"') npx tsx prisma/seed.ts
+
+# Primera vez en produccion: push schema + seed
+db-setup-prod: db-push-prod db-seed-prod
+	@echo "DB de produccion lista."

@@ -178,13 +178,17 @@ Con 3 pacientes, 5 sesiones con notas Markdown, 2 citas y 1 feedback de ejemplo.
 | `make docker-setup` | Crear tablas + seed (requiere db corriendo) |
 | `make docker-logs` | Ver logs de la app en tiempo real |
 
-### Deploy
+### Deploy y DB remota
 
 | Comando | Descripcion |
 |---|---|
 | `make deploy` | Deploy a produccion en Vercel |
 | `make preview` | Deploy preview en Vercel |
 | `make logs` | Ver logs de produccion |
+| `make vercel-env-pull` | Descargar variables de entorno de Vercel |
+| `make db-push-prod` | Aplicar schema a la DB de produccion |
+| `make db-seed-prod` | Insertar datos de ejemplo en produccion |
+| `make db-setup-prod` | Push + seed en produccion (primera vez) |
 
 ## Rutas del dashboard
 
