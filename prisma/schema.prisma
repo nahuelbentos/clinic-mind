@@ -1,0 +1,165 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String
+  email         String     @unique
+  password      String
+  profession    String?
+  licenseNumber String?
+  plan          Plan       @default(FREE)
+  isActive      Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  patients      Patient[]
+  feedbacks     Feedback[]
+}
+
+model Patient {
+  id               String           @id @default(cuid())
+  userId           String
+  user             User             @relation(fields: [userId], references: [id])
+  firstName        String
+  lastName         String
+  email            String?
+  phone            String?
+  birthDate        DateTime?
+  gender           String?
+  referredBy       String?
+  startDate        DateTime         @default(now())
+  status           PatientStatus    @default(ACTIVE)
+  emergencyContact String?
+  createdAt        DateTime         @default(now())
+  clinicalProfile  ClinicalProfile?
+  sessions         Session[]
+  appointments     Appointment[]
+  documents        Document[]
+
+  @@index([userId])
+}
+
+model ClinicalProfile {
+  id                 String   @id @default(cuid())
+  patientId          String   @unique
+  patient            Patient  @relation(fields: [patientId], references: [id])
+  consultationReason String?
+  background         String?
+  currentMedication  String?
+  previousTherapy    String?
+  actValues          String?
+  updatedAt          DateTime @updatedAt
+}
+
+model Session {
+  id              String        @id @default(cuid())
+  patientId       String
+  patient         Patient       @relation(fields: [patientId], references: [id])
+  date            DateTime
+  duration        Int           @default(50)
+  sessionNumber   Int
+  status          SessionStatus @default(COMPLETED)
+  notes           String?
+  nextSessionGoal String?
+  paymentStatus   PaymentStatus @default(PENDING)
+  paymentAmount   Float?
+  createdAt       DateTime      @default(now())
+
+  @@index([patientId])
+}
+
+model Appointment {
+  id           String            @id @default(cuid())
+  patientId    String
+  patient      Patient           @relation(fields: [patientId], references: [id])
+  scheduledAt  DateTime
+  status       AppointmentStatus @default(CONFIRMED)
+  reminderSent Boolean           @default(false)
+  createdAt    DateTime          @default(now())
+
+  @@index([patientId])
+}
+
+model Document {
+  id         String   @id @default(cuid())
+  patientId  String
+  patient    Patient  @relation(fields: [patientId], references: [id])
+  name       String
+  url        String
+  type       String   @default("OTHER")
+  uploadedAt DateTime @default(now())
+
+  @@index([patientId])
+}
+
+model Feedback {
+  id              String         @id @default(cuid())
+  userId          String
+  user            User           @relation(fields: [userId], references: [id])
+  type            FeedbackType
+  title           String
+  description     String
+  currentBehavior String?
+  desiredBehavior String?
+  priority        Priority       @default(MEDIUM)
+  status          FeedbackStatus @default(NEW)
+  screenshotUrl   String?
+  createdAt       DateTime       @default(now())
+
+  @@index([userId])
+}
+
+enum Plan {
+  FREE
+  PRO
+}
+
+enum PatientStatus {
+  ACTIVE
+  PAUSED
+  DISCHARGED
+}
+
+enum SessionStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PAID
+  PENDING
+  EXEMPT
+}
+
+enum AppointmentStatus {
+  CONFIRMED
+  PENDING
+  CANCELLED
+}
+
+enum FeedbackType {
+  BUG
+  FEATURE_REQUEST
+  IMPROVEMENT
+  OTHER
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum FeedbackStatus {
+  NEW
+  SEEN
+  IN_PROGRESS
+  DONE
+}

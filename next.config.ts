@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   // Allow importing MDX content from the content directory
-  serverExternalPackages: ["gray-matter"],
+  serverExternalPackages: ["gray-matter", "@prisma/adapter-pg", "pg"],
 };
 
 export default nextConfig;
