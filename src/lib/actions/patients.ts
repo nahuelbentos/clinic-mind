@@ -15,24 +15,10 @@ export async function createPatientAction(
   const session = await auth();
   if (!session?.user?.id) return { error: "No autorizado" };
 
-  const raw = {
-    firstName: formData.get("firstName") as string,
-    lastName: formData.get("lastName") as string,
-    email: formData.get("email") as string,
-    phone: formData.get("phone") as string,
-    birthDate: formData.get("birthDate") as string,
-    gender: formData.get("gender") as string,
-    referredBy: formData.get("referredBy") as string,
-    emergencyContact: formData.get("emergencyContact") as string,
-    consultationReason: formData.get("consultationReason") as string,
-    background: formData.get("background") as string,
-    currentMedication: formData.get("currentMedication") as string,
-    previousTherapy: formData.get("previousTherapy") as string,
-    actValues: formData.get("actValues") as string,
-    disabilityType: formData.get("disabilityType") as string,
-    autonomyLevel: formData.get("autonomyLevel") as string,
-    integrationContext: formData.get("integrationContext") as string,
-  };
+  const rawEntries = Object.fromEntries(formData.entries());
+  const raw = Object.fromEntries(
+    Object.entries(rawEntries).map(([k, v]) => [k, v === null ? undefined : v])
+  );
 
   const result = patientSchema.safeParse(raw);
   if (!result.success) {
