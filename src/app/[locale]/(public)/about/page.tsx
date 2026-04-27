@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
+
 
 export const metadata: Metadata = {
   title: "Sobre mí",
@@ -54,16 +56,24 @@ export default function AboutPage() {
             {/* Photo placeholder */}
             <div className="flex justify-center lg:justify-start">
               <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-3xl bg-gradient-to-br from-sage-200 to-lilac-200 flex items-center justify-center shadow-xl">
-                <div className="text-center">
+                {/* <div className="text-center">
                   <div className="text-7xl mb-2">👩‍⚕️</div>
                   <p className="text-warm-600 text-sm">Foto de Micaela</p>
-                </div>
+                </div> */}
+                <Image
+                  src="/images/mica-2.jpeg"
+                  alt="Micaela Vulcano"
+                  width={320}
+                  height={320}
+                  className="w-full h-full object-cover rounded-3xl"
+                />
+
               </div>
             </div>
             {/* Text */}
             <div>
               <span className="inline-block bg-sage-100 text-sage-700 text-sm font-medium px-4 py-1.5 rounded-full mb-5">
-                Psicóloga · Mat. [N° matrícula]
+                Psicóloga · Mat. 78.517
               </span>
               <h1 className="text-4xl sm:text-5xl font-bold text-warm-900 mb-5">
                 Hola, soy Micaela
