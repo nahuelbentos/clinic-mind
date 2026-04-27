@@ -1,5 +1,10 @@
 import { prisma } from "@/lib/prisma";
-import { toggleUserActive, updateUserPlanAction } from "@/lib/actions/admin";
+import { toggleUserActive, updateUserPlanAction, updateTherapistSpecialty } from "@/lib/actions/admin";
+
+const specialtyLabels: Record<string, string> = {
+  CLINICAL_PSYCHOLOGY: "Psicología Clínica",
+  SOCIAL_INTEGRATION: "Integración Social",
+};
 
 export default async function TerapeutasPage() {
   const therapists = await prisma.user.findMany({
@@ -25,6 +30,7 @@ export default async function TerapeutasPage() {
             <tr>
               <th className="text-left px-4 py-3 font-medium text-warm-700">Nombre</th>
               <th className="text-left px-4 py-3 font-medium text-warm-700">Email</th>
+              <th className="text-left px-4 py-3 font-medium text-warm-700">Especialidad</th>
               <th className="text-left px-4 py-3 font-medium text-warm-700">Plan</th>
               <th className="text-left px-4 py-3 font-medium text-warm-700">Activo</th>
               <th className="text-right px-4 py-3 font-medium text-warm-700">Pacientes</th>
@@ -43,6 +49,25 @@ export default async function TerapeutasPage() {
                 <tr key={t.id} className="hover:bg-warm-50 transition">
                   <td className="px-4 py-3 font-medium text-warm-900">{t.name}</td>
                   <td className="px-4 py-3 text-warm-600">{t.email}</td>
+                  <td className="px-4 py-3">
+                    <form action={updateTherapistSpecialty} className="flex items-center gap-2">
+                      <input type="hidden" name="userId" value={t.id} />
+                      <select
+                        name="specialty"
+                        defaultValue={t.specialty}
+                        className="px-2 py-1 rounded-lg border border-warm-300 text-xs focus:ring-2 focus:ring-sage-500 outline-none"
+                      >
+                        <option value="CLINICAL_PSYCHOLOGY">Psicología Clínica</option>
+                        <option value="SOCIAL_INTEGRATION">Integración Social</option>
+                      </select>
+                      <button
+                        type="submit"
+                        className="text-xs px-2 py-1 bg-lilac-100 text-lilac-700 rounded hover:bg-lilac-200 transition"
+                      >
+                        Guardar
+                      </button>
+                    </form>
+                  </td>
                   <td className="px-4 py-3">
                     <form action={updateUserPlanAction} className="flex items-center gap-2">
                       <input type="hidden" name="userId" value={t.id} />

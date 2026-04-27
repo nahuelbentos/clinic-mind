@@ -27,6 +27,13 @@ export const patientSchema = z.object({
   currentMedication: z.string().optional(),
   previousTherapy: z.string().optional(),
   actValues: z.string().optional(),
+  // Social integration fields
+  disabilityType: z
+    .enum(["MOTOR", "COGNITIVE", "SENSORY", "MULTIPLE", "OTHER"])
+    .optional()
+    .or(z.literal("")),
+  autonomyLevel: z.string().optional(),
+  integrationContext: z.string().optional(),
 });
 
 export const sessionSchema = z.object({
@@ -62,6 +69,29 @@ export const profileSchema = z.object({
   licenseNumber: z.string().optional(),
 });
 
+export const goalSchema = z.object({
+  description: z.string().min(3, "Mínimo 3 caracteres"),
+  area: z.enum(["SOCIAL", "LABOR", "EDUCATIONAL", "FAMILY"]),
+  targetDate: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+export const reportSchema = z.object({
+  periodStart: z.string().min(1, "Fecha de inicio requerida"),
+  periodEnd: z.string().min(1, "Fecha de fin requerida"),
+  area: z.enum([
+    "SOCIAL_INTEGRATION",
+    "LABOR_INTEGRATION",
+    "EDUCATIONAL_INTEGRATION",
+    "FAMILY_INTEGRATION",
+    "AUTONOMY",
+  ]),
+  progressScale: z.enum(["INITIAL", "IN_DEVELOPMENT", "ACHIEVED"]),
+  observations: z.string().min(5, "Mínimo 5 caracteres"),
+  recommendations: z.string().min(5, "Mínimo 5 caracteres"),
+  nextObjectives: z.string().min(5, "Mínimo 5 caracteres"),
+});
+
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type PatientInput = z.infer<typeof patientSchema>;
@@ -69,3 +99,5 @@ export type SessionInput = z.infer<typeof sessionSchema>;
 export type AppointmentInput = z.infer<typeof appointmentSchema>;
 export type FeedbackInput = z.infer<typeof feedbackSchema>;
 export type ProfileInput = z.infer<typeof profileSchema>;
+export type GoalInput = z.infer<typeof goalSchema>;
+export type ReportInput = z.infer<typeof reportSchema>;

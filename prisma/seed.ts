@@ -10,6 +10,8 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   // Clean existing data
+  await prisma.report.deleteMany();
+  await prisma.goal.deleteMany();
   await prisma.featureFlag.deleteMany();
   await prisma.feedback.deleteMany();
   await prisma.appointment.deleteMany();
@@ -29,6 +31,7 @@ async function main() {
       profession: "Psicóloga",
       licenseNumber: "MN 12345",
       role: "THERAPIST",
+      specialty: "CLINICAL_PSYCHOLOGY",
     },
   });
 
@@ -197,6 +200,7 @@ async function main() {
       password: micaelaPassword,
       profession: "Licenciada en Psicología",
       role: "THERAPIST",
+      specialty: "CLINICAL_PSYCHOLOGY",
     },
   });
 
@@ -334,7 +338,168 @@ async function main() {
     ],
   });
 
-  // ─── Usuario 3: Nahuel Bentos (Admin) ────────────────────────────────────────
+  // ─── Usuario 3: Jennifer Smith (Integración Social) ──────────────────────────
+  const jenniferPassword = await hash("jennifer1234", 12);
+  const jenniferUser = await prisma.user.create({
+    data: {
+      name: "Jennifer Smith",
+      email: "jennifer@clinicmind.com",
+      password: jenniferPassword,
+      profession: "Trabajadora Social",
+      role: "THERAPIST",
+      specialty: "SOCIAL_INTEGRATION",
+    },
+  });
+
+  const jPaciente1 = await prisma.patient.create({
+    data: {
+      userId: jenniferUser.id,
+      firstName: "Carlos",
+      lastName: "Méndez",
+      email: "carlos.mendez@email.com",
+      phone: "+54 11 1122-3344",
+      birthDate: new Date("1992-08-10"),
+      gender: "male",
+      status: "ACTIVE",
+      clinicalProfile: {
+        create: {
+          consultationReason: "Dificultades de integración laboral por discapacidad motriz",
+          background: "Accidente de tránsito hace 2 años. Actualmente con silla de ruedas.",
+          currentMedication: "Baclofeno 10mg",
+          previousTherapy: "Rehabilitación física. Primera vez en integración social.",
+          disabilityType: "MOTOR",
+          autonomyLevel: "Autonomía parcial — requiere asistencia para desplazamientos",
+          integrationContext:
+            "Busca reinserción laboral en su área de formación (contabilidad). Apoyo familiar presente.",
+        },
+      },
+    },
+  });
+
+  const jPaciente2 = await prisma.patient.create({
+    data: {
+      userId: jenniferUser.id,
+      firstName: "Sofía",
+      lastName: "Herrera",
+      email: "sofia.herrera@email.com",
+      phone: "+54 11 5566-7788",
+      birthDate: new Date("2000-03-22"),
+      gender: "female",
+      status: "ACTIVE",
+      clinicalProfile: {
+        create: {
+          consultationReason: "Integración educativa en universidad pública",
+          background: "Síndrome de Down leve. Completó secundaria en escuela especial.",
+          currentMedication: "Ninguna",
+          previousTherapy: "Acompañamiento terapéutico desde los 8 años.",
+          disabilityType: "COGNITIVE",
+          autonomyLevel: "Alta autonomía para actividades cotidianas",
+          integrationContext:
+            "Ingresó a la carrera de Diseño Gráfico. Requiere apoyos académicos específicos y mediación con docentes.",
+        },
+      },
+    },
+  });
+
+  // Goals for Jennifer's patients
+  await prisma.goal.createMany({
+    data: [
+      {
+        patientId: jPaciente1.id,
+        description: "Actualizar CV y portfolio de contabilidad",
+        area: "LABOR",
+        status: "IN_PROGRESS",
+        targetDate: new Date(now.getFullYear(), now.getMonth() + 2, 1),
+        notes: "Trabajar con orientadora laboral del municipio",
+      },
+      {
+        patientId: jPaciente1.id,
+        description: "Participar en actividades del centro comunitario del barrio",
+        area: "SOCIAL",
+        status: "PENDING",
+        targetDate: new Date(now.getFullYear(), now.getMonth() + 3, 1),
+        notes: null,
+      },
+      {
+        patientId: jPaciente2.id,
+        description: "Completar el primer cuatrimestre con acompañamiento académico",
+        area: "EDUCATIONAL",
+        status: "IN_PROGRESS",
+        targetDate: new Date(now.getFullYear(), now.getMonth() + 4, 30),
+        notes: "Coordinación con departamento de inclusión de la universidad",
+      },
+      {
+        patientId: jPaciente2.id,
+        description: "Incorporarse al grupo de estudiantes con discapacidad de la facultad",
+        area: "SOCIAL",
+        status: "PENDING",
+        notes: null,
+      },
+    ],
+  });
+
+  // Reports for Jennifer's patients
+  await prisma.report.create({
+    data: {
+      patientId: jPaciente1.id,
+      periodStart: new Date(now.getFullYear(), now.getMonth() - 2, 1),
+      periodEnd: new Date(now.getFullYear(), now.getMonth(), 0),
+      area: "LABOR_INTEGRATION",
+      progressScale: "IN_DEVELOPMENT",
+      observations:
+        "Carlos muestra avances significativos en la aceptación de su nueva condición física. Ha establecido contacto con 3 empresas que cuentan con programas de inclusión laboral. Su motivación es alta y participa activamente en los talleres de reinserción.",
+      recommendations:
+        "Continuar con el acompañamiento en la búsqueda laboral. Se sugiere contactar al servicio de empleo municipal para acceder a subsidios de inserción laboral. Revisar adaptaciones necesarias en el entorno de trabajo.",
+      nextObjectives:
+        "Concretar al menos una entrevista laboral en el próximo mes. Gestionar certificado de discapacidad actualizado. Iniciar curso de herramientas digitales de contabilidad.",
+    },
+  });
+
+  await prisma.report.create({
+    data: {
+      patientId: jPaciente2.id,
+      periodStart: new Date(now.getFullYear(), now.getMonth() - 1, 1),
+      periodEnd: new Date(now.getFullYear(), now.getMonth(), 0),
+      area: "EDUCATIONAL_INTEGRATION",
+      progressScale: "IN_DEVELOPMENT",
+      observations:
+        "Sofía se adaptó satisfactoriamente al ritmo universitario. Asistencia regular a clases. Ha establecido vínculos con dos compañeras de cursada. Los docentes están colaborando con las adaptaciones pedagógicas acordadas.",
+      recommendations:
+        "Mantener reuniones mensuales con el departamento de inclusión. Incorporar técnicas de organización del tiempo y estudio adaptadas. Considerar tutoría par con estudiante avanzada.",
+      nextObjectives:
+        "Aprobar las primeras dos materias del cuatrimestre. Participar en al menos una actividad extracurricular de la facultad. Desarrollar estrategias de comunicación con docentes de manera autónoma.",
+    },
+  });
+
+  // Sessions for Jennifer's patients (coexistence demo)
+  await prisma.session.createMany({
+    data: [
+      {
+        patientId: jPaciente1.id,
+        date: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 10),
+        sessionNumber: 1,
+        duration: 60,
+        status: "COMPLETED",
+        notes: `## Sesión inicial — Evaluación de integración\n\nCarlos llega derivado por su médico rehabilitador. Se realiza evaluación de necesidades de integración social y laboral.\n\n### Áreas de trabajo\n- Integración laboral (principal)\n- Red social y comunitaria\n\n### Observaciones\nBuena predisposición. Alto nivel de frustración por la pérdida de su trabajo anterior.`,
+        nextSessionGoal: "Explorar recursos y redes de apoyo disponibles",
+        paymentStatus: "PAID",
+        paymentAmount: 7000,
+      },
+      {
+        patientId: jPaciente2.id,
+        date: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7),
+        sessionNumber: 1,
+        duration: 60,
+        status: "COMPLETED",
+        notes: `## Sesión inicial — Planificación educativa\n\nSofía ingresa a la universidad con entusiasmo. Se trabaja en planificación y estrategias de apoyo.\n\n### Plan\n- Coordinación con departamento de inclusión\n- Identificación de apoyos necesarios en cada materia\n\n### Observaciones\nSofía es muy comunicativa. Gran apoyo familiar.`,
+        nextSessionGoal: "Reunión con el departamento de inclusión universitaria",
+        paymentStatus: "PAID",
+        paymentAmount: 7000,
+      },
+    ],
+  });
+
+  // ─── Usuario 4: Nahuel Bentos (Admin) ────────────────────────────────────────
   const nahuelPassword = await hash("nahuel1234", 12);
   await prisma.user.create({
     data: {
@@ -350,13 +515,16 @@ async function main() {
     data: [
       { key: "DELETE_PATIENTS", enabled: false, scope: "GLOBAL" },
       { key: "DELETE_SESSIONS", enabled: false, scope: "GLOBAL" },
+      { key: "DELETE_GOALS", enabled: false, scope: "GLOBAL" },
+      { key: "DELETE_REPORTS", enabled: false, scope: "GLOBAL" },
     ],
   });
 
   console.log("Seed completed successfully!");
-  console.log(`Demo:    demo@ejemplo.com / demo1234`);
-  console.log(`Micaela: micaela@clinicmind.com / micaela1234`);
-  console.log(`Nahuel:  nahuel@clinicmind.com / nahuel1234`);
+  console.log(`Demo:     demo@ejemplo.com / demo1234`);
+  console.log(`Micaela:  micaela@clinicmind.com / micaela1234`);
+  console.log(`Jennifer: jennifer@clinicmind.com / jennifer1234`);
+  console.log(`Nahuel:   nahuel@clinicmind.com / nahuel1234`);
 }
 
 main()

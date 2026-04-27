@@ -29,6 +29,9 @@ export async function createPatientAction(
     currentMedication: formData.get("currentMedication") as string,
     previousTherapy: formData.get("previousTherapy") as string,
     actValues: formData.get("actValues") as string,
+    disabilityType: formData.get("disabilityType") as string,
+    autonomyLevel: formData.get("autonomyLevel") as string,
+    integrationContext: formData.get("integrationContext") as string,
   };
 
   const result = patientSchema.safeParse(raw);
@@ -73,6 +76,9 @@ export async function createPatientAction(
           currentMedication: result.data.currentMedication || null,
           previousTherapy: result.data.previousTherapy || null,
           actValues: result.data.actValues || null,
+          disabilityType: result.data.disabilityType || null,
+          autonomyLevel: result.data.autonomyLevel || null,
+          integrationContext: result.data.integrationContext || null,
         },
       },
     },

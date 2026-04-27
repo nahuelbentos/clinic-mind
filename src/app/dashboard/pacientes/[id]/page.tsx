@@ -17,19 +17,34 @@ export default async function PatientDetailPage({
   const { id } = await params;
   const db = getDb(session.user.id);
 
-  const [patient, canDeleteSessions] = await Promise.all([
-    db.patient.findFirst({
-      where: { id, userId: session.user.id },
-      include: {
-        clinicalProfile: true,
-        sessions: { where: { deletedAt: null }, orderBy: { date: "desc" } },
-        appointments: { orderBy: { scheduledAt: "desc" } },
-      },
-    }),
-    isFeatureEnabled("DELETE_SESSIONS", session.user.id),
-  ]);
+  const [patient, user, canDeleteSessions, canDeleteGoals, canDeleteReports] =
+    await Promise.all([
+      db.patient.findFirst({
+        where: { id, userId: session.user.id },
+        include: {
+          clinicalProfile: true,
+          sessions: { where: { deletedAt: null }, orderBy: { date: "desc" } },
+          appointments: { orderBy: { scheduledAt: "desc" } },
+          goals: { where: { deletedAt: null }, orderBy: { createdAt: "desc" } },
+          reports: {
+            where: { deletedAt: null },
+            orderBy: { periodEnd: "desc" },
+          },
+        },
+      }),
+      db.user.findUnique({
+        where: { id: session.user.id },
+        select: { specialty: true },
+      }),
+      isFeatureEnabled("DELETE_SESSIONS", session.user.id),
+      isFeatureEnabled("DELETE_GOALS", session.user.id),
+      isFeatureEnabled("DELETE_REPORTS", session.user.id),
+    ]);
 
   if (!patient) notFound();
+
+  const specialty = user?.specialty ?? "CLINICAL_PSYCHOLOGY";
+  const isSocialIntegration = specialty === "SOCIAL_INTEGRATION";
 
   const statusLabels: Record<string, { label: string; style: string }> = {
     ACTIVE: { label: "Activo", style: "bg-sage-100 text-sage-700" },
@@ -64,8 +79,24 @@ export default async function PatientDetailPage({
             {patient.phone && <span>{patient.phone}</span>}
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap justify-end">
           <StatusChanger patientId={patient.id} currentStatus={patient.status} />
+          {isSocialIntegration && (
+            <>
+              <Link
+                href={`/dashboard/pacientes/${patient.id}/objetivos/nuevo`}
+                className="bg-lilac-600 hover:bg-lilac-700 text-white font-medium py-2 px-4 rounded-lg transition text-sm"
+              >
+                Nuevo objetivo
+              </Link>
+              <Link
+                href={`/dashboard/pacientes/${patient.id}/informes/nuevo`}
+                className="bg-lilac-600 hover:bg-lilac-700 text-white font-medium py-2 px-4 rounded-lg transition text-sm"
+              >
+                Nuevo informe
+              </Link>
+            </>
+          )}
           <Link
             href={`/dashboard/pacientes/${patient.id}/sesiones/nueva`}
             className="bg-sage-600 hover:bg-sage-700 text-white font-medium py-2 px-4 rounded-lg transition text-sm"
@@ -75,7 +106,13 @@ export default async function PatientDetailPage({
         </div>
       </div>
 
-      <PatientTabs patient={patient} canDeleteSessions={canDeleteSessions} />
+      <PatientTabs
+        patient={patient}
+        specialty={specialty}
+        canDeleteSessions={canDeleteSessions}
+        canDeleteGoals={canDeleteGoals}
+        canDeleteReports={canDeleteReports}
+      />
     </div>
   );
 }

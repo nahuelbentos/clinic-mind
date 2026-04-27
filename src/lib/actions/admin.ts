@@ -50,6 +50,14 @@ export async function toggleFeatureFlag(flagId: string): Promise<void> {
   revalidatePath("/admin/feature-flags");
 }
 
+export async function updateTherapistSpecialty(formData: FormData): Promise<void> {
+  if (!(await requireAdmin())) throw new Error("No autorizado");
+  const userId = formData.get("userId") as string;
+  const specialty = formData.get("specialty") as "CLINICAL_PSYCHOLOGY" | "SOCIAL_INTEGRATION";
+  await prisma.user.update({ where: { id: userId }, data: { specialty } });
+  revalidatePath("/admin/terapeutas");
+}
+
 export async function createFeatureFlag(
   _prevState: unknown,
   formData: FormData

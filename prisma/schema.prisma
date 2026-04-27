@@ -16,6 +16,7 @@ model User {
   licenseNumber String?
   plan          Plan          @default(FREE)
   role          Role          @default(THERAPIST)
+  specialty     Specialty     @default(CLINICAL_PSYCHOLOGY)
   isActive      Boolean       @default(true)
   createdAt     DateTime      @default(now())
   patients      Patient[]
@@ -43,20 +44,25 @@ model Patient {
   sessions         Session[]
   appointments     Appointment[]
   documents        Document[]
+  goals            Goal[]
+  reports          Report[]
 
   @@index([userId])
 }
 
 model ClinicalProfile {
-  id                 String   @id @default(cuid())
-  patientId          String   @unique
-  patient            Patient  @relation(fields: [patientId], references: [id])
+  id                 String          @id @default(cuid())
+  patientId          String          @unique
+  patient            Patient         @relation(fields: [patientId], references: [id])
   consultationReason String?
   background         String?
   currentMedication  String?
   previousTherapy    String?
   actValues          String?
-  updatedAt          DateTime @updatedAt
+  disabilityType     DisabilityType?
+  autonomyLevel      String?
+  integrationContext String?
+  updatedAt          DateTime        @updatedAt
 }
 
 model Session {
@@ -185,6 +191,80 @@ enum MeetProvider {
 enum FeatureFlagScope {
   GLOBAL
   PER_USER
+}
+
+enum Specialty {
+  CLINICAL_PSYCHOLOGY
+  SOCIAL_INTEGRATION
+}
+
+enum GoalArea {
+  SOCIAL
+  LABOR
+  EDUCATIONAL
+  FAMILY
+}
+
+enum GoalStatus {
+  PENDING
+  IN_PROGRESS
+  ACHIEVED
+}
+
+enum ProgressScale {
+  INITIAL
+  IN_DEVELOPMENT
+  ACHIEVED
+}
+
+enum ReportArea {
+  SOCIAL_INTEGRATION
+  LABOR_INTEGRATION
+  EDUCATIONAL_INTEGRATION
+  FAMILY_INTEGRATION
+  AUTONOMY
+}
+
+enum DisabilityType {
+  MOTOR
+  COGNITIVE
+  SENSORY
+  MULTIPLE
+  OTHER
+}
+
+model Goal {
+  id          String     @id @default(cuid())
+  patientId   String
+  patient     Patient    @relation(fields: [patientId], references: [id])
+  description String
+  area        GoalArea
+  status      GoalStatus @default(PENDING)
+  targetDate  DateTime?
+  notes       String?
+  deletedAt   DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([patientId])
+}
+
+model Report {
+  id              String        @id @default(cuid())
+  patientId       String
+  patient         Patient       @relation(fields: [patientId], references: [id])
+  periodStart     DateTime
+  periodEnd       DateTime
+  area            ReportArea
+  progressScale   ProgressScale
+  observations    String
+  recommendations String
+  nextObjectives  String
+  deletedAt       DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([patientId])
 }
 
 model FeatureFlag {
