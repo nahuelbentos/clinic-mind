@@ -1,17 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
-
-const navItems = [
-  { href: "/dashboard", label: "Inicio", icon: HomeIcon },
-  { href: "/dashboard/pacientes", label: "Pacientes", icon: UsersIcon },
-  { href: "/dashboard/citas", label: "Citas", icon: CalendarIcon },
-  { href: "/dashboard/feedback", label: "Feedback", icon: MessageIcon },
-  { href: "/dashboard/perfil", label: "Perfil", icon: UserIcon },
-];
+import { useTranslations } from "next-intl";
 
 export default function Sidebar({
   userName,
@@ -22,6 +15,15 @@ export default function Sidebar({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const t = useTranslations("sidebar");
+
+  const navItems = [
+    { href: "/dashboard" as const, label: t("home"), icon: HomeIcon },
+    { href: "/dashboard/pacientes" as const, label: t("patients"), icon: UsersIcon },
+    { href: "/dashboard/citas" as const, label: t("appointments"), icon: CalendarIcon },
+    { href: "/dashboard/feedback" as const, label: t("feedback"), icon: MessageIcon },
+    { href: "/dashboard/perfil" as const, label: t("profile"), icon: UserIcon },
+  ];
 
   const isActive = (href: string) =>
     href === "/dashboard"
@@ -32,10 +34,7 @@ export default function Sidebar({
     <>
       {/* Mobile header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-white border-b border-warm-200 flex items-center px-4 z-40">
-        <button
-          onClick={() => setOpen(!open)}
-          className="p-2 text-warm-700 hover:bg-warm-100 rounded-lg"
-        >
+        <button onClick={() => setOpen(!open)} className="p-2 text-warm-700 hover:bg-warm-100 rounded-lg">
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
@@ -43,20 +42,11 @@ export default function Sidebar({
         <span className="ml-3 font-semibold text-warm-900">ClinicMind</span>
       </div>
 
-      {/* Overlay */}
       {open && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black/30 z-40"
-          onClick={() => setOpen(false)}
-        />
+        <div className="lg:hidden fixed inset-0 bg-black/30 z-40" onClick={() => setOpen(false)} />
       )}
 
-      {/* Sidebar */}
-      <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-warm-200 z-50 transform transition-transform duration-200 ${
-          open ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0`}
-      >
+      <aside className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-warm-200 z-50 transform transition-transform duration-200 ${open ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0`}>
         <div className="p-6 border-b border-warm-200">
           <Link href="/dashboard" className="text-xl font-bold text-sage-700">
             ClinicMind
@@ -73,9 +63,7 @@ export default function Sidebar({
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
-                  active
-                    ? "bg-sage-50 text-sage-700"
-                    : "text-warm-600 hover:bg-warm-100 hover:text-warm-900"
+                  active ? "bg-sage-50 text-sage-700" : "text-warm-600 hover:bg-warm-100 hover:text-warm-900"
                 }`}
               >
                 <Icon className="w-5 h-5" />
@@ -99,7 +87,7 @@ export default function Sidebar({
             onClick={() => signOut({ callbackUrl: "/login" })}
             className="w-full text-left text-sm text-warm-600 hover:text-red-600 px-3 py-2 rounded-lg hover:bg-warm-100 transition"
           >
-            Cerrar sesión
+            {t("signOut")}
           </button>
         </div>
       </aside>

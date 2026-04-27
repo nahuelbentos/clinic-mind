@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { deleteSession } from "@/lib/actions/sessions";
 import { updateGoalStatusAction, deleteGoalAction } from "@/lib/actions/goals";
 import { deleteReportAction } from "@/lib/actions/reports";
+import { useTranslations } from "next-intl";
 
 const MDPreview = dynamic(() => import("@uiw/react-md-editor").then((mod) => mod.default.Markdown), {
   ssr: false,
-  loading: () => <p className="text-warm-400 text-sm">Cargando...</p>,
+  loading: () => <p className="text-warm-400 text-sm">...</p>,
 });
 
 interface Goal {
@@ -88,12 +89,19 @@ export default function PatientTabs({
   canDeleteGoals,
   canDeleteReports,
 }: PatientTabsProps) {
+  const tPD = useTranslations("patientDetail");
   const isSocialIntegration = specialty === "SOCIAL_INTEGRATION";
-  const tabs = [
-    "Info",
-    "Sesiones",
-    "Citas",
-    ...(isSocialIntegration ? ["Objetivos", "Informes"] : []),
+
+  const tabKeys = [
+    { key: "Info", label: tPD("tabInfo") },
+    { key: "Sesiones", label: tPD("tabSessions") },
+    { key: "Citas", label: tPD("tabAppointments") },
+    ...(isSocialIntegration
+      ? [
+          { key: "Objetivos", label: tPD("tabGoals") },
+          { key: "Informes", label: tPD("tabReports") },
+        ]
+      : []),
   ];
 
   const [active, setActive] = useState("Info");
@@ -101,98 +109,71 @@ export default function PatientTabs({
   return (
     <div>
       <div className="flex gap-1 border-b border-warm-200 mb-6 overflow-x-auto">
-        {tabs.map((tab) => (
+        {tabKeys.map((tab) => (
           <button
-            key={tab}
-            onClick={() => setActive(tab)}
+            key={tab.key}
+            onClick={() => setActive(tab.key)}
             className={`px-4 py-2.5 text-sm font-medium border-b-2 transition whitespace-nowrap ${
-              active === tab
+              active === tab.key
                 ? "border-sage-600 text-sage-700"
                 : "border-transparent text-warm-500 hover:text-warm-700"
             }`}
           >
-            {tab}
+            {tab.label}
           </button>
         ))}
       </div>
 
-      {active === "Info" && (
-        <InfoTab patient={patient} isSocialIntegration={isSocialIntegration} />
-      )}
-      {active === "Sesiones" && (
-        <SessionsTab sessions={patient.sessions} canDeleteSessions={canDeleteSessions} />
-      )}
-      {active === "Citas" && (
-        <AppointmentsTab appointments={patient.appointments} />
-      )}
-      {active === "Objetivos" && isSocialIntegration && (
-        <GoalsTab
-          goals={patient.goals}
-          patientId={patient.id}
-          canDeleteGoals={canDeleteGoals}
-        />
-      )}
-      {active === "Informes" && isSocialIntegration && (
-        <ReportsTab
-          reports={patient.reports}
-          patientId={patient.id}
-          canDeleteReports={canDeleteReports}
-        />
-      )}
+      {active === "Info" && <InfoTab patient={patient} isSocialIntegration={isSocialIntegration} />}
+      {active === "Sesiones" && <SessionsTab sessions={patient.sessions} canDeleteSessions={canDeleteSessions} />}
+      {active === "Citas" && <AppointmentsTab appointments={patient.appointments} />}
+      {active === "Objetivos" && isSocialIntegration && <GoalsTab goals={patient.goals} patientId={patient.id} canDeleteGoals={canDeleteGoals} />}
+      {active === "Informes" && isSocialIntegration && <ReportsTab reports={patient.reports} patientId={patient.id} canDeleteReports={canDeleteReports} />}
     </div>
   );
 }
 
 // ─── Info Tab ─────────────────────────────────────────────────────────────────
 
-const disabilityTypeLabels: Record<string, string> = {
-  MOTOR: "Motriz",
-  COGNITIVE: "Cognitiva",
-  SENSORY: "Sensorial",
-  MULTIPLE: "Múltiple",
-  OTHER: "Otra",
-};
-
-function InfoTab({
-  patient,
-  isSocialIntegration,
-}: {
-  patient: PatientData;
-  isSocialIntegration: boolean;
-}) {
+function InfoTab({ patient, isSocialIntegration }: { patient: PatientData; isSocialIntegration: boolean }) {
+  const t = useTranslations("patientDetail");
   const cp = patient.clinicalProfile;
+
+  const disabilityLabels: Record<string, string> = {
+    MOTOR: t("disabilityMotor"),
+    COGNITIVE: t("disabilityCognitive"),
+    SENSORY: t("disabilitySensory"),
+    MULTIPLE: t("disabilityMultiple"),
+    OTHER: t("disabilityOther"),
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div className="bg-white rounded-2xl border border-warm-200 p-6 space-y-4">
-        <h3 className="font-semibold text-warm-900">Datos personales</h3>
-        <InfoRow label="Fecha de inicio" value={new Date(patient.startDate).toLocaleDateString("es-AR")} />
-        <InfoRow label="Fecha de nacimiento" value={patient.birthDate ? new Date(patient.birthDate).toLocaleDateString("es-AR") : "—"} />
-        <InfoRow label="Género" value={patient.gender || "—"} />
-        <InfoRow label="Derivado por" value={patient.referredBy || "—"} />
-        <InfoRow label="Contacto de emergencia" value={patient.emergencyContact || "—"} />
+        <h3 className="font-semibold text-warm-900">{t("personalData")}</h3>
+        <InfoRow label={t("startDate")} value={new Date(patient.startDate).toLocaleDateString("es-AR")} />
+        <InfoRow label={t("birthDate")} value={patient.birthDate ? new Date(patient.birthDate).toLocaleDateString("es-AR") : "—"} />
+        <InfoRow label={t("gender")} value={patient.gender || "—"} />
+        <InfoRow label={t("referredBy")} value={patient.referredBy || "—"} />
+        <InfoRow label={t("emergencyContact")} value={patient.emergencyContact || "—"} />
       </div>
 
       <div className="bg-white rounded-2xl border border-warm-200 p-6 space-y-4">
-        <h3 className="font-semibold text-warm-900">Perfil clínico</h3>
-        <InfoRow label="Motivo de consulta" value={cp?.consultationReason || "—"} />
-        <InfoRow label="Antecedentes" value={cp?.background || "—"} />
-        <InfoRow label="Medicación actual" value={cp?.currentMedication || "—"} />
-        <InfoRow label="Terapia previa" value={cp?.previousTherapy || "—"} />
-        {!isSocialIntegration && (
-          <InfoRow label="Valores ACT" value={cp?.actValues || "—"} />
-        )}
+        <h3 className="font-semibold text-warm-900">{t("clinicalProfile")}</h3>
+        <InfoRow label={t("consultationReason")} value={cp?.consultationReason || "—"} />
+        <InfoRow label={t("background")} value={cp?.background || "—"} />
+        <InfoRow label={t("currentMedication")} value={cp?.currentMedication || "—"} />
+        <InfoRow label={t("previousTherapy")} value={cp?.previousTherapy || "—"} />
+        {!isSocialIntegration && <InfoRow label={t("actValues")} value={cp?.actValues || "—"} />}
       </div>
 
       {isSocialIntegration && (
         <div className="bg-white rounded-2xl border border-warm-200 p-6 space-y-4 lg:col-span-2">
-          <h3 className="font-semibold text-warm-900">Integración social</h3>
+          <h3 className="font-semibold text-warm-900">{t("socialIntegrationSection")}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <InfoRow
-              label="Tipo de discapacidad"
-              value={cp?.disabilityType ? (disabilityTypeLabels[cp.disabilityType] ?? cp.disabilityType) : "—"}
-            />
-            <InfoRow label="Nivel de autonomía" value={cp?.autonomyLevel || "—"} />
-            <InfoRow label="Contexto de integración" value={cp?.integrationContext || "—"} />
+            <InfoRow label={t("disabilityType")} value={cp?.disabilityType ? (disabilityLabels[cp.disabilityType] ?? cp.disabilityType) : "—"} />
+            <InfoRow label={t("autonomyLevel")} value={cp?.autonomyLevel || "—"} />
+            <InfoRow label={t("integrationContext")} value={cp?.integrationContext || "—"} />
           </div>
         </div>
       )}
@@ -202,23 +183,19 @@ function InfoTab({
 
 // ─── Sessions Tab ─────────────────────────────────────────────────────────────
 
-function SessionsTab({
-  sessions,
-  canDeleteSessions,
-}: {
-  sessions: PatientData["sessions"];
-  canDeleteSessions: boolean;
-}) {
+function SessionsTab({ sessions, canDeleteSessions }: { sessions: PatientData["sessions"]; canDeleteSessions: boolean }) {
+  const t = useTranslations("sessions");
+
   const statusLabels: Record<string, { label: string; style: string }> = {
-    COMPLETED: { label: "Completada", style: "bg-sage-100 text-sage-700" },
-    SCHEDULED: { label: "Programada", style: "bg-lilac-100 text-lilac-700" },
-    CANCELLED: { label: "Cancelada", style: "bg-red-100 text-red-700" },
-    NO_SHOW: { label: "Ausente", style: "bg-cream-100 text-cream-700" },
+    COMPLETED: { label: t("completed"), style: "bg-sage-100 text-sage-700" },
+    SCHEDULED: { label: t("scheduled"), style: "bg-lilac-100 text-lilac-700" },
+    CANCELLED: { label: t("cancelled"), style: "bg-red-100 text-red-700" },
+    NO_SHOW: { label: t("noShow"), style: "bg-cream-100 text-cream-700" },
   };
   const paymentLabels: Record<string, string> = {
-    PAID: "Pagado",
-    PENDING: "Pendiente",
-    EXEMPT: "Exento",
+    PAID: t("paid"),
+    PENDING: t("pending"),
+    EXEMPT: t("exempt"),
   };
   const providerLabels: Record<string, string> = {
     GOOGLE_MEET: "Google Meet",
@@ -230,7 +207,7 @@ function SessionsTab({
   if (sessions.length === 0) {
     return (
       <div className="bg-white rounded-2xl border border-warm-200 p-12 text-center">
-        <p className="text-warm-500">Aún no hay sesiones registradas.</p>
+        <p className="text-warm-500">{t("noSessions")}</p>
       </div>
     );
   }
@@ -243,15 +220,11 @@ function SessionsTab({
           <div key={s.id} className="bg-white rounded-2xl border border-warm-200 p-6">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
-                <span className="text-sm font-semibold text-warm-900">
-                  Sesión #{s.sessionNumber}
-                </span>
-                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${si.style}`}>
-                  {si.label}
-                </span>
+                <span className="text-sm font-semibold text-warm-900">{t("session")} #{s.sessionNumber}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${si.style}`}>{si.label}</span>
                 {s.meetLink && (
                   <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-lilac-100 text-lilac-700">
-                    {s.meetProvider ? providerLabels[s.meetProvider] ?? s.meetProvider : "Online"}
+                    {s.meetProvider ? providerLabels[s.meetProvider] ?? s.meetProvider : t("online")}
                   </span>
                 )}
               </div>
@@ -263,19 +236,11 @@ function SessionsTab({
                   {s.paymentAmount ? ` ($${s.paymentAmount})` : ""}
                 </span>
                 {s.meetLink && (
-                  <a
-                    href={s.meetLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-sage-600 text-white hover:bg-sage-700 transition font-medium"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Unirse
+                  <a href={s.meetLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-sage-600 text-white hover:bg-sage-700 transition font-medium" onClick={(e) => e.stopPropagation()}>
+                    {t("join")}
                   </a>
                 )}
-                {canDeleteSessions && (
-                  <DeleteSessionButton sessionId={s.id} />
-                )}
+                {canDeleteSessions && <DeleteSessionButton sessionId={s.id} />}
               </div>
             </div>
             {s.notes && (
@@ -285,9 +250,7 @@ function SessionsTab({
             )}
             {s.nextSessionGoal && (
               <div className="mt-3 p-3 bg-sage-50 rounded-lg">
-                <p className="text-xs font-medium text-sage-700 mb-1">
-                  Objetivo próxima sesión
-                </p>
+                <p className="text-xs font-medium text-sage-700 mb-1">{t("nextGoal")}</p>
                 <p className="text-sm text-sage-900">{s.nextSessionGoal}</p>
               </div>
             )}
@@ -300,21 +263,19 @@ function SessionsTab({
 
 // ─── Appointments Tab ─────────────────────────────────────────────────────────
 
-function AppointmentsTab({
-  appointments,
-}: {
-  appointments: PatientData["appointments"];
-}) {
+function AppointmentsTab({ appointments }: { appointments: PatientData["appointments"] }) {
+  const t = useTranslations("appointments");
+
   const statusLabels: Record<string, { label: string; style: string }> = {
-    CONFIRMED: { label: "Confirmada", style: "bg-sage-100 text-sage-700" },
-    PENDING: { label: "Pendiente", style: "bg-cream-100 text-cream-700" },
-    CANCELLED: { label: "Cancelada", style: "bg-red-100 text-red-700" },
+    CONFIRMED: { label: t("statusConfirmed"), style: "bg-sage-100 text-sage-700" },
+    PENDING: { label: t("statusPending"), style: "bg-cream-100 text-cream-700" },
+    CANCELLED: { label: t("statusCancelled"), style: "bg-red-100 text-red-700" },
   };
 
   if (appointments.length === 0) {
     return (
       <div className="bg-white rounded-2xl border border-warm-200 p-12 text-center">
-        <p className="text-warm-500">No hay citas registradas.</p>
+        <p className="text-warm-500">{t("noAppointments")}</p>
       </div>
     );
   }
@@ -327,23 +288,13 @@ function AppointmentsTab({
           <div key={a.id} className="flex items-center justify-between p-4">
             <div>
               <p className="text-sm font-medium text-warm-900">
-                {new Date(a.scheduledAt).toLocaleDateString("es-AR", {
-                  weekday: "long",
-                  day: "numeric",
-                  month: "long",
-                  year: "numeric",
-                })}
+                {new Date(a.scheduledAt).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
               </p>
               <p className="text-xs text-warm-500">
-                {new Date(a.scheduledAt).toLocaleTimeString("es-AR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+                {new Date(a.scheduledAt).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}
               </p>
             </div>
-            <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${si.style}`}>
-              {si.label}
-            </span>
+            <span className={`text-xs px-2.5 py-1 rounded-full font-medium ${si.style}`}>{si.label}</span>
           </div>
         );
       })}
@@ -353,38 +304,30 @@ function AppointmentsTab({
 
 // ─── Goals Tab ────────────────────────────────────────────────────────────────
 
-const goalAreaLabels: Record<string, string> = {
-  SOCIAL: "Social",
-  LABOR: "Laboral",
-  EDUCATIONAL: "Educativo",
-  FAMILY: "Familiar",
-};
-
-const goalStatusLabels: Record<string, { label: string; style: string }> = {
-  PENDING: { label: "Pendiente", style: "bg-cream-100 text-cream-700" },
-  IN_PROGRESS: { label: "En progreso", style: "bg-lilac-100 text-lilac-700" },
-  ACHIEVED: { label: "Alcanzado", style: "bg-sage-100 text-sage-700" },
-};
-
 const statusOrder = ["IN_PROGRESS", "PENDING", "ACHIEVED"];
 
-function GoalsTab({
-  goals,
-  patientId,
-  canDeleteGoals,
-}: {
-  goals: Goal[];
-  patientId: string;
-  canDeleteGoals: boolean;
-}) {
-  const sorted = [...goals].sort(
-    (a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status)
-  );
+function GoalsTab({ goals, patientId, canDeleteGoals }: { goals: Goal[]; patientId: string; canDeleteGoals: boolean }) {
+  const t = useTranslations("goals");
+
+  const goalAreaLabels: Record<string, string> = {
+    SOCIAL: t("areaLabels.SOCIAL"),
+    LABOR: t("areaLabels.LABOR"),
+    EDUCATIONAL: t("areaLabels.EDUCATIONAL"),
+    FAMILY: t("areaLabels.FAMILY"),
+  };
+
+  const goalStatusLabels: Record<string, { label: string; style: string }> = {
+    PENDING: { label: t("statusLabels.PENDING"), style: "bg-cream-100 text-cream-700" },
+    IN_PROGRESS: { label: t("statusLabels.IN_PROGRESS"), style: "bg-lilac-100 text-lilac-700" },
+    ACHIEVED: { label: t("statusLabels.ACHIEVED"), style: "bg-sage-100 text-sage-700" },
+  };
+
+  const sorted = [...goals].sort((a, b) => statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status));
 
   if (sorted.length === 0) {
     return (
       <div className="bg-white rounded-2xl border border-warm-200 p-12 text-center">
-        <p className="text-warm-500">No hay objetivos registrados.</p>
+        <p className="text-warm-500">{t("noGoals")}</p>
       </div>
     );
   }
@@ -402,24 +345,18 @@ function GoalsTab({
                   <span className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium">
                     {goalAreaLabels[g.area] ?? g.area}
                   </span>
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${si.style}`}>
-                    {si.label}
-                  </span>
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${si.style}`}>{si.label}</span>
                   {g.targetDate && (
                     <span className="text-xs text-warm-400">
-                      Estimado: {new Date(g.targetDate).toLocaleDateString("es-AR")}
+                      {t("estimated", { date: new Date(g.targetDate).toLocaleDateString("es-AR") })}
                     </span>
                   )}
                 </div>
-                {g.notes && (
-                  <p className="text-xs text-warm-500 mt-1">{g.notes}</p>
-                )}
+                {g.notes && <p className="text-xs text-warm-500 mt-1">{g.notes}</p>}
               </div>
               <div className="flex items-center gap-2 shrink-0">
                 <GoalStatusChanger goalId={g.id} currentStatus={g.status} />
-                {canDeleteGoals && (
-                  <DeleteGoalButton goalId={g.id} />
-                )}
+                {canDeleteGoals && <DeleteGoalButton goalId={g.id} />}
               </div>
             </div>
           </div>
@@ -429,24 +366,20 @@ function GoalsTab({
   );
 }
 
-function GoalStatusChanger({
-  goalId,
-  currentStatus,
-}: {
-  goalId: string;
-  currentStatus: string;
-}) {
+function GoalStatusChanger({ goalId, currentStatus }: { goalId: string; currentStatus: string }) {
+  const t = useTranslations("goals");
+
   const nextStatusMap: Record<string, { value: string; label: string }[]> = {
     PENDING: [
-      { value: "IN_PROGRESS", label: "Iniciar" },
-      { value: "ACHIEVED", label: "Alcanzado" },
+      { value: "IN_PROGRESS", label: t("start") },
+      { value: "ACHIEVED", label: t("achieved") },
     ],
     IN_PROGRESS: [
-      { value: "ACHIEVED", label: "Alcanzado" },
-      { value: "PENDING", label: "Pausar" },
+      { value: "ACHIEVED", label: t("achieved") },
+      { value: "PENDING", label: t("pause") },
     ],
     ACHIEVED: [
-      { value: "IN_PROGRESS", label: "Reactivar" },
+      { value: "IN_PROGRESS", label: t("reactivate") },
     ],
   };
 
@@ -459,11 +392,7 @@ function GoalStatusChanger({
   return (
     <div className="flex gap-1">
       {options.map((o) => (
-        <button
-          key={o.value}
-          onClick={() => handleChange(o.value)}
-          className="text-xs px-2.5 py-1 rounded-lg border border-warm-300 text-warm-600 hover:bg-warm-100 transition"
-        >
+        <button key={o.value} onClick={() => handleChange(o.value)} className="text-xs px-2.5 py-1 rounded-lg border border-warm-300 text-warm-600 hover:bg-warm-100 transition">
           {o.label}
         </button>
       ))}
@@ -472,50 +401,42 @@ function GoalStatusChanger({
 }
 
 function DeleteGoalButton({ goalId }: { goalId: string }) {
+  const t = useTranslations("goals");
   async function handleDelete() {
-    if (!confirm("¿Eliminar este objetivo?")) return;
+    if (!confirm(t("deleteConfirm"))) return;
     const result = await deleteGoalAction(goalId);
     if (result?.error) alert(result.error);
   }
   return (
-    <button
-      onClick={handleDelete}
-      className="text-xs text-red-500 hover:text-red-700 px-2 py-1 rounded hover:bg-red-50 transition"
-    >
-      Eliminar
+    <button onClick={handleDelete} className="text-xs text-red-500 hover:text-red-700 px-2 py-1 rounded hover:bg-red-50 transition">
+      {t("delete")}
     </button>
   );
 }
 
 // ─── Reports Tab ──────────────────────────────────────────────────────────────
 
-const reportAreaLabels: Record<string, string> = {
-  SOCIAL_INTEGRATION: "Integración social",
-  LABOR_INTEGRATION: "Integración laboral",
-  EDUCATIONAL_INTEGRATION: "Integración educativa",
-  FAMILY_INTEGRATION: "Integración familiar",
-  AUTONOMY: "Autonomía",
-};
+function ReportsTab({ reports, patientId, canDeleteReports }: { reports: Report[]; patientId: string; canDeleteReports: boolean }) {
+  const t = useTranslations("reports");
 
-const progressScaleLabels: Record<string, { label: string; style: string }> = {
-  INITIAL: { label: "Inicial", style: "bg-red-100 text-red-700" },
-  IN_DEVELOPMENT: { label: "En desarrollo", style: "bg-cream-100 text-cream-700" },
-  ACHIEVED: { label: "Alcanzado", style: "bg-sage-100 text-sage-700" },
-};
+  const reportAreaLabels: Record<string, string> = {
+    SOCIAL_INTEGRATION: t("areaLabels.SOCIAL_INTEGRATION"),
+    LABOR_INTEGRATION: t("areaLabels.LABOR_INTEGRATION"),
+    EDUCATIONAL_INTEGRATION: t("areaLabels.EDUCATIONAL_INTEGRATION"),
+    FAMILY_INTEGRATION: t("areaLabels.FAMILY_INTEGRATION"),
+    AUTONOMY: t("areaLabels.AUTONOMY"),
+  };
 
-function ReportsTab({
-  reports,
-  patientId,
-  canDeleteReports,
-}: {
-  reports: Report[];
-  patientId: string;
-  canDeleteReports: boolean;
-}) {
+  const progressScaleLabels: Record<string, { label: string; style: string }> = {
+    INITIAL: { label: t("progressLabels.INITIAL"), style: "bg-red-100 text-red-700" },
+    IN_DEVELOPMENT: { label: t("progressLabels.IN_DEVELOPMENT"), style: "bg-cream-100 text-cream-700" },
+    ACHIEVED: { label: t("progressLabels.ACHIEVED"), style: "bg-sage-100 text-sage-700" },
+  };
+
   if (reports.length === 0) {
     return (
       <div className="bg-white rounded-2xl border border-warm-200 p-12 text-center">
-        <p className="text-warm-500">No hay informes registrados.</p>
+        <p className="text-warm-500">{t("noReports")}</p>
       </div>
     );
   }
@@ -525,28 +446,20 @@ function ReportsTab({
       {reports.map((r) => {
         const ps = progressScaleLabels[r.progressScale];
         return (
-          <Link
-            key={r.id}
-            href={`/dashboard/pacientes/${patientId}/informes/${r.id}`}
-            className="block bg-white rounded-2xl border border-warm-200 p-5 hover:border-sage-300 transition"
-          >
+          <Link key={r.id} href={`/dashboard/pacientes/${patientId}/informes/${r.id}`} className="block bg-white rounded-2xl border border-warm-200 p-5 hover:border-sage-300 transition">
             <div className="flex items-start justify-between gap-4">
               <div className="space-y-1">
                 <p className="text-sm font-medium text-warm-900">
-                  {new Date(r.periodStart).toLocaleDateString("es-AR")} →{" "}
-                  {new Date(r.periodEnd).toLocaleDateString("es-AR")}
+                  {new Date(r.periodStart).toLocaleDateString("es-AR")} → {new Date(r.periodEnd).toLocaleDateString("es-AR")}
                 </p>
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium">
                     {reportAreaLabels[r.area] ?? r.area}
                   </span>
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${ps.style}`}>
-                    {ps.label}
-                  </span>
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${ps.style}`}>{ps.label}</span>
                 </div>
                 <p className="text-xs text-warm-500 line-clamp-2">
-                  {r.observations.slice(0, 100)}
-                  {r.observations.length > 100 ? "..." : ""}
+                  {r.observations.slice(0, 100)}{r.observations.length > 100 ? "..." : ""}
                 </p>
               </div>
               <svg className="w-4 h-4 text-warm-400 shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -572,17 +485,15 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 }
 
 function DeleteSessionButton({ sessionId }: { sessionId: string }) {
+  const t = useTranslations("sessions");
   async function handleDelete() {
-    if (!confirm("¿Eliminar esta sesión? Esta acción no se puede deshacer.")) return;
+    if (!confirm(t("deleteConfirm"))) return;
     const result = await deleteSession(sessionId);
     if (result?.error) alert(result.error);
   }
   return (
-    <button
-      onClick={handleDelete}
-      className="text-xs text-red-500 hover:text-red-700 px-2 py-1 rounded hover:bg-red-50 transition"
-    >
-      Eliminar
+    <button onClick={handleDelete} className="text-xs text-red-500 hover:text-red-700 px-2 py-1 rounded hover:bg-red-50 transition">
+      {t("delete")}
     </button>
   );
 }

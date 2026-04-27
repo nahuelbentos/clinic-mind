@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { profileSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function updateProfileAction(
   _prevState: unknown,
@@ -34,4 +35,16 @@ export async function updateProfileAction(
 
   revalidatePath("/dashboard/perfil");
   return { success: true };
+}
+
+export async function updateLocaleAction(locale: "es" | "en") {
+  const session = await auth();
+  if (!session?.user?.id) return { error: "No autorizado" };
+
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { locale },
+  });
+
+  redirect(`/${locale}/dashboard/perfil`);
 }

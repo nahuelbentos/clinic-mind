@@ -36,6 +36,7 @@ export async function registerAction(_prevState: unknown, formData: FormData) {
       password: hashedPassword,
       profession: result.data.profession || null,
       licenseNumber: result.data.licenseNumber || null,
+      locale: "es",
     },
   });
 
@@ -45,7 +46,7 @@ export async function registerAction(_prevState: unknown, formData: FormData) {
     redirect: false,
   });
 
-  redirect("/dashboard");
+  redirect("/es/dashboard");
 }
 
 export async function loginAction(_prevState: unknown, formData: FormData) {
@@ -69,5 +70,12 @@ export async function loginAction(_prevState: unknown, formData: FormData) {
     return { error: "Credenciales inválidas" };
   }
 
-  redirect("/dashboard");
+  // Look up user locale for redirect
+  const user = await prisma.user.findUnique({
+    where: { email: result.data.email },
+    select: { locale: true },
+  });
+  const locale = user?.locale ?? "es";
+
+  redirect(`/${locale}/dashboard`);
 }

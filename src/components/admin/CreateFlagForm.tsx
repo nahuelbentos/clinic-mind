@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { createFeatureFlag } from "@/lib/actions/admin";
+import { useTranslations } from "next-intl";
 
 interface Therapist {
   id: string;
@@ -10,6 +11,7 @@ interface Therapist {
 }
 
 export default function CreateFlagForm({ therapists }: { therapists: Therapist[] }) {
+  const tf = useTranslations("admin.flags");
   const [state, action, pending] = useActionState(createFeatureFlag, null);
 
   return (
@@ -18,11 +20,11 @@ export default function CreateFlagForm({ therapists }: { therapists: Therapist[]
         <p className="text-sm text-red-600">{state.error}</p>
       )}
       {state?.success && (
-        <p className="text-sm text-sage-700">Flag creado correctamente.</p>
+        <p className="text-sm text-sage-700">{tf("created")}</p>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-          <label className="block text-xs font-medium text-warm-700 mb-1">Key</label>
+          <label className="block text-xs font-medium text-warm-700 mb-1">{tf("key")}</label>
           <select
             name="key"
             required
@@ -34,7 +36,7 @@ export default function CreateFlagForm({ therapists }: { therapists: Therapist[]
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-warm-700 mb-1">Scope</label>
+          <label className="block text-xs font-medium text-warm-700 mb-1">{tf("scope")}</label>
           <select
             name="scope"
             required
@@ -46,16 +48,16 @@ export default function CreateFlagForm({ therapists }: { therapists: Therapist[]
         </div>
         <div>
           <label className="block text-xs font-medium text-warm-700 mb-1">
-            Usuario (solo PER_USER)
+            {tf("userOnlyPer")}
           </label>
           <select
             name="userId"
             className="w-full px-3 py-2 rounded-lg border border-warm-300 text-sm focus:ring-2 focus:ring-sage-500 outline-none"
           >
-            <option value="">Ninguno</option>
-            {therapists.map((t) => (
-              <option key={t.id} value={t.id}>
-                {t.name} ({t.email})
+            <option value="">{tf("none")}</option>
+            {therapists.map((therapist) => (
+              <option key={therapist.id} value={therapist.id}>
+                {therapist.name} ({therapist.email})
               </option>
             ))}
           </select>
@@ -66,7 +68,7 @@ export default function CreateFlagForm({ therapists }: { therapists: Therapist[]
         disabled={pending}
         className="px-4 py-2 rounded-lg bg-sage-600 hover:bg-sage-700 text-white text-sm font-medium transition disabled:opacity-50"
       >
-        {pending ? "Creando..." : "Crear flag"}
+        {pending ? tf("creating") : tf("create")}
       </button>
     </form>
   );

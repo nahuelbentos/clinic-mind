@@ -105,14 +105,14 @@ cp .env.local.example .env.local
 
 Variables requeridas:
 
-| Variable | Descripcion |
-|---|---|
-| `DATABASE_URL` | Connection string de PostgreSQL |
-| `AUTH_SECRET` | Secret para NextAuth (generar con `openssl rand -base64 32`) |
-| `AUTH_URL` | URL de la app (`http://localhost:3000` en dev) |
-| `RESEND_API_KEY` | API key de Resend para emails (opcional en dev) |
-| `DEVELOPER_EMAIL` | Email que recibe notificaciones de feedback (opcional en dev) |
-| `NEXT_PUBLIC_GA_ID` | Google Analytics 4 Measurement ID (opcional) |
+| Variable            | Descripcion                                                   |
+| ------------------- | ------------------------------------------------------------- |
+| `DATABASE_URL`      | Connection string de PostgreSQL                               |
+| `AUTH_SECRET`       | Secret para NextAuth (generar con `openssl rand -base64 32`)  |
+| `AUTH_URL`          | URL de la app (`http://localhost:3000` en dev)                |
+| `RESEND_API_KEY`    | API key de Resend para emails (opcional en dev)               |
+| `DEVELOPER_EMAIL`   | Email que recibe notificaciones de feedback (opcional en dev) |
+| `NEXT_PUBLIC_GA_ID` | Google Analytics 4 Measurement ID (opcional)                  |
 
 #### 3. Setup de base de datos
 
@@ -133,6 +133,7 @@ make dev
 ### Datos de ejemplo
 
 El seed crea un usuario demo:
+
 - **Email:** `demo@ejemplo.com`
 - **Password:** `demo1234`
 
@@ -148,66 +149,67 @@ Con 3 pacientes, 5 sesiones con notas Markdown, 2 citas y 1 feedback de ejemplo.
 
 ### Desarrollo local
 
-| Comando | Descripcion |
-|---|---|
-| `make dev` | Servidor de desarrollo |
-| `make build` | Build de produccion |
-| `make start` | Iniciar build de produccion |
-| `make lint` | Ejecutar ESLint |
+| Comando      | Descripcion                           |
+| ------------ | ------------------------------------- |
+| `make dev`   | Servidor de desarrollo                |
+| `make build` | Build de produccion                   |
+| `make start` | Iniciar build de produccion           |
+| `make lint`  | Ejecutar ESLint                       |
 | `make setup` | Setup inicial completo (install + db) |
 
 ### Base de datos
 
-| Comando | Descripcion |
-|---|---|
-| `make db-generate` | Generar cliente Prisma |
-| `make db-push` | Sincronizar schema con la DB (sin migraciones) |
-| `make db-migrate` | Crear y aplicar migracion |
-| `make db-seed` | Insertar datos de ejemplo |
-| `make db-studio` | Abrir Prisma Studio (GUI de la DB) |
-| `make db-reset` | Resetear DB y re-aplicar migraciones |
+| Comando            | Descripcion                                    |
+| ------------------ | ---------------------------------------------- |
+| `make db-generate` | Generar cliente Prisma                         |
+| `make db-push`     | Sincronizar schema con la DB (sin migraciones) |
+| `make db-migrate`  | Crear y aplicar migracion                      |
+| `make db-seed`     | Insertar datos de ejemplo                      |
+| `make db-studio`   | Abrir Prisma Studio (GUI de la DB)             |
+| `make db-reset`    | Resetear DB y re-aplicar migraciones           |
 
 ### Docker
 
-| Comando | Descripcion |
-|---|---|
-| `make docker-init` | Primera vez: build + up + setup DB completo |
-| `make docker-build` | Buildear imagen |
-| `make docker-up` | Levantar contenedores (app + db) |
-| `make docker-down` | Detener y remover contenedores |
+| Comando             | Descripcion                                 |
+| ------------------- | ------------------------------------------- |
+| `make docker-init`  | Primera vez: build + up + setup DB completo |
+| `make docker-build` | Buildear imagen                             |
+| `make docker-up`    | Levantar contenedores (app + db)            |
+| `make docker-down`  | Detener y remover contenedores              |
 | `make docker-setup` | Crear tablas + seed (requiere db corriendo) |
-| `make docker-logs` | Ver logs de la app en tiempo real |
+| `make docker-logs`  | Ver logs de la app en tiempo real           |
 
 ### Deploy y DB remota
 
-| Comando | Descripcion |
-|---|---|
-| `make deploy` | Deploy a produccion en Vercel |
-| `make preview` | Deploy preview en Vercel |
-| `make logs` | Ver logs de produccion |
+| Comando                | Descripcion                              |
+| ---------------------- | ---------------------------------------- |
+| `make deploy`          | Deploy a produccion en Vercel            |
+| `make preview`         | Deploy preview en Vercel                 |
+| `make logs`            | Ver logs de produccion                   |
 | `make vercel-env-pull` | Descargar variables de entorno de Vercel |
-| `make db-push-prod` | Aplicar schema a la DB de produccion |
-| `make db-seed-prod` | Insertar datos de ejemplo en produccion |
-| `make db-setup-prod` | Push + seed en produccion (primera vez) |
+| `make db-push-prod`    | Aplicar schema a la DB de produccion     |
+| `make db-seed-prod`    | Insertar datos de ejemplo en produccion  |
+| `make db-setup-prod`   | Push + seed en produccion (primera vez)  |
 
 ## Rutas del dashboard
 
-| Ruta | Funcion |
-|---|---|
-| `/dashboard` | Resumen: pacientes activos, sesiones del mes, pagos pendientes, citas de hoy |
-| `/dashboard/pacientes` | Lista de pacientes con busqueda y filtro por estado |
-| `/dashboard/pacientes/nuevo` | Formulario nuevo paciente (info + perfil clinico) |
-| `/dashboard/pacientes/[id]` | Detalle del paciente con tabs: Info, Sesiones, Citas |
-| `/dashboard/pacientes/[id]/sesiones/nueva` | Nueva sesion con editor Markdown |
-| `/dashboard/citas` | Proximas citas + formulario para agendar |
-| `/dashboard/feedback` | Reportar bugs o sugerir mejoras (envia email) |
-| `/dashboard/perfil` | Editar nombre, profesion y matricula |
+| Ruta                                       | Funcion                                                                      |
+| ------------------------------------------ | ---------------------------------------------------------------------------- |
+| `/dashboard`                               | Resumen: pacientes activos, sesiones del mes, pagos pendientes, citas de hoy |
+| `/dashboard/pacientes`                     | Lista de pacientes con busqueda y filtro por estado                          |
+| `/dashboard/pacientes/nuevo`               | Formulario nuevo paciente (info + perfil clinico)                            |
+| `/dashboard/pacientes/[id]`                | Detalle del paciente con tabs: Info, Sesiones, Citas                         |
+| `/dashboard/pacientes/[id]/sesiones/nueva` | Nueva sesion con editor Markdown                                             |
+| `/dashboard/citas`                         | Proximas citas + formulario para agendar                                     |
+| `/dashboard/feedback`                      | Reportar bugs o sugerir mejoras (envia email)                                |
+| `/dashboard/perfil`                        | Editar nombre, profesion y matricula                                         |
 
 ## CI/CD
 
 ### GitHub Actions
 
 Cada push a `main` y cada PR ejecuta automaticamente:
+
 1. `npm ci` — instala dependencias
 2. `prisma generate` — genera cliente Prisma
 3. `npm run lint` — linting
@@ -218,10 +220,12 @@ El workflow esta en `.github/workflows/ci.yml`.
 ### Vercel
 
 El proyecto esta conectado al repo de GitHub. Vercel hace deploy automatico:
+
 - **Push a `main`** → deploy a produccion
 - **Push a otra branch / PR** → deploy preview
 
 Para que funcione necesitas:
+
 1. Tener el proyecto linkeado en Vercel (`vercel link`)
 2. Configurar las variables de entorno en el dashboard de Vercel:
    - `DATABASE_URL` — desde Neon u otro Postgres del Marketplace
@@ -229,3 +233,17 @@ Para que funcione necesitas:
    - `AUTH_URL` — URL de produccion
    - `RESEND_API_KEY` (opcional)
    - `DEVELOPER_EMAIL` (opcional)
+
+### Bonus track
+
+##### Para tenerlo presente:
+
+Para un proyecto nuevo
+
+bash scripts/setup-claude-efficiency.sh /ruta/al/nuevo-proyecto
+
+El script:
+
+- Copia el hook y skill al global si no existen (no duplica)
+- Copia PROMPT_EFFICIENCY.md al nuevo proyecto
+- Es idempotente — si ya está instalado, skipea sin romper nada

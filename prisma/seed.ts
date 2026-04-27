@@ -32,6 +32,7 @@ async function main() {
       licenseNumber: "MN 12345",
       role: "THERAPIST",
       specialty: "CLINICAL_PSYCHOLOGY",
+      locale: "es",
     },
   });
 
@@ -201,6 +202,7 @@ async function main() {
       profession: "Licenciada en Psicología",
       role: "THERAPIST",
       specialty: "CLINICAL_PSYCHOLOGY",
+      locale: "es",
     },
   });
 
@@ -348,6 +350,7 @@ async function main() {
       profession: "Trabajadora Social",
       role: "THERAPIST",
       specialty: "SOCIAL_INTEGRATION",
+      locale: "en",
     },
   });
 
@@ -507,6 +510,7 @@ async function main() {
       email: "nahuel@clinicmind.com",
       password: nahuelPassword,
       role: "ADMIN",
+      locale: "es",
     },
   });
 
