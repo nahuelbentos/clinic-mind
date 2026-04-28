@@ -102,31 +102,48 @@ export default function AboutPage() {
           <div className="space-y-5">
             {[
               {
-                year: "20XX",
-                title: "Licenciatura en Psicología",
-                place: "[Universidad] — Buenos Aires, Argentina",
+                year: "2024",
+                title: "Formación en Terapias Contextuales y de Tercera Ola",
+                place: "Fundación Foro",
+                detail: "Con foco en ACT, abordaje en niños y adolescentes, depresión, ansiedad, dolor crónico y consumos problemáticos.",
               },
               {
-                year: "20XX",
-                title: "Formación en Terapia de Aceptación y Compromiso (ACT)",
-                place: "[Instituto de formación en ACT]",
+                year: "2021",
+                title: "Diplomatura en Análisis Conductual Aplicado (ABA)",
+                place: "UAI – Universidad Abierta Interamericana",
+                detail: "Diseño, implementación y evaluación de intervenciones conductuales basadas en ABA.",
               },
               {
-                year: "20XX",
-                title: "Especialización en atención a adolescentes",
-                place: "[Institución]",
+                year: "2021",
+                title: "Licenciada en Psicología",
+                place: "Universidad de Buenos Aires (UBA)",
+                detail: "Título habilitante – Matrícula Nacional N.º 78.517",
+              },
+              {
+                year: "2022–hoy",
+                title: "Psicóloga en APND — Nuevo Enfoque de Bienestar Inclusivo",
+                place: "Experiencia clínica",
+                detail: "Trabajo interdisciplinario con enfoque individualizado para el bienestar de niños y adolescentes.",
+              },
+              {
+                year: "2023–hoy",
+                title: "Psicóloga clínica independiente",
+                place: "Experiencia clínica",
+                detail: "Especialización en terapias conductuales-contextuales (ACT y ABA). Atención a niños, adolescentes y adultos.",
               },
               {
                 year: "Continua",
                 title: "Supervisión clínica y formación continua",
                 place: "Actualización permanente en terapias contextuales",
+                detail: "",
               },
             ].map((item) => (
               <div key={item.title} className="flex gap-5 pb-5 border-b border-warm-100 last:border-0">
-                <span className="flex-shrink-0 text-sm text-sage-600 font-medium w-16 pt-1">{item.year}</span>
+                <span className="flex-shrink-0 text-sm text-sage-600 font-medium w-20 pt-1">{item.year}</span>
                 <div>
                   <h3 className="font-semibold text-warm-800">{item.title}</h3>
                   <p className="text-warm-500 text-sm mt-0.5">{item.place}</p>
+                  {item.detail && <p className="text-warm-400 text-xs mt-1 leading-relaxed">{item.detail}</p>}
                 </div>
               </div>
             ))}
