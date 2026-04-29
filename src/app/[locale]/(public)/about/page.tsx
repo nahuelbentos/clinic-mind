@@ -17,7 +17,7 @@ const actPillars = [
   {
     title: "Aceptación",
     desc: "Aprender a hacer espacio para los pensamientos y emociones difíciles, sin luchar contra ellos ni dejar que te controlen.",
-    color: "bg-brand-100 text-brand-700",
+    color: "bg-sage-100 text-sage-700",
   },
   {
     title: "Defusión cognitiva",
@@ -37,7 +37,7 @@ const actPillars = [
   {
     title: "Valores",
     desc: "Clarificar qué es lo que más te importa en la vida: esas brújulas internas que guían tus decisiones.",
-    color: "bg-brand-100 text-brand-700",
+    color: "bg-sage-100 text-sage-700",
   },
   {
     title: "Acción comprometida",
@@ -50,12 +50,12 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-brand-50 to-warm-50 py-20 px-4 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-br from-sage-50 to-warm-50 py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Photo placeholder */}
             <div className="flex justify-center lg:justify-start">
-              <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-3xl bg-gradient-to-br from-brand-200 to-lilac-200 flex items-center justify-center shadow-xl">
+              <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-3xl bg-gradient-to-br from-sage-200 to-lilac-200 flex items-center justify-center shadow-xl">
                 {/* <div className="text-center">
                   <div className="text-7xl mb-2">👩‍⚕️</div>
                   <p className="text-warm-600 text-sm">Foto de Micaela</p>
@@ -72,7 +72,7 @@ export default function AboutPage() {
             </div>
             {/* Text */}
             <div>
-              <span className="inline-block bg-brand-100 text-brand-700 text-sm font-medium px-4 py-1.5 rounded-full mb-5">
+              <span className="inline-block bg-sage-100 text-sage-700 text-sm font-medium px-4 py-1.5 rounded-full mb-5">
                 Psicóloga · Mat. 78.517
               </span>
               <h1 className="text-4xl sm:text-5xl font-bold text-warm-900 mb-5">
@@ -191,14 +191,14 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <div className="mt-12 bg-brand-500 rounded-2xl p-8 text-white text-center">
+          <div className="mt-12 bg-sage-500 rounded-2xl p-8 text-white text-center">
             <p className="text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
               ACT no te promete que vas a dejar de sufrir. Te da herramientas para que el
               sufrimiento no sea el dueño de tu vida.
             </p>
             <Link
               href="/blog/que-es-la-terapia-act"
-              className="inline-flex items-center gap-2 bg-white text-brand-700 hover:bg-brand-50 font-medium px-6 py-3 rounded-full transition-colors text-sm"
+              className="inline-flex items-center gap-2 bg-white text-sage-700 hover:bg-sage-50 font-medium px-6 py-3 rounded-full transition-colors text-sm"
             >
               Leer más sobre ACT en el blog →
             </Link>
@@ -226,7 +226,7 @@ export default function AboutPage() {
           <div className="mt-10">
             <Link
               href="/contacto"
-              className="inline-flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-600 text-white font-medium px-7 py-3.5 rounded-full transition-colors shadow-md"
+              className="inline-flex items-center justify-center gap-2 bg-sage-500 hover:bg-sage-600 text-white font-medium px-7 py-3.5 rounded-full transition-colors shadow-md"
             >
               Hablemos
             </Link>

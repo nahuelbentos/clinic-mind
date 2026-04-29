@@ -82,7 +82,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-screen flex flex-col text-brand-900">
+      <body className="min-h-screen flex flex-col text-sage-900">
         <GoogleAnalytics />
         <NextIntlClientProvider messages={messages}>
           {children}

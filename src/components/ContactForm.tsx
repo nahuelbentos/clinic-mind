@@ -49,7 +49,7 @@ export default function ContactForm() {
           value={formData.nombre}
           onChange={handleChange}
           placeholder="Tu nombre"
-          className="w-full bg-warm-50 border border-warm-200 text-warm-800 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400 transition-all placeholder:text-warm-300"
+          className="w-full bg-warm-50 border border-warm-200 text-warm-800 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-sage-300 focus:border-sage-400 transition-all placeholder:text-warm-300"
         />
       </div>
 
@@ -68,7 +68,7 @@ export default function ContactForm() {
           value={formData.email}
           onChange={handleChange}
           placeholder="tu@email.com"
-          className="w-full bg-warm-50 border border-warm-200 text-warm-800 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400 transition-all placeholder:text-warm-300"
+          className="w-full bg-warm-50 border border-warm-200 text-warm-800 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-sage-300 focus:border-sage-400 transition-all placeholder:text-warm-300"
         />
       </div>
 
@@ -87,20 +87,20 @@ export default function ContactForm() {
           value={formData.mensaje}
           onChange={handleChange}
           placeholder="¿En qué puedo ayudarte? Contame lo que necesités..."
-          className="w-full bg-warm-50 border border-warm-200 text-warm-800 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400 transition-all placeholder:text-warm-300 resize-none"
+          className="w-full bg-warm-50 border border-warm-200 text-warm-800 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-sage-300 focus:border-sage-400 transition-all placeholder:text-warm-300 resize-none"
         />
       </div>
 
       <button
         type="submit"
         disabled={state === "submitting"}
-        className="w-full bg-brand-500 hover:bg-brand-600 disabled:bg-brand-300 text-white font-medium px-6 py-3.5 rounded-full transition-colors shadow-md hover:shadow-lg text-sm"
+        className="w-full bg-sage-500 hover:bg-sage-600 disabled:bg-sage-300 text-white font-medium px-6 py-3.5 rounded-full transition-colors shadow-md hover:shadow-lg text-sm"
       >
         {state === "submitting" ? "Enviando..." : "Enviar mensaje por WhatsApp"}
       </button>
 
       {state === "success" && (
-        <p className="text-brand-700 bg-brand-50 border border-brand-200 rounded-xl p-4 text-sm text-center">
+        <p className="text-sage-700 bg-sage-50 border border-sage-200 rounded-xl p-4 text-sm text-center">
           ¡Se abrió WhatsApp con tu mensaje! Si no se abrió, escribime directamente.
         </p>
       )}

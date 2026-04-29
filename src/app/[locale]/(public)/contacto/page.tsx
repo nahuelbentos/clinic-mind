@@ -16,9 +16,9 @@ export default function ContactoPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-brand-50 to-warm-50 py-20 px-4 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-br from-sage-50 to-warm-50 py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
-          <span className="inline-block bg-brand-100 text-brand-700 text-sm font-medium px-4 py-1.5 rounded-full mb-5">
+          <span className="inline-block bg-sage-100 text-sage-700 text-sm font-medium px-4 py-1.5 rounded-full mb-5">
             Estoy aquí
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-warm-900 mb-5">Contacto</h1>
@@ -48,7 +48,7 @@ export default function ContactoPage() {
                 </svg>
               </div>
               <div>
-                <p className="font-semibold text-warm-900 group-hover:text-brand-700 transition-colors">WhatsApp</p>
+                <p className="font-semibold text-warm-900 group-hover:text-sage-700 transition-colors">WhatsApp</p>
                 <p className="text-warm-500 text-sm">La vía más rápida — respondo en el día</p>
               </div>
               <svg className="w-5 h-5 text-warm-300 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,7 +72,7 @@ export default function ContactoPage() {
               ))}
             </div>
 
-            <div className="mt-8 bg-brand-50 rounded-2xl p-5 border border-brand-100">
+            <div className="mt-8 bg-sage-50 rounded-2xl p-5 border border-sage-100">
               <p className="text-warm-600 text-sm leading-relaxed">
                 <span className="font-medium text-warm-800">Antes de escribir:</span> No hace falta
                 que tengas claro qué querés trabajar. Podemos hablar primero y ver juntos si el

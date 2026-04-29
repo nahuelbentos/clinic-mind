@@ -166,8 +166,8 @@ const resultConfigs: ResultConfig[] = [
     min: 35,
     max: 40,
     label: "Alta flexibilidad",
-    badgeClasses: "bg-brand-100 text-brand-700",
-    cardClasses: "bg-brand-50 border-brand-200",
+    badgeClasses: "bg-sage-100 text-sage-700",
+    cardClasses: "bg-sage-50 border-sage-200",
     message:
       "Tu manera de relacionarte con tus emociones y de actuar desde lo que te importa es genuinamente valiosa. Eso no significa que todo esté perfecto — significa que tenés herramientas reales. Seguí cultivando esa conexión con vos mismo/a.",
     ctaNote: "¿Querés seguir creciendo? Puedo acompañarte.",
@@ -216,7 +216,7 @@ function getResult(score: number): ResultConfig {
 function IntroScreen({ onStart }: { onStart: () => void }) {
   return (
     <div className="text-center">
-      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-100 mb-6">
+      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-sage-100 mb-6">
         <span className="text-3xl">🌿</span>
       </div>
       <h1 className="text-3xl sm:text-4xl font-semibold text-warm-900 mb-3">
@@ -240,7 +240,7 @@ function IntroScreen({ onStart }: { onStart: () => void }) {
       </div>
       <button
         onClick={onStart}
-        className="w-full sm:w-auto px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-medium text-lg transition-colors duration-200 cursor-pointer"
+        className="w-full sm:w-auto px-8 py-4 bg-sage-500 hover:bg-sage-600 text-white rounded-xl font-medium text-lg transition-colors duration-200 cursor-pointer"
       >
         Empezar el test
       </button>
@@ -269,7 +269,7 @@ function ProgressBar({
       </div>
       <div className="h-2 bg-warm-100 rounded-full overflow-hidden">
         <div
-          className="h-full bg-brand-400 rounded-full transition-all duration-500"
+          className="h-full bg-sage-400 rounded-full transition-all duration-500"
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -313,8 +313,8 @@ function QuizScreen({
                   className={`w-full text-left px-4 py-3 sm:py-4 rounded-xl border text-warm-800 text-base transition-all duration-200 cursor-pointer
                     ${
                       isSelected
-                        ? "border-brand-500 bg-brand-50 text-brand-800"
-                        : "border-warm-200 bg-white hover:border-brand-400 hover:bg-brand-50"
+                        ? "border-sage-500 bg-sage-50 text-sage-800"
+                        : "border-warm-200 bg-white hover:border-sage-400 hover:bg-sage-50"
                     }
                     disabled:cursor-not-allowed`}
                 >
@@ -358,12 +358,12 @@ function EmailScreen({
           value={email}
           onChange={(e) => onEmailChange(e.target.value)}
           placeholder="tu@email.com"
-          className="w-full px-4 py-3 rounded-xl border border-warm-200 bg-warm-50 text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent transition"
+          className="w-full px-4 py-3 rounded-xl border border-warm-200 bg-warm-50 text-warm-900 placeholder:text-warm-400 focus:outline-none focus:ring-2 focus:ring-sage-400 focus:border-transparent transition"
         />
         <button
           type="submit"
           disabled={!email.trim()}
-          className="w-full py-3 bg-brand-500 hover:bg-brand-600 disabled:bg-warm-200 disabled:text-warm-400 text-white rounded-xl font-medium transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed"
+          className="w-full py-3 bg-sage-500 hover:bg-sage-600 disabled:bg-warm-200 disabled:text-warm-400 text-white rounded-xl font-medium transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed"
         >
           Recibir tips y ver mi resultado
         </button>

@@ -2,16 +2,16 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-brand-50:  #faf7f5;
-  --color-brand-100: #f2ebe5;
-  --color-brand-200: #e8ddd6;
-  --color-brand-300: #d4bfb0;
-  --color-brand-400: #b89484;
-  --color-brand-500: #8b6355;
-  --color-brand-600: #6e4d42;
-  --color-brand-700: #5c3828;
-  --color-brand-800: #3d2419;
-  --color-brand-900: #2c1f1a;
+  --color-sage-50:  #f4f7f4;
+  --color-sage-100: #e6ede6;
+  --color-sage-200: #ccdccc;
+  --color-sage-300: #a8c4a8;
+  --color-sage-400: #7da67d;
+  --color-sage-500: #5a8f5a;
+  --color-sage-600: #477347;
+  --color-sage-700: #375937;
+  --color-sage-800: #2e4a2e;
+  --color-sage-900: #1e321e;
 
   --color-lilac-50: #f7f3fb;
   --color-lilac-100: #ede5f6;
@@ -50,8 +50,8 @@
 }
 
 :root {
-  --background: #f5efe9;
-  --foreground: #2c1f1a;
+  --background: #ffffff;
+  --foreground: #1e321e;
 }
 
 body {
