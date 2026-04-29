@@ -1,5 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 70 200 100" width="200" height="100">
-  <path d="M 72 98 C 72 80, 84 72, 90 80 C 96 88, 90 100, 84 96 C 78 92, 80 82, 88 78 C 96 74, 104 80, 106 88 C 108 96, 102 106, 94 102 C 86 98, 84 88, 90 84 C 96 80, 106 82, 110 90 C 114 98, 110 108, 104 104 C 98 100, 98 92, 104 90" stroke="#5c3828" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M 104 90 C 120 85, 148 88, 175 95" stroke="#5c3828" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-  <path d="M 175 95 C 188 91, 210 88, 225 90 C 240 92, 250 100, 248 110 C 246 120, 234 124, 222 120 C 210 116, 204 104, 208 94 C 212 84, 224 80, 234 84 C 244 88, 248 100, 244 110" stroke="#5c3828" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Fondo blanco circular -->
+  <circle cx="100" cy="100" r="96" fill="#faf7f5"/>
+
+  <!-- Mancha de acuarela centrada -->
+  <ellipse cx="105" cy="105" rx="72" ry="44" fill="#c9aea0" opacity="0.22"/>
+  <ellipse cx="112" cy="98" rx="60" ry="36" fill="#c4a898" opacity="0.18"/>
+  <ellipse cx="96" cy="112" rx="50" ry="30" fill="#b89484" opacity="0.14"/>
+  <ellipse cx="115" cy="92" rx="40" ry="26" fill="#d4bfb0" opacity="0.20"/>
+
+  <!-- Nudo izquierdo -->
+  <path d="
+    M 44 98
+    C 44 82, 54 75, 59 82
+    C 64 89, 59 99, 54 96
+    C 49 93, 51 84, 57 81
+    C 63 78, 70 83, 71 90
+    C 72 97, 68 105, 62 102
+    C 56 99, 55 91, 60 87
+    C 65 83, 72 85, 74 92
+    C 76 99, 73 107, 68 104
+    C 63 101, 63 94, 68 92
+  "
+  stroke="#5c3828" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Línea de conexión -->
+  <path d="M 68 92 C 80 87, 100 90, 122 96"
+  stroke="#5c3828" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+
+  <!-- Espiral derecha -->
+  <path d="
+    M 122 96
+    C 133 92, 148 90, 158 92
+    C 168 94, 175 101, 174 110
+    C 173 119, 163 122, 154 119
+    C 145 116, 140 106, 143 97
+    C 146 88, 156 85, 164 88
+    C 172 91, 175 101, 173 110
+  "
+  stroke="#5c3828" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Borde circular sutil -->
+  <circle cx="100" cy="100" r="96" fill="none" stroke="#d4bfb0" stroke-width="0.8"/>
 </svg>
