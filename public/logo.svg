@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200">
+  <ellipse cx="148" cy="102" rx="105" ry="62" fill="#c9aea0" opacity="0.22"/>
+  <ellipse cx="162" cy="96" rx="88" ry="52" fill="#c4a898" opacity="0.18"/>
+  <ellipse cx="140" cy="110" rx="70" ry="40" fill="#b89484" opacity="0.14"/>
+  <ellipse cx="170" cy="88" rx="55" ry="35" fill="#d4bfb0" opacity="0.20"/>
+  <path d="M 72 98 C 72 80, 84 72, 90 80 C 96 88, 90 100, 84 96 C 78 92, 80 82, 88 78 C 96 74, 104 80, 106 88 C 108 96, 102 106, 94 102 C 86 98, 84 88, 90 84 C 96 80, 106 82, 110 90 C 114 98, 110 108, 104 104 C 98 100, 98 92, 104 90" stroke="#5c3828" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 104 90 C 120 85, 148 88, 175 95" stroke="#5c3828" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <path d="M 175 95 C 190 99, 200 108, 205 118 C 210 128, 208 140, 200 146 C 192 152, 180 150, 174 142 C 168 134, 170 122, 178 116 C 186 110, 198 112, 204 120 C 210 128, 208 140, 200 146" stroke="#5c3828" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 175 95 C 188 91, 210 88, 225 90 C 240 92, 250 100, 248 110 C 246 120, 234 124, 222 120 C 210 116, 204 104, 208 94 C 212 84, 224 80, 234 84 C 244 88, 248 100, 244 110" stroke="#5c3828" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
