@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -24,13 +25,32 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-warm-50/95 backdrop-blur-sm border-b border-warm-200/60">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-brand-50/95 backdrop-blur-sm border-b border-brand-200/60">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-sage-600 text-xl font-semibold tracking-tight">
-              Lic. Micaela Vulcano
-            </span>
+          <Link href="/" className="flex items-center gap-2.5">
+            <Image
+              src="/logo.png"
+              alt="Logo Micaela Vulcano"
+              width={52}
+              height={36}
+              className="object-contain"
+              priority
+            />
+            <div className="flex flex-col leading-tight">
+              <span
+                style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
+                className="text-[17px] font-normal text-brand-900 tracking-[0.01em]"
+              >
+                Micaela J. Vulcano
+              </span>
+              <span
+                className="text-[10px] text-brand-500 uppercase tracking-[0.06em] font-medium"
+                style={{ fontFamily: "var(--font-sans)" }}
+              >
+                Lic. en Psicología · UBA
+              </span>
+            </div>
           </Link>
 
           {/* Desktop nav */}
@@ -39,28 +59,28 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-3 py-2 text-sm text-warm-700 hover:text-sage-600 hover:bg-sage-50 rounded-lg transition-colors duration-200"
+                className="px-3 py-2 text-sm text-brand-700 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors duration-200"
               >
                 {link.label}
               </Link>
             ))}
             <Link
               href="/contacto"
-              className="ml-3 px-4 py-2 bg-sage-500 hover:bg-sage-600 text-white text-sm font-medium rounded-full transition-colors duration-200"
+              className="ml-3 px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-medium rounded-full transition-colors duration-200"
             >
               {t("bookSession")}
             </Link>
             {/* Language switcher */}
-            <div className="ml-2 flex items-center gap-1 border border-warm-200 rounded-full px-1 py-0.5">
+            <div className="ml-2 flex items-center gap-1 border border-brand-200 rounded-full px-1 py-0.5">
               <button
                 onClick={() => switchLocale("es")}
-                className={`px-2 py-0.5 text-xs rounded-full transition ${locale === "es" ? "bg-sage-500 text-white" : "text-warm-600 hover:text-warm-900"}`}
+                className={`px-2 py-0.5 text-xs rounded-full transition ${locale === "es" ? "bg-brand-500 text-white" : "text-warm-600 hover:text-warm-900"}`}
               >
                 ES
               </button>
               <button
                 onClick={() => switchLocale("en")}
-                className={`px-2 py-0.5 text-xs rounded-full transition ${locale === "en" ? "bg-sage-500 text-white" : "text-warm-600 hover:text-warm-900"}`}
+                className={`px-2 py-0.5 text-xs rounded-full transition ${locale === "en" ? "bg-brand-500 text-white" : "text-warm-600 hover:text-warm-900"}`}
               >
                 EN
               </button>
@@ -69,7 +89,7 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 rounded-lg text-warm-700 hover:bg-warm-100 transition-colors"
+            className="md:hidden p-2 rounded-lg text-brand-700 hover:bg-brand-100 transition-colors"
             onClick={() => setIsOpen(!isOpen)}
             aria-label={t("menuLabel")}
           >
@@ -85,12 +105,12 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="md:hidden pb-4 border-t border-warm-200/60 pt-2">
+          <div className="md:hidden pb-4 border-t border-brand-200/60 pt-2">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block px-3 py-2.5 text-warm-700 hover:text-sage-600 hover:bg-sage-50 rounded-lg transition-colors text-sm"
+                className="block px-3 py-2.5 text-brand-700 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors text-sm"
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
@@ -98,7 +118,7 @@ export default function Navbar() {
             ))}
             <Link
               href="/contacto"
-              className="block mt-2 mx-3 px-4 py-2.5 bg-sage-500 hover:bg-sage-600 text-white text-sm font-medium rounded-full text-center transition-colors"
+              className="block mt-2 mx-3 px-4 py-2.5 bg-brand-500 hover:bg-brand-600 text-white text-sm font-medium rounded-full text-center transition-colors"
               onClick={() => setIsOpen(false)}
             >
               {t("bookSession")}
@@ -106,13 +126,13 @@ export default function Navbar() {
             <div className="flex items-center gap-2 mx-3 mt-3">
               <button
                 onClick={() => switchLocale("es")}
-                className={`px-3 py-1 text-xs rounded-full border transition ${locale === "es" ? "bg-sage-500 text-white border-sage-500" : "text-warm-600 border-warm-300"}`}
+                className={`px-3 py-1 text-xs rounded-full border transition ${locale === "es" ? "bg-brand-500 text-white border-brand-500" : "text-warm-600 border-warm-300"}`}
               >
                 ES
               </button>
               <button
                 onClick={() => switchLocale("en")}
-                className={`px-3 py-1 text-xs rounded-full border transition ${locale === "en" ? "bg-sage-500 text-white border-sage-500" : "text-warm-600 border-warm-300"}`}
+                className={`px-3 py-1 text-xs rounded-full border transition ${locale === "en" ? "bg-brand-500 text-white border-brand-500" : "text-warm-600 border-warm-300"}`}
               >
                 EN
               </button>

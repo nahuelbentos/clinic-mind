@@ -42,25 +42,25 @@ export default function BlogPage() {
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="group bg-warm-50 hover:bg-sage-50 rounded-2xl p-6 border border-warm-100 hover:border-sage-200 transition-all duration-200 hover:shadow-sm"
+                  className="group bg-warm-50 hover:bg-brand-50 rounded-2xl p-6 border border-warm-100 hover:border-brand-200 transition-all duration-200 hover:shadow-sm"
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <time className="text-xs text-warm-400" dateTime={post.date}>
                       {formatDate(post.date)}
                     </time>
                     {post.tags && post.tags[0] && (
-                      <span className="text-xs bg-sage-100 text-sage-700 px-2 py-0.5 rounded-full">
+                      <span className="text-xs bg-brand-100 text-brand-700 px-2 py-0.5 rounded-full">
                         {post.tags[0]}
                       </span>
                     )}
                   </div>
-                  <h2 className="text-lg font-bold text-warm-900 mb-2 group-hover:text-sage-700 transition-colors leading-snug">
+                  <h2 className="text-lg font-bold text-warm-900 mb-2 group-hover:text-brand-700 transition-colors leading-snug">
                     {post.title}
                   </h2>
                   <p className="text-warm-500 text-sm leading-relaxed line-clamp-3">
                     {post.description}
                   </p>
-                  <span className="inline-flex items-center gap-1 text-sage-600 text-sm font-medium mt-4">
+                  <span className="inline-flex items-center gap-1 text-brand-600 text-sm font-medium mt-4">
                     Leer artículo
                     <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -82,7 +82,7 @@ export default function BlogPage() {
           </p>
           <Link
             href="/contacto"
-            className="inline-flex items-center justify-center gap-2 bg-sage-500 hover:bg-sage-600 text-white font-medium px-7 py-3.5 rounded-full transition-colors shadow-md"
+            className="inline-flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-600 text-white font-medium px-7 py-3.5 rounded-full transition-colors shadow-md"
           >
             Escribime
           </Link>

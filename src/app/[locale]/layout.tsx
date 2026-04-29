@@ -57,6 +57,16 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    // TODO: replace /logo.png with /icon.png once the spiral symbol is cropped out (512×512 transparent bg)
+    icon: [
+      { url: '/logo.png', sizes: '512x512', type: 'image/png' },
+      { url: '/logo.png', sizes: '192x192', type: 'image/png' },
+      { url: '/logo.png', sizes: '32x32',   type: 'image/png' },
+      { url: '/logo.png', sizes: '16x16',   type: 'image/png' },
+    ],
+    apple: '/logo.png',
+  },
 };
 
 export default async function LocaleLayout({
@@ -76,7 +86,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-screen flex flex-col bg-warm-50 text-warm-900">
+      <body className="min-h-screen flex flex-col text-brand-900">
         <GoogleAnalytics />
         <NextIntlClientProvider messages={messages}>
           {children}

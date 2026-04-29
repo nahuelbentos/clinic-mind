@@ -17,7 +17,7 @@ const actPillars = [
   {
     title: "Aceptación",
     desc: "Aprender a hacer espacio para los pensamientos y emociones difíciles, sin luchar contra ellos ni dejar que te controlen.",
-    color: "bg-sage-100 text-sage-700",
+    color: "bg-brand-100 text-brand-700",
   },
   {
     title: "Defusión cognitiva",
@@ -37,7 +37,7 @@ const actPillars = [
   {
     title: "Valores",
     desc: "Clarificar qué es lo que más te importa en la vida: esas brújulas internas que guían tus decisiones.",
-    color: "bg-sage-100 text-sage-700",
+    color: "bg-brand-100 text-brand-700",
   },
   {
     title: "Acción comprometida",
@@ -50,12 +50,12 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-sage-50 to-warm-50 py-20 px-4 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-br from-brand-50 to-warm-50 py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Photo placeholder */}
             <div className="flex justify-center lg:justify-start">
-              <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-3xl bg-gradient-to-br from-sage-200 to-lilac-200 flex items-center justify-center shadow-xl">
+              <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-3xl bg-gradient-to-br from-brand-200 to-lilac-200 flex items-center justify-center shadow-xl">
                 {/* <div className="text-center">
                   <div className="text-7xl mb-2">👩‍⚕️</div>
                   <p className="text-warm-600 text-sm">Foto de Micaela</p>
@@ -72,7 +72,7 @@ export default function AboutPage() {
             </div>
             {/* Text */}
             <div>
-              <span className="inline-block bg-sage-100 text-sage-700 text-sm font-medium px-4 py-1.5 rounded-full mb-5">
+              <span className="inline-block bg-brand-100 text-brand-700 text-sm font-medium px-4 py-1.5 rounded-full mb-5">
                 Psicóloga · Mat. 78.517
               </span>
               <h1 className="text-4xl sm:text-5xl font-bold text-warm-900 mb-5">
@@ -95,58 +95,75 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Formation */}
+      {/* Formation & Experience */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-bold text-warm-900 mb-8">Formación y experiencia</h2>
-          <div className="space-y-5">
-            {[
-              {
-                year: "2024",
-                title: "Formación en Terapias Contextuales y de Tercera Ola",
-                place: "Fundación Foro",
-                detail: "Con foco en ACT, abordaje en niños y adolescentes, depresión, ansiedad, dolor crónico y consumos problemáticos.",
-              },
-              {
-                year: "2021",
-                title: "Diplomatura en Análisis Conductual Aplicado (ABA)",
-                place: "UAI – Universidad Abierta Interamericana",
-                detail: "Diseño, implementación y evaluación de intervenciones conductuales basadas en ABA.",
-              },
-              {
-                year: "2021",
-                title: "Licenciada en Psicología",
-                place: "Universidad de Buenos Aires (UBA)",
-                detail: "Título habilitante – Matrícula Nacional N.º 78.517",
-              },
-              {
-                year: "2022–hoy",
-                title: "Psicóloga en APND — Nuevo Enfoque de Bienestar Inclusivo",
-                place: "Experiencia clínica",
-                detail: "Trabajo interdisciplinario con enfoque individualizado para el bienestar de niños y adolescentes.",
-              },
-              {
-                year: "2023–hoy",
-                title: "Psicóloga clínica independiente",
-                place: "Experiencia clínica",
-                detail: "Especialización en terapias conductuales-contextuales (ACT y ABA). Atención a niños, adolescentes y adultos.",
-              },
-              {
-                year: "Continua",
-                title: "Supervisión clínica y formación continua",
-                place: "Actualización permanente en terapias contextuales",
-                detail: "",
-              },
-            ].map((item) => (
-              <div key={item.title} className="flex gap-5 pb-5 border-b border-warm-100 last:border-0">
-                <span className="flex-shrink-0 text-sm text-sage-600 font-medium w-20 pt-1">{item.year}</span>
-                <div>
-                  <h3 className="font-semibold text-warm-800">{item.title}</h3>
-                  <p className="text-warm-500 text-sm mt-0.5">{item.place}</p>
-                  {item.detail && <p className="text-warm-400 text-xs mt-1 leading-relaxed">{item.detail}</p>}
+        <div className="max-w-4xl mx-auto">
+          <div className="border-t border-warm-100 mb-10" />
+          <div className="grid grid-cols-1 sm:grid-cols-[1fr_1px_1fr] gap-8">
+            {/* Formación */}
+            <div>
+              <span className="block mb-6 text-[11px] uppercase tracking-widest text-warm-400 font-medium">
+                Formación
+              </span>
+              <div className="relative">
+                <div className="absolute left-0.75 top-2 bottom-2 w-px bg-warm-100" />
+                <div className="space-y-7">
+                  {[
+                    { year: "Continua", title: "Supervisión clínica y entrenamiento en grupo PORTLAND", place: "Terapias contextuales", active: true },
+                    { year: "2024", title: "Formación en Terapias Contextuales y de Tercera Ola", place: "Fundación Foro", active: false },
+                    { year: "2021", title: "Diplomatura en Análisis Conductual Aplicado (ABA)", place: "UAI – Universidad Abierta Interamericana", active: false },
+                    { year: "2014 – 2021", title: "Licenciada en Psicología", place: "Universidad de Buenos Aires (UBA)", active: false },
+                  ].map((item) => (
+                    <div key={item.title} className="flex gap-4">
+                      <div className="relative shrink-0 mt-1.5">
+                        <div
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: item.active ? "#7F77DD" : "#d1ccc4" }}
+                        />
+                      </div>
+                      <div>
+                        <span className="text-xs text-warm-400 font-medium">{item.year}</span>
+                        <h3 className="font-semibold text-warm-800 text-sm leading-snug mt-0.5">{item.title}</h3>
+                        <p className="text-warm-500 text-xs mt-0.5">{item.place}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Vertical divider */}
+            <div className="bg-warm-100 hidden sm:block" />
+
+            {/* Experiencia */}
+            <div className="sm:pl-2">
+              <span className="block mb-6 text-[11px] uppercase tracking-widest text-warm-400 font-medium">
+                Experiencia
+              </span>
+              <div className="relative">
+                <div className="absolute left-0.75 top-2 bottom-2 w-px bg-warm-100" />
+                <div className="space-y-7">
+                  {[
+                    { year: "2023 – actualidad", title: "Psicóloga clínica", place: "Orientación conductual contextual · En remoto", active: true },
+                    { year: "2022 – actualidad", title: "APND", place: "Profesional independiente", active: true },
+                  ].map((item) => (
+                    <div key={item.title} className="flex gap-4">
+                      <div className="relative shrink-0 mt-1.5">
+                        <div
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: item.active ? "#7F77DD" : "#d1ccc4" }}
+                        />
+                      </div>
+                      <div>
+                        <span className="text-xs text-warm-400 font-medium">{item.year}</span>
+                        <h3 className="font-semibold text-warm-800 text-sm leading-snug mt-0.5">{item.title}</h3>
+                        <p className="text-warm-500 text-xs mt-0.5">{item.place}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -174,14 +191,14 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <div className="mt-12 bg-sage-500 rounded-2xl p-8 text-white text-center">
+          <div className="mt-12 bg-brand-500 rounded-2xl p-8 text-white text-center">
             <p className="text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
               ACT no te promete que vas a dejar de sufrir. Te da herramientas para que el
               sufrimiento no sea el dueño de tu vida.
             </p>
             <Link
               href="/blog/que-es-la-terapia-act"
-              className="inline-flex items-center gap-2 bg-white text-sage-700 hover:bg-sage-50 font-medium px-6 py-3 rounded-full transition-colors text-sm"
+              className="inline-flex items-center gap-2 bg-white text-brand-700 hover:bg-brand-50 font-medium px-6 py-3 rounded-full transition-colors text-sm"
             >
               Leer más sobre ACT en el blog →
             </Link>
@@ -209,7 +226,7 @@ export default function AboutPage() {
           <div className="mt-10">
             <Link
               href="/contacto"
-              className="inline-flex items-center justify-center gap-2 bg-sage-500 hover:bg-sage-600 text-white font-medium px-7 py-3.5 rounded-full transition-colors shadow-md"
+              className="inline-flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-600 text-white font-medium px-7 py-3.5 rounded-full transition-colors shadow-md"
             >
               Hablemos
             </Link>
