@@ -1,44 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- Fondo blanco circular -->
   <circle cx="100" cy="100" r="96" fill="#faf7f5"/>
-
-  <!-- Mancha de acuarela centrada -->
-  <ellipse cx="105" cy="105" rx="72" ry="44" fill="#c9aea0" opacity="0.22"/>
-  <ellipse cx="112" cy="98" rx="60" ry="36" fill="#c4a898" opacity="0.18"/>
-  <ellipse cx="96" cy="112" rx="50" ry="30" fill="#b89484" opacity="0.14"/>
-  <ellipse cx="115" cy="92" rx="40" ry="26" fill="#d4bfb0" opacity="0.20"/>
-
-  <!-- Nudo izquierdo -->
-  <path d="
-    M 44 98
-    C 44 82, 54 75, 59 82
-    C 64 89, 59 99, 54 96
-    C 49 93, 51 84, 57 81
-    C 63 78, 70 83, 71 90
-    C 72 97, 68 105, 62 102
-    C 56 99, 55 91, 60 87
-    C 65 83, 72 85, 74 92
-    C 76 99, 73 107, 68 104
-    C 63 101, 63 94, 68 92
-  "
-  stroke="#5c3828" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <!-- Línea de conexión -->
-  <path d="M 68 92 C 80 87, 100 90, 122 96"
-  stroke="#5c3828" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-
-  <!-- Espiral derecha -->
-  <path d="
-    M 122 96
-    C 133 92, 148 90, 158 92
-    C 168 94, 175 101, 174 110
-    C 173 119, 163 122, 154 119
-    C 145 116, 140 106, 143 97
-    C 146 88, 156 85, 164 88
-    C 172 91, 175 101, 173 110
-  "
-  stroke="#5c3828" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <!-- Borde circular sutil -->
+  <ellipse cx="108" cy="100" rx="80" ry="58" fill="#c9aea0" opacity="0.22"/>
+  <ellipse cx="115" cy="95" rx="68" ry="48" fill="#c4a898" opacity="0.18"/>
+  <ellipse cx="98" cy="108" rx="60" ry="42" fill="#b89484" opacity="0.14"/>
+  <ellipse cx="118" cy="90" rx="54" ry="36" fill="#d4bfb0" opacity="0.20"/>
+  <g transform="translate(50,100)" stroke="#5c3828" stroke-width="1.6" fill="none">
+    <ellipse rx="28" ry="10" transform="rotate(-15)"/>
+    <ellipse rx="26" ry="12" transform="rotate(20)"/>
+    <ellipse rx="27" ry="9" transform="rotate(50)"/>
+    <ellipse rx="24" ry="13" transform="rotate(80)"/>
+    <ellipse rx="26" ry="11" transform="rotate(110)"/>
+    <ellipse rx="22" ry="11" transform="rotate(140)"/>
+    <ellipse rx="18" ry="8" transform="rotate(5)"/>
+    <ellipse rx="15" ry="10" transform="rotate(45)"/>
+    <ellipse rx="13" ry="7" transform="rotate(75)"/>
+  </g>
+  <path d="M 78 100 C 98 78, 127 122, 127 100" stroke="#5c3828" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <path d="M 127 100 A 26.8 26.8 0 0 1 155 74.4 A 24.4 24.4 0 0 1 178.2 100 A 22 22 0 0 1 155 120.8 A 19.6 19.6 0 0 1 136.6 100 A 17.2 17.2 0 0 1 155 84 A 14.8 14.8 0 0 1 168.6 100 A 12.4 12.4 0 0 1 155 111.2 A 10 10 0 0 1 146.2 100 A 7.6 7.6 0 0 1 155 93.6 A 5.2 5.2 0 0 1 159 100" stroke="#5c3828" stroke-width="1.6" fill="none" stroke-linecap="round"/>
   <circle cx="100" cy="100" r="96" fill="none" stroke="#d4bfb0" stroke-width="0.8"/>
 </svg>
