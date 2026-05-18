@@ -24,6 +24,7 @@ export default async function AdminLayout({
     { href: "/admin/terapeutas" as const, label: t("therapists") },
     { href: "/admin/feature-flags" as const, label: t("featureFlags") },
     { href: "/admin/feedback" as const, label: t("feedback") },
+    { href: "/admin/blog" as const, label: t("blog") },
   ];
 
   return (

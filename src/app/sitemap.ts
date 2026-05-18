@@ -3,8 +3,8 @@ import { getAllPosts } from "@/lib/blog";
 
 const BASE_URL = "https://micaela-vulcano.com.ar";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getAllPosts();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getAllPosts();
 
   const blogEntries = posts.map((post) => ({
     url: `${BASE_URL}/blog/${post.slug}`,

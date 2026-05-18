@@ -1,14 +1,17 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+// Fuente de datos migrada de archivos MDX locales a Prisma/PostgreSQL.
+// BLOG_OWNER_USER_ID identifica al único dueño del blog público (Lic. Micaela Vulcano).
+// En un futuro multi-tenant, este valor se reemplazaría por el userId del profesional
+// cuyo sitio público esté siendo visitado.
+import { prisma } from "@/lib/prisma";
 
-const BLOG_DIR = path.join(process.cwd(), "content/blog");
+const OWNER_ID = process.env.BLOG_OWNER_USER_ID ?? "";
 
 export interface PostMeta {
   title: string;
   date: string;
   description: string;
   slug: string;
+  author: string;
   tags?: string[];
 }
 
@@ -16,49 +19,54 @@ export interface Post extends PostMeta {
   content: string;
 }
 
-export function getAllPosts(): PostMeta[] {
-  const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".mdx"));
+export async function getAllPosts(): Promise<PostMeta[]> {
+  if (!OWNER_ID) return [];
 
-  const posts = files.map((filename) => {
-    const filePath = path.join(BLOG_DIR, filename);
-    const raw = fs.readFileSync(filePath, "utf-8");
-    const { data } = matter(raw);
-
-    return {
-      title: data.title as string,
-      date: data.date as string,
-      description: data.description as string,
-      slug: data.slug as string,
-      tags: data.tags as string[] | undefined,
-    };
+  const posts = await prisma.blogPost.findMany({
+    where: { userId: OWNER_ID, published: true },
+    orderBy: { date: "desc" },
+    select: {
+      title: true,
+      date: true,
+      description: true,
+      slug: true,
+      author: true,
+      tags: true,
+    },
   });
 
-  return posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  return posts.map((p) => ({
+    title: p.title,
+    date: p.date.toISOString(),
+    description: p.description,
+    slug: p.slug,
+    author: p.author,
+    tags: p.tags,
+  }));
 }
 
-export function getPostBySlug(slug: string): Post | null {
-  const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  if (!OWNER_ID) return null;
 
-  if (!fs.existsSync(filePath)) return null;
+  const post = await prisma.blogPost.findUnique({
+    where: { userId_slug: { userId: OWNER_ID, slug } },
+  });
 
-  const raw = fs.readFileSync(filePath, "utf-8");
-  const { data, content } = matter(raw);
+  if (!post || !post.published) return null;
 
   return {
-    title: data.title as string,
-    date: data.date as string,
-    description: data.description as string,
-    slug: data.slug as string,
-    tags: data.tags as string[] | undefined,
-    content,
+    title: post.title,
+    date: post.date.toISOString(),
+    description: post.description,
+    slug: post.slug,
+    author: post.author,
+    tags: post.tags,
+    content: post.content,
   };
 }
 
 export function formatDate(dateStr: string): string {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString("es-AR", {
+  return new Date(dateStr).toLocaleDateString("es-AR", {
     year: "numeric",
     month: "long",
     day: "numeric",

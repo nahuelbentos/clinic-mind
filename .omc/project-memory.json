@@ -50,7 +50,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npx tsc --noEmit 2>&1 | tail -40",
+    "buildCommand": "npx tsc --noEmit 2>&1 | tail -20",
     "testCommand": "make test",
     "lintCommand": "npm run lint",
     "devCommand": "npm run dev",
@@ -197,20 +197,20 @@
   "hotPaths": [
     {
       "path": "messages/es.json",
-      "accessCount": 5,
-      "lastAccessed": 1779118676276,
+      "accessCount": 7,
+      "lastAccessed": 1779122923903,
       "type": "file"
     },
     {
       "path": "messages/en.json",
-      "accessCount": 5,
-      "lastAccessed": 1779118700320,
+      "accessCount": 7,
+      "lastAccessed": 1779122925036,
       "type": "file"
     },
     {
       "path": "prisma/schema.prisma",
-      "accessCount": 3,
-      "lastAccessed": 1779118444064,
+      "accessCount": 5,
+      "lastAccessed": 1779122765605,
       "type": "file"
     },
     {
@@ -268,6 +268,54 @@
       "type": "file"
     },
     {
+      "path": "public/logo.svg",
+      "accessCount": 2,
+      "lastAccessed": 1779122279554,
+      "type": "file"
+    },
+    {
+      "path": "public/icon.svg",
+      "accessCount": 2,
+      "lastAccessed": 1779122290554,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/blog.ts",
+      "accessCount": 2,
+      "lastAccessed": 1779122872304,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/(public)/blog/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779122888157,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/(public)/blog/[slug]/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779122915250,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/admin/layout.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779122922523,
+      "type": "file"
+    },
+    {
+      "path": ".env",
+      "accessCount": 2,
+      "lastAccessed": 1779122935711,
+      "type": "file"
+    },
+    {
+      "path": "src/app/sitemap.ts",
+      "accessCount": 2,
+      "lastAccessed": 1779122958742,
+      "type": "file"
+    },
+    {
       "path": "docker-compose.yml",
       "accessCount": 1,
       "lastAccessed": 1779118466781,
@@ -301,6 +349,84 @@
       "path": "src/app/[locale]/dashboard/pacientes/[id]/objetivos/nuevo/_form.tsx",
       "accessCount": 1,
       "lastAccessed": 1779118653786,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 1,
+      "lastAccessed": 1779121727906,
+      "type": "directory"
+    },
+    {
+      "path": "",
+      "accessCount": 1,
+      "lastAccessed": 1779121728021,
+      "type": "directory"
+    },
+    {
+      "path": "src/app/[locale]/dashboard/layout.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779122492196,
+      "type": "file"
+    },
+    {
+      "path": "src/components/dashboard/Sidebar.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779122503057,
+      "type": "file"
+    },
+    {
+      "path": "src/i18n/routing.ts",
+      "accessCount": 1,
+      "lastAccessed": 1779122534767,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/blog/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1779122780392,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/blog/[id]/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1779122789142,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/public/blog/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1779122797242,
+      "type": "file"
+    },
+    {
+      "path": "src/app/api/public/blog/[slug]/route.ts",
+      "accessCount": 1,
+      "lastAccessed": 1779122803849,
+      "type": "file"
+    },
+    {
+      "path": "src/components/admin/BlogForm.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779122829996,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/admin/blog/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779122849383,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/admin/blog/nuevo/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779122853965,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/admin/blog/[id]/editar/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779122861358,
       "type": "file"
     }
   ],

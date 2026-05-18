@@ -9,13 +9,13 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
   return posts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) return { title: "Artículo no encontrado" };
 
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) notFound();
 
@@ -91,7 +91,7 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
             <div>
               <p className="text-xs text-warm-400 uppercase tracking-wide mb-1">Escrito por</p>
-              <h3 className="font-semibold text-warm-900 mb-1">Lic. Micaela Vulcano</h3>
+              <h3 className="font-semibold text-warm-900 mb-1">{post.author}</h3>
               <p className="text-warm-500 text-sm leading-relaxed">
                 Psicóloga especializada en Terapia de Aceptación y Compromiso (ACT).
                 Atención virtual para adolescentes y adultos.

@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"docker compose run --rm --no-deps -e DATABASE_URL=postgresql://clinicmind:clinicmind@db:5432/clinicmind --entrypoint=\\\"\\\" db-setup sh -c \\\"npx prisma migrate dev --name add_blog_post\\\" 2>&...",
+  "error": "Exit code 130\n Container clinic-mind-db-setup-run-10e50f61eb8d Creating \n Container clinic-mind-db-setup-run-10e50f61eb8d Created \nLoaded Prisma config from prisma.config.ts.\n\nPrisma schema loaded from prisma/schema.prisma.\nDatasource \"db\": PostgreSQL database \"clinicmind\", schema \"public\" at \"db:5432\"\n\nDrift detected: Your database schema is not in sync with your migration history.\n\nThe following is a summary of the differences between the expected database schema given your migrations files, a...",
+  "timestamp": "2026-05-18T16:55:21.955Z",
+  "retry_count": 5
+}
