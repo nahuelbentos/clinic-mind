@@ -110,7 +110,7 @@ export default function ServiciosPage() {
                 ))}
               </ul>
               <Link
-                href="https://wa.me/5491100000000?text=Hola%20Micaela%2C%20quiero%20consultar%20para%20adultos."
+                href="https://wa.me/5491122554035?text=Hola%20Micaela%2C%20quiero%20consultar%20para%20adultos."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-sage-500 hover:bg-sage-600 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-colors"
@@ -144,7 +144,7 @@ export default function ServiciosPage() {
                 ))}
               </ul>
               <Link
-                href="https://wa.me/5491100000000?text=Hola%20Micaela%2C%20quiero%20consultar%20sobre%20atenci%C3%B3n%20para%20adolescentes."
+                href="https://wa.me/5491122554035?text=Hola%20Micaela%2C%20quiero%20consultar%20sobre%20atenci%C3%B3n%20para%20adolescentes."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-lilac-500 hover:bg-lilac-600 text-white text-sm font-medium px-5 py-2.5 rounded-full transition-colors"
@@ -224,7 +224,7 @@ export default function ServiciosPage() {
             Escribime y coordinamos una primera consulta sin compromiso.
           </p>
           <Link
-            href="https://wa.me/5491100000000?text=Hola%20Micaela%2C%20quiero%20consultar%20sobre%20una%20primera%20sesi%C3%B3n."
+            href="https://wa.me/5491122554035?text=Hola%20Micaela%2C%20quiero%20consultar%20sobre%20una%20primera%20sesi%C3%B3n."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-white text-sage-700 hover:bg-sage-50 font-medium px-7 py-3.5 rounded-full transition-colors shadow-md"

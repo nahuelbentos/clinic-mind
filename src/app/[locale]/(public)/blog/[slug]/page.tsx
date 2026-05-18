@@ -115,7 +115,7 @@ export default async function BlogPostPage({ params }: Props) {
             Podemos tener una primera consulta sin compromiso para ver si es lo que necesitás.
           </p>
           <Link
-            href="https://wa.me/5491100000000?text=Hola%20Micaela%2C%20le%C3%AD%20tu%20blog%20y%20quiero%20consultar%20sobre%20el%20proceso%20terap%C3%A9utico."
+            href="https://wa.me/5491122554035?text=Hola%20Micaela%2C%20le%C3%AD%20tu%20blog%20y%20quiero%20consultar%20sobre%20el%20proceso%20terap%C3%A9utico."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-sage-500 hover:bg-sage-600 text-white font-medium px-6 py-3 rounded-full transition-colors shadow-md"

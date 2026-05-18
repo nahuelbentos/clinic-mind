@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const WA_HREF = `https://wa.me/5491100000000?text=${encodeURIComponent(
+const WA_HREF = `https://wa.me/5491122554035?text=${encodeURIComponent(
   "Hola Micaela, hice el test de flexibilidad psicológica y me gustaría una sesión gratuita de 15 minutos."
 )}`;
 

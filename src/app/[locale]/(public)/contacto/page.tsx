@@ -37,7 +37,7 @@ export default function ContactoPage() {
 
             {/* WhatsApp primary */}
             <Link
-              href="https://wa.me/5491100000000?text=Hola%20Micaela%2C%20quiero%20consultar%20sobre%20una%20primera%20sesi%C3%B3n."
+              href="https://wa.me/5491122554035?text=Hola%20Micaela%2C%20quiero%20consultar%20sobre%20una%20primera%20sesi%C3%B3n."
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-4 bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/30 rounded-2xl p-5 mb-4 transition-colors group"

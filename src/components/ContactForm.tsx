@@ -26,7 +26,7 @@ export default function ContactForm() {
     const msg = encodeURIComponent(
       `Hola Micaela, me contacto desde el formulario de tu web.\n\nNombre: ${formData.nombre}\nEmail: ${formData.email}\n\n${formData.mensaje}`
     );
-    window.open(`https://wa.me/5491100000000?text=${msg}`, "_blank");
+    window.open(`https://wa.me/5491122554035?text=${msg}`, "_blank");
 
     setState("success");
     setFormData({ nombre: "", email: "", mensaje: "" });
