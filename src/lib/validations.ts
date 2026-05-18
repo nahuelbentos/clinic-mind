@@ -34,6 +34,12 @@ export const patientSchema = z.object({
     .or(z.literal("")),
   autonomyLevel: z.string().optional(),
   integrationContext: z.string().optional(),
+  meetLink: z.string().url("URL inválida").optional().or(z.literal("")),
+  meetProvider: z
+    .enum(["GOOGLE_MEET", "ZOOM", "TEAMS", "OTHER"])
+    .optional()
+    .or(z.literal("")),
+  defaultAmount: z.coerce.number().min(0).optional(),
 });
 
 export const sessionSchema = z.object({

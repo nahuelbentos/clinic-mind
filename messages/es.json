@@ -93,6 +93,10 @@
     "disabilitySensory": "Sensorial",
     "disabilityMultiple": "Múltiple",
     "disabilityOther": "Otra",
+    "meetingInfo": "Información de reunión",
+    "meetLink": "Link de reunión",
+    "platform": "Plataforma",
+    "defaultAmount": "Monto por sesión ($)",
     "cancel": "Cancelar",
     "save": "Guardar paciente",
     "saving": "Guardando..."
@@ -165,6 +169,7 @@
     "paid": "Pagado",
     "exempt": "Exento",
     "amount": "Monto ($)",
+    "isOnline": "¿Es online?",
     "onlineMeeting": "Reunión online",
     "meetLink": "Link de reunión",
     "platform": "Plataforma",
@@ -214,10 +219,13 @@
     "pause": "Pausar",
     "reactivate": "Reactivar",
     "delete": "Eliminar",
-    "deleteConfirm": "¿Eliminar este objetivo?"
+    "deleteConfirm": "¿Eliminar este objetivo?",
+    "addSubgoal": "+ Subobjetivo"
   },
   "newGoal": {
     "title": "Nuevo objetivo",
+    "subgoalOf": "Subobjetivo de",
+    "addSubgoal": "+ Subobjetivo",
     "description": "Descripción *",
     "area": "Área *",
     "selectArea": "Seleccionar...",

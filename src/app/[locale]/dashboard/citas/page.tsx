@@ -2,13 +2,14 @@ import { auth } from "@/lib/auth";
 import { getDb } from "@/lib/db";
 import { Link } from "@/i18n/navigation";
 import NewAppointmentForm from "@/components/dashboard/NewAppointmentForm";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export default async function CitasPage() {
   const session = await auth();
   if (!session?.user?.id) return null;
 
   const db = getDb(session.user.id);
+  const locale = await getLocale();
   const t = await getTranslations("citasPage");
   const tAppt = await getTranslations("appointments");
 
@@ -63,13 +64,13 @@ export default async function CitasPage() {
                     {apt.patient.firstName} {apt.patient.lastName}
                   </Link>
                   <p className="text-xs text-warm-500">
-                    {new Date(apt.scheduledAt).toLocaleDateString("es-AR", {
+                    {new Date(apt.scheduledAt).toLocaleDateString(locale, {
                       weekday: "long",
                       day: "numeric",
                       month: "long",
                     })}{" "}
                     {tAppt("at")}{" "}
-                    {new Date(apt.scheduledAt).toLocaleTimeString("es-AR", {
+                    {new Date(apt.scheduledAt).toLocaleTimeString(locale, {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}

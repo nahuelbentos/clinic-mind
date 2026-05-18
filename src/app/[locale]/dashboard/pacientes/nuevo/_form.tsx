@@ -58,6 +58,24 @@ export default function NuevoPacienteForm({ specialty }: { specialty: string }) 
           {!isSocialIntegration && <TextArea label={t("actValues")} name="actValues" />}
         </section>
 
+        <section className="bg-white rounded-2xl border border-warm-200 p-6 space-y-5">
+          <h2 className="text-lg font-semibold text-warm-900">{t("meetingInfo")}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Field label={t("meetLink")} name="meetLink" type="url" />
+            <div>
+              <label className="block text-sm font-medium text-warm-700 mb-1">{t("platform")}</label>
+              <select name="meetProvider" className="w-full px-4 py-2.5 rounded-lg border border-warm-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500 outline-none text-sm">
+                <option value="">{t("selectGender")}</option>
+                <option value="GOOGLE_MEET">Google Meet</option>
+                <option value="ZOOM">Zoom</option>
+                <option value="TEAMS">Teams</option>
+                <option value="OTHER">Otro</option>
+              </select>
+            </div>
+            <Field label={t("defaultAmount")} name="defaultAmount" type="number" />
+          </div>
+        </section>
+
         {isSocialIntegration && (
           <section className="bg-white rounded-2xl border border-warm-200 p-6 space-y-5">
             <h2 className="text-lg font-semibold text-warm-900">{t("socialIntegration")}</h2>

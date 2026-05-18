@@ -39,6 +39,9 @@ model Patient {
   startDate        DateTime         @default(now())
   status           PatientStatus    @default(ACTIVE)
   emergencyContact String?
+  meetLink         String?
+  meetProvider     MeetProvider?
+  defaultAmount    Float?
   createdAt        DateTime         @default(now())
   deletedAt        DateTime?
   clinicalProfile  ClinicalProfile?
@@ -243,6 +246,9 @@ model Goal {
   status      GoalStatus @default(PENDING)
   targetDate  DateTime?
   notes       String?
+  parentId    String?
+  parent      Goal?      @relation("GoalSubgoals", fields: [parentId], references: [id])
+  subgoals    Goal[]     @relation("GoalSubgoals")
   deletedAt   DateTime?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt

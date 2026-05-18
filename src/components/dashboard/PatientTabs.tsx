@@ -20,6 +20,16 @@ interface Goal {
   status: string;
   targetDate: Date | null;
   notes: string | null;
+  subgoals?: Subgoal[];
+}
+
+interface Subgoal {
+  id: string;
+  description: string;
+  area: string;
+  status: string;
+  targetDate: Date | null;
+  notes: string | null;
 }
 
 interface Report {
@@ -337,28 +347,68 @@ function GoalsTab({ goals, patientId, canDeleteGoals }: { goals: Goal[]; patient
       {sorted.map((g) => {
         const si = goalStatusLabels[g.status];
         return (
-          <div key={g.id} className="bg-white rounded-2xl border border-warm-200 p-5">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1 space-y-1">
-                <p className="text-sm font-medium text-warm-900">{g.description}</p>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium">
-                    {goalAreaLabels[g.area] ?? g.area}
-                  </span>
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${si.style}`}>{si.label}</span>
-                  {g.targetDate && (
-                    <span className="text-xs text-warm-400">
-                      {t("estimated", { date: new Date(g.targetDate).toLocaleDateString("es-AR") })}
+          <div key={g.id} className="space-y-2">
+            <div className="bg-white rounded-2xl border border-warm-200 p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium text-warm-900">{g.description}</p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium">
+                      {goalAreaLabels[g.area] ?? g.area}
                     </span>
-                  )}
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${si.style}`}>{si.label}</span>
+                    {g.targetDate && (
+                      <span className="text-xs text-warm-400">
+                        {t("estimated", { date: new Date(g.targetDate).toLocaleDateString("es-AR") })}
+                      </span>
+                    )}
+                  </div>
+                  {g.notes && <p className="text-xs text-warm-500 mt-1">{g.notes}</p>}
                 </div>
-                {g.notes && <p className="text-xs text-warm-500 mt-1">{g.notes}</p>}
-              </div>
-              <div className="flex items-center gap-2 shrink-0">
-                <GoalStatusChanger goalId={g.id} currentStatus={g.status} />
-                {canDeleteGoals && <DeleteGoalButton goalId={g.id} />}
+                <div className="flex items-center gap-2 shrink-0">
+                  <GoalStatusChanger goalId={g.id} currentStatus={g.status} />
+                  <Link
+                    href={`/dashboard/pacientes/${patientId}/objetivos/nuevo?parentId=${g.id}`}
+                    className="text-xs px-2.5 py-1 rounded-lg border border-warm-300 text-warm-600 hover:bg-warm-100 transition"
+                  >
+                    {t("addSubgoal")}
+                  </Link>
+                  {canDeleteGoals && <DeleteGoalButton goalId={g.id} />}
+                </div>
               </div>
             </div>
+            {g.subgoals && g.subgoals.length > 0 && (
+              <div className="ml-8 space-y-2">
+                {g.subgoals.map((sg) => {
+                  const sgSi = goalStatusLabels[sg.status];
+                  return (
+                    <div key={sg.id} className="bg-white rounded-2xl border border-warm-200 p-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1 space-y-1">
+                          <p className="text-sm font-medium text-warm-900">{sg.description}</p>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-warm-100 text-warm-600 font-medium">
+                              {goalAreaLabels[sg.area] ?? sg.area}
+                            </span>
+                            <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${sgSi.style}`}>{sgSi.label}</span>
+                            {sg.targetDate && (
+                              <span className="text-xs text-warm-400">
+                                {t("estimated", { date: new Date(sg.targetDate).toLocaleDateString("es-AR") })}
+                              </span>
+                            )}
+                          </div>
+                          {sg.notes && <p className="text-xs text-warm-500 mt-1">{sg.notes}</p>}
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <GoalStatusChanger goalId={sg.id} currentStatus={sg.status} />
+                          {canDeleteGoals && <DeleteGoalButton goalId={sg.id} />}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         );
       })}

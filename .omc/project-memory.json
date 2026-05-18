@@ -1,0 +1,308 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1779118252214,
+  "projectRoot": "/Users/nahuelbentos/Documents/clinic-mind",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      },
+      {
+        "name": "C/C++",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "Makefile"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "next",
+        "version": "16.2.4",
+        "category": "fullstack"
+      },
+      {
+        "name": "react",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.4",
+        "category": "frontend"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npx tsc --noEmit 2>&1 | tail -40",
+    "testCommand": "make test",
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "eslint",
+      "db:generate": "prisma generate",
+      "db:migrate": "prisma migrate dev",
+      "db:push": "prisma db push",
+      "db:seed": "npx tsx prisma/seed.ts",
+      "db:studio": "prisma studio"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "public",
+      "scripts",
+      "src"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "content": {
+      "path": "content",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1779118252184,
+      "keyFiles": []
+    },
+    "messages": {
+      "path": "messages",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1779118252184,
+      "keyFiles": [
+        "en.json",
+        "es.json"
+      ]
+    },
+    "prisma": {
+      "path": "prisma",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1779118252188,
+      "keyFiles": [
+        "schema.prisma",
+        "seed.ts"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 8,
+      "lastAccessed": 1779118252188,
+      "keyFiles": [
+        "file.svg",
+        "globe.svg",
+        "icon.svg",
+        "logo.svg",
+        "next.svg"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 1,
+      "lastAccessed": 1779118252189,
+      "keyFiles": [
+        "setup-claude-efficiency.sh"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 1,
+      "lastAccessed": 1779118252189,
+      "keyFiles": [
+        "middleware.ts"
+      ]
+    },
+    "prisma/migrations": {
+      "path": "prisma/migrations",
+      "purpose": "Database migrations",
+      "fileCount": 1,
+      "lastAccessed": 1779118252189,
+      "keyFiles": [
+        "migration_lock.toml"
+      ]
+    },
+    "src/app": {
+      "path": "src/app",
+      "purpose": "Application code",
+      "fileCount": 5,
+      "lastAccessed": 1779118252189,
+      "keyFiles": [
+        "favicon.ico",
+        "globals.css",
+        "layout.tsx"
+      ]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 5,
+      "lastAccessed": 1779118252190,
+      "keyFiles": [
+        "ContactForm.tsx",
+        "Footer.tsx",
+        "GoogleAnalytics.tsx"
+      ]
+    },
+    "src/lib": {
+      "path": "src/lib",
+      "purpose": "Library code",
+      "fileCount": 8,
+      "lastAccessed": 1779118252190,
+      "keyFiles": [
+        "auth.ts",
+        "blog.ts",
+        "db.ts"
+      ]
+    },
+    "src/types": {
+      "path": "src/types",
+      "purpose": "Type definitions",
+      "fileCount": 1,
+      "lastAccessed": 1779118252190,
+      "keyFiles": [
+        "next-auth.d.ts"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "messages/es.json",
+      "accessCount": 5,
+      "lastAccessed": 1779118676276,
+      "type": "file"
+    },
+    {
+      "path": "messages/en.json",
+      "accessCount": 5,
+      "lastAccessed": 1779118700320,
+      "type": "file"
+    },
+    {
+      "path": "prisma/schema.prisma",
+      "accessCount": 3,
+      "lastAccessed": 1779118444064,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/dashboard/citas/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1779118515663,
+      "type": "file"
+    },
+    {
+      "path": "src/components/dashboard/PatientTabs.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1779118626508,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/validations.ts",
+      "accessCount": 2,
+      "lastAccessed": 1779118521774,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/actions/patients.ts",
+      "accessCount": 2,
+      "lastAccessed": 1779118527385,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/actions/goals.ts",
+      "accessCount": 2,
+      "lastAccessed": 1779118538650,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/dashboard/pacientes/[id]/sesiones/nueva/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779118585958,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/dashboard/pacientes/nuevo/_form.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779118595156,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/dashboard/pacientes/[id]/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779118600617,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/dashboard/pacientes/[id]/objetivos/nuevo/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779118634964,
+      "type": "file"
+    },
+    {
+      "path": "docker-compose.yml",
+      "accessCount": 1,
+      "lastAccessed": 1779118466781,
+      "type": "file"
+    },
+    {
+      "path": "prisma/migrations/20260427023234_add_user_locale/migration.sql",
+      "accessCount": 1,
+      "lastAccessed": 1779118488009,
+      "type": "file"
+    },
+    {
+      "path": "prisma/migrations/20260518120000_add_patient_meeting_defaults/migration.sql",
+      "accessCount": 1,
+      "lastAccessed": 1779118497329,
+      "type": "file"
+    },
+    {
+      "path": "prisma/migrations/20260518120100_add_goal_subgoals/migration.sql",
+      "accessCount": 1,
+      "lastAccessed": 1779118501971,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/dashboard/pacientes/[id]/sesiones/nueva/_form.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779118574347,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/dashboard/pacientes/[id]/objetivos/nuevo/_form.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779118653786,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

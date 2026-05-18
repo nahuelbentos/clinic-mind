@@ -26,7 +26,11 @@ export default async function PatientDetailPage({
         clinicalProfile: true,
         sessions: { where: { deletedAt: null }, orderBy: { date: "desc" } },
         appointments: { orderBy: { scheduledAt: "desc" } },
-        goals: { where: { deletedAt: null }, orderBy: { createdAt: "desc" } },
+        goals: {
+          where: { deletedAt: null, parentId: null },
+          include: { subgoals: { where: { deletedAt: null } } },
+          orderBy: { createdAt: "asc" },
+        },
         reports: { where: { deletedAt: null }, orderBy: { periodEnd: "desc" } },
       },
     }),

@@ -17,6 +17,8 @@ export async function createGoalAction(
   const patientId = formData.get("patientId") as string;
   if (!patientId) return { error: "Paciente requerido" };
 
+  const parentId = (formData.get("parentId") as string | null) || null;
+
   const raw = {
     description: formData.get("description") as string,
     area: formData.get("area") as string,
@@ -36,6 +38,15 @@ export async function createGoalAction(
   });
   if (!patient) return { error: "Paciente no encontrado" };
 
+  if (parentId) {
+    const parent = await db.goal.findFirst({
+      where: { id: parentId, patientId, deletedAt: null },
+    });
+    if (!parent) return { error: "Objetivo padre no encontrado" };
+    if (parent.parentId !== null)
+      return { error: "No se permiten subobjetivos anidados" };
+  }
+
   await db.goal.create({
     data: {
       patientId,
@@ -45,6 +56,7 @@ export async function createGoalAction(
         ? new Date(result.data.targetDate)
         : null,
       notes: result.data.notes || null,
+      parentId: parentId || null,
     },
   });
 

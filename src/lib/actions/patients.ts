@@ -55,6 +55,9 @@ export async function createPatientAction(
       gender: result.data.gender || null,
       referredBy: result.data.referredBy || null,
       emergencyContact: result.data.emergencyContact || null,
+      meetLink: result.data.meetLink || null,
+      meetProvider: result.data.meetProvider || null,
+      defaultAmount: result.data.defaultAmount || null,
       clinicalProfile: {
         create: {
           consultationReason: result.data.consultationReason || null,

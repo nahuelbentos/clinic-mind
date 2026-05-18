@@ -126,7 +126,7 @@ export default function ServiciosPage() {
               </div>
               <h2 className="text-xl font-bold text-warm-900 mb-3">Adolescentes</h2>
               <p className="text-warm-600 text-sm leading-relaxed mb-5">
-                Un espacio propio para adolescentes (13+) donde pueden hablar de lo que les
+                Un espacio propio para adolescentes (15+) donde pueden hablar de lo que les
                 pasa sin filtros, con una profesional que los escucha sin juzgar.
               </p>
               <ul className="space-y-2 mb-6">
