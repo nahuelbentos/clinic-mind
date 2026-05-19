@@ -20,7 +20,10 @@ export interface Post extends PostMeta {
 }
 
 export async function getAllPosts(): Promise<PostMeta[]> {
-  if (!OWNER_ID) return [];
+  if (!OWNER_ID) {
+    console.warn("[blog] BLOG_OWNER_USER_ID no definido. No se mostrarán artículos.");
+    return [];
+  }
 
   const posts = await prisma.blogPost.findMany({
     where: { userId: OWNER_ID, published: true },
@@ -46,7 +49,10 @@ export async function getAllPosts(): Promise<PostMeta[]> {
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  if (!OWNER_ID) return null;
+  if (!OWNER_ID) {
+    console.warn("[blog] BLOG_OWNER_USER_ID no definido. No se mostrarán artículos.");
+    return null;
+  }
 
   const post = await prisma.blogPost.findUnique({
     where: { userId_slug: { userId: OWNER_ID, slug } },
