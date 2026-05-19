@@ -197,20 +197,38 @@
   "hotPaths": [
     {
       "path": "messages/es.json",
-      "accessCount": 7,
-      "lastAccessed": 1779122923903,
+      "accessCount": 10,
+      "lastAccessed": 1779154193700,
       "type": "file"
     },
     {
       "path": "messages/en.json",
-      "accessCount": 7,
-      "lastAccessed": 1779122925036,
+      "accessCount": 10,
+      "lastAccessed": 1779154193980,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/blog.ts",
+      "accessCount": 6,
+      "lastAccessed": 1779154199761,
       "type": "file"
     },
     {
       "path": "prisma/schema.prisma",
       "accessCount": 5,
       "lastAccessed": 1779122765605,
+      "type": "file"
+    },
+    {
+      "path": "src/components/dashboard/Sidebar.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1779154212912,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/(public)/blog/[slug]/page.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1779154193275,
       "type": "file"
     },
     {
@@ -280,21 +298,9 @@
       "type": "file"
     },
     {
-      "path": "src/lib/blog.ts",
-      "accessCount": 2,
-      "lastAccessed": 1779122872304,
-      "type": "file"
-    },
-    {
       "path": "src/app/[locale]/(public)/blog/page.tsx",
       "accessCount": 2,
       "lastAccessed": 1779122888157,
-      "type": "file"
-    },
-    {
-      "path": "src/app/[locale]/(public)/blog/[slug]/page.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1779122915250,
       "type": "file"
     },
     {
@@ -313,6 +319,30 @@
       "path": "src/app/sitemap.ts",
       "accessCount": 2,
       "lastAccessed": 1779122958742,
+      "type": "file"
+    },
+    {
+      "path": "src/i18n/routing.ts",
+      "accessCount": 2,
+      "lastAccessed": 1779154096173,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/admin/blog/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779154145601,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/admin/blog/nuevo/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779154146004,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/admin/blog/[id]/editar/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779154146516,
       "type": "file"
     },
     {
@@ -370,18 +400,6 @@
       "type": "file"
     },
     {
-      "path": "src/components/dashboard/Sidebar.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1779122503057,
-      "type": "file"
-    },
-    {
-      "path": "src/i18n/routing.ts",
-      "accessCount": 1,
-      "lastAccessed": 1779122534767,
-      "type": "file"
-    },
-    {
       "path": "src/app/api/blog/route.ts",
       "accessCount": 1,
       "lastAccessed": 1779122780392,
@@ -412,21 +430,33 @@
       "type": "file"
     },
     {
-      "path": "src/app/[locale]/admin/blog/page.tsx",
+      "path": "src/i18n/navigation.ts",
       "accessCount": 1,
-      "lastAccessed": 1779122849383,
+      "lastAccessed": 1779154096322,
       "type": "file"
     },
     {
-      "path": "src/app/[locale]/admin/blog/nuevo/page.tsx",
+      "path": "src/app/[locale]",
       "accessCount": 1,
-      "lastAccessed": 1779122853965,
+      "lastAccessed": 1779154151105,
+      "type": "directory"
+    },
+    {
+      "path": "src/app/[locale]/dashboard/blog/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779154231810,
       "type": "file"
     },
     {
-      "path": "src/app/[locale]/admin/blog/[id]/editar/page.tsx",
+      "path": "src/app/[locale]/dashboard/blog/nuevo/page.tsx",
       "accessCount": 1,
-      "lastAccessed": 1779122861358,
+      "lastAccessed": 1779154234681,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/dashboard/blog/[id]/editar/page.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779154242348,
       "type": "file"
     }
   ],
