@@ -434,5 +434,223 @@
     "delete": "Eliminar",
     "saving": "Guardando...",
     "loading": "Cargando..."
+  },
+  "home": {
+    "meta": {
+      "title": "Inicio",
+      "description": "Psicóloga especializada en Terapia de Aceptación y Compromiso (ACT). Atención virtual para adolescentes y adultos. Comenzá tu proceso hoy."
+    },
+    "hero": {
+      "badge": "Psicología · Terapia ACT · Online",
+      "title1": "Construí una vida",
+      "titleHighlight": "que valga la pena",
+      "title2": "vivir",
+      "description": "Soy Micaela Vulcano, psicóloga especializada en Terapia de Aceptación y Compromiso. Acompaño a adolescentes y adultos en procesos de bienestar real — no de felicidad forzada.",
+      "ctaWhatsapp": "Escribime por WhatsApp",
+      "ctaAbout": "Conocé más sobre mí"
+    },
+    "card": {
+      "title": "¿Es para vos?",
+      "item0": "Sentís que la ansiedad te frena",
+      "item1": "Querés entender tus emociones",
+      "item2": "Buscás vivir con más sentido",
+      "item3": "Necesitás un espacio propio",
+      "item4": "Querés herramientas reales",
+      "linkServices": "Ver servicios →"
+    },
+    "pillars": {
+      "title": "¿Por qué terapia ACT?",
+      "description": "La Terapia de Aceptación y Compromiso no busca hacer desaparecer el dolor — te ayuda a relacionarte de otra manera con él.",
+      "0": { "icon": "🌿", "title": "Terapia basada en evidencia", "desc": "ACT es una de las terapias de tercera generación con mayor respaldo científico para el tratamiento de ansiedad, depresión y más." },
+      "1": { "icon": "💻", "title": "100% virtual", "desc": "Sesiones por videollamada desde la comodidad de tu hogar. Sin traslados, con la misma calidez y profesionalismo." },
+      "2": { "icon": "🌸", "title": "Espacio seguro", "desc": "Un lugar sin juicios donde podés explorar lo que sentís, con acompañamiento real y herramientas concretas." },
+      "3": { "icon": "🧭", "title": "Enfoque en tus valores", "desc": "No se trata de eliminar el malestar, sino de construir una vida con sentido, alineada con lo que más te importa." }
+    },
+    "steps": {
+      "title": "¿Cómo empezamos?",
+      "description": "Simple, sin trámites. Solo el primer paso.",
+      "0": { "n": "01", "title": "Primer contacto", "desc": "Me escribís por WhatsApp y coordinamos una primera consulta sin compromiso." },
+      "1": { "n": "02", "title": "Sesión inicial", "desc": "Conversamos sobre lo que estás atravesando y evaluamos si el proceso terapéutico es lo que necesitás." },
+      "2": { "n": "03", "title": "Tu proceso", "desc": "Trabajamos juntas/os a tu ritmo, con herramientas prácticas y un espacio de genuino acompañamiento." },
+      "ctaSchedule": "Agendá tu primera consulta"
+    },
+    "cta": {
+      "title": "El cambio empieza con una conversación",
+      "description": "No necesitás estar en crisis para buscar ayuda. Podés empezar cuando lo sentís.",
+      "ctaWhatsapp": "Escribime ahora",
+      "ctaBlog": "Leer el blog"
+    }
+  },
+  "about": {
+    "meta": {
+      "title": "Sobre mí",
+      "description": "Conocé a Micaela Vulcano: psicóloga especializada en Terapia de Aceptación y Compromiso (ACT). Su formación, enfoque y manera de acompañar.",
+      "ogTitle": "Sobre mí | Lic. Micaela Vulcano",
+      "ogDescription": "Conocé mi historia, formación y enfoque terapéutico basado en ACT."
+    },
+    "hero": {
+      "badge": "Psicóloga · Mat. 78.517",
+      "title": "Hola, soy Micaela",
+      "p1": "Soy psicóloga y me especialicé en la Terapia de Aceptación y Compromiso (ACT) porque creo que la salud mental no se trata de estar siempre bien — sino de aprender a vivir con todo lo que somos, incluidas las partes que duelen.",
+      "p2": "Trabajo con adolescentes y adultos de manera virtual, en un espacio donde la honestidad, la calidez y el respeto son la base de cada sesión.",
+      "p3": "Mi objetivo no es darte respuestas — es acompañarte a encontrar las tuyas."
+    },
+    "formation": {
+      "label": "Formación",
+      "0": { "year": "Continua", "title": "Supervisión clínica y entrenamiento en grupo PORTLAND", "place": "Terapias contextuales" },
+      "1": { "year": "2024", "title": "Formación en Terapias Contextuales y de Tercera Ola", "place": "Fundación Foro" },
+      "2": { "year": "2021", "title": "Diplomatura en Análisis Conductual Aplicado (ABA)", "place": "UAI – Universidad Abierta Interamericana" },
+      "3": { "year": "2014 – 2021", "title": "Licenciada en Psicología", "place": "Universidad de Buenos Aires (UBA)" }
+    },
+    "experience": {
+      "label": "Experiencia",
+      "0": { "year": "2023 – actualidad", "title": "Psicóloga clínica", "place": "Orientación conductual contextual · En remoto" },
+      "1": { "year": "2022 – actualidad", "title": "APND", "place": "Profesional independiente" }
+    },
+    "act": {
+      "title": "¿Qué es la terapia ACT?",
+      "description": "La Terapia de Aceptación y Compromiso es una terapia de tercera generación basada en la evidencia. En lugar de pelear contra los pensamientos y emociones difíciles, ACT te enseña a relacionarte con ellos de otra manera — para que no te impidan vivir la vida que querés.",
+      "pillars": {
+        "0": { "title": "Aceptación", "desc": "Aprender a hacer espacio para los pensamientos y emociones difíciles, sin luchar contra ellos ni dejar que te controlen.", "color": "bg-sage-100 text-sage-700" },
+        "1": { "title": "Defusión cognitiva", "desc": "Tomar distancia de los pensamientos: observarlos como eventos mentales, no como verdades absolutas.", "color": "bg-lilac-100 text-lilac-700" },
+        "2": { "title": "Contacto con el presente", "desc": "Vivir el momento actual con apertura y curiosidad, en lugar de quedar atrapado/a en el pasado o el futuro.", "color": "bg-warm-100 text-warm-700" },
+        "3": { "title": "El yo observador", "desc": "Conectar con una parte de vos que puede observar los propios pensamientos y emociones sin identificarse con ellos.", "color": "bg-cream-100 text-cream-700" },
+        "4": { "title": "Valores", "desc": "Clarificar qué es lo que más te importa en la vida: esas brújulas internas que guían tus decisiones.", "color": "bg-sage-100 text-sage-700" },
+        "5": { "title": "Acción comprometida", "desc": "Actuar consistentemente en dirección a tus valores, incluso cuando aparece el miedo, la duda o el malestar.", "color": "bg-lilac-100 text-lilac-700" }
+      },
+      "quote": "ACT no te promete que vas a dejar de sufrir. Te da herramientas para que el sufrimiento no sea el dueño de tu vida.",
+      "blogLink": "Leer más sobre ACT en el blog →"
+    },
+    "approach": {
+      "title": "Mi manera de trabajar",
+      "0": { "icon": "🤝", "title": "Vínculo genuino", "desc": "La relación terapéutica es el motor del cambio. Trabajamos desde la confianza real." },
+      "1": { "icon": "🎯", "title": "Sin rodeos", "desc": "Conversaciones honestas, sin tecnicismos innecesarios, con foco en lo que importa." },
+      "2": { "icon": "🌀", "title": "A tu ritmo", "desc": "Cada proceso es único. No hay cronograma fijo ni metas arbitrarias." },
+      "cta": "Hablemos"
+    }
+  },
+  "services": {
+    "meta": {
+      "title": "Servicios",
+      "description": "Sesiones de psicoterapia virtual con ACT para adolescentes y adultos. Conocé cómo funciona el proceso, frecuencia, duración y valores de consulta.",
+      "ogTitle": "Servicios | Lic. Micaela Vulcano",
+      "ogDescription": "Sesiones de psicoterapia virtual con ACT para adolescentes y adultos."
+    },
+    "hero": {
+      "badge": "Sesiones virtuales",
+      "title": "Servicios",
+      "description": "Atención psicológica individual, online, con un enfoque basado en la evidencia y un acompañamiento genuino."
+    },
+    "adults": {
+      "title": "Adultos",
+      "description": "Acompañamiento para atravesar momentos difíciles, trabajar ansiedad, estrés, tristeza, crisis vitales o simplemente construir una vida con más sentido.",
+      "item0": "Ansiedad y preocupación excesiva",
+      "item1": "Tristeza y estados depresivos",
+      "item2": "Crisis de identidad o etapas vitales",
+      "item3": "Dificultades en relaciones",
+      "item4": "Burnout y agotamiento",
+      "cta": "Consultar"
+    },
+    "adolescents": {
+      "title": "Adolescentes",
+      "description": "Un espacio propio para adolescentes (15+) donde pueden hablar de lo que les pasa sin filtros, con una profesional que los escucha sin juzgar.",
+      "item0": "Autoestima e imagen personal",
+      "item1": "Vínculos y relaciones sociales",
+      "item2": "Ansiedad ante el rendimiento",
+      "item3": "Identidad y orientación",
+      "item4": "Familia y entornos difíciles",
+      "cta": "Consultar"
+    },
+    "sessionDetails": {
+      "title": "Detalles de la sesión",
+      "0": { "icon": "⏱️", "label": "Duración", "value": "50 minutos" },
+      "1": { "icon": "💻", "label": "Modalidad", "value": "100% virtual" },
+      "2": { "icon": "📅", "label": "Frecuencia", "value": "Semanal / Quincenal" },
+      "3": { "icon": "💳", "label": "Arancel", "value": "Consultar por WA" }
+    },
+    "process": {
+      "title": "Cómo funciona el proceso",
+      "description": "Paso a paso, sin apuros.",
+      "0": { "n": "01", "title": "Me escribís", "desc": "Por WhatsApp o el formulario de contacto. Te respondo a la brevedad para coordinar." },
+      "1": { "n": "02", "title": "Primera consulta", "desc": "Una sesión inicial sin compromiso para conocernos, entender qué te trae y evaluar si el proceso terapéutico es lo que necesitás." },
+      "2": { "n": "03", "title": "Encuadre de trabajo", "desc": "Definimos juntos/as frecuencia, objetivos iniciales y todo lo que necesitás saber antes de empezar." },
+      "3": { "n": "04", "title": "Proceso terapéutico", "desc": "Sesiones semanales o quincenales, con herramientas prácticas de ACT adaptadas a vos." },
+      "4": { "n": "05", "title": "Seguimiento y cierre", "desc": "Evaluamos el proceso de forma continua. El cierre lo decidimos juntos, cuando sea el momento." }
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "0": { "q": "¿Cuánto dura cada sesión?", "a": "Las sesiones tienen una duración de 50 minutos, en modalidad virtual por videollamada (Google Meet, Zoom o plataforma que prefieras)." },
+      "1": { "q": "¿Con qué frecuencia se trabaja?", "a": "Generalmente comenzamos con sesiones semanales. Dependiendo del proceso, podemos espaciarlas a quincenal con el tiempo." },
+      "2": { "q": "¿Atendés adolescentes?", "a": "Sí, trabajo con adolescentes a partir de los 15 años. Si sos padre/madre/tutor/a, podemos coordinar una consulta inicial para conversar antes de la primera sesión." },
+      "3": { "q": "¿Cómo son los pagos?", "a": "Los valores y métodos de pago los acordamos directamente. Podés consultarme por WhatsApp para obtener la información actualizada." },
+      "4": { "q": "¿Hacés interconsultas o derivaciones?", "a": "Sí, de ser necesario puedo coordinar con psiquiatras u otros profesionales de salud para un abordaje integral." }
+    },
+    "cta": {
+      "title": "¿Querés empezar?",
+      "description": "Escribime y coordinamos una primera consulta sin compromiso.",
+      "button": "Contactar por WhatsApp"
+    }
+  },
+  "contact": {
+    "meta": {
+      "title": "Contacto",
+      "description": "Contactá a la Lic. Micaela Vulcano para consultar sobre el proceso terapéutico o agendar una primera sesión. Atención virtual para adolescentes y adultos.",
+      "ogTitle": "Contacto | Lic. Micaela Vulcano",
+      "ogDescription": "Consultá sobre el proceso terapéutico o agendá una primera sesión."
+    },
+    "hero": {
+      "badge": "Estoy aquí",
+      "title": "Contacto",
+      "description": "El primer paso es el más importante. Podés escribirme directamente por WhatsApp o usar el formulario — te respondo a la brevedad."
+    },
+    "left": {
+      "title": "Vías de contacto",
+      "whatsapp": "WhatsApp",
+      "whatsappDesc": "La vía más rápida — respondo en el día",
+      "info0": { "icon": "📅", "title": "Días de atención", "val": "Lunes a Viernes" },
+      "info1": { "icon": "💻", "title": "Modalidad", "val": "100% virtual" },
+      "info2": { "icon": "⏱️", "title": "Duración", "val": "50 minutos" },
+      "info3": { "icon": "🕐", "title": "Respuesta", "val": "En el día hábil" },
+      "noteLabel": "Antes de escribir:",
+      "noteText": "No hace falta que tengas claro qué querés trabajar. Podemos hablar primero y ver juntos si el proceso terapéutico es lo que necesitás."
+    },
+    "right": {
+      "title": "Formulario de contacto"
+    }
+  },
+  "blog": {
+    "meta": {
+      "title": "Blog",
+      "description": "Artículos sobre salud mental, Terapia de Aceptación y Compromiso (ACT), bienestar emocional y psicología para la vida cotidiana.",
+      "ogTitle": "Blog | Lic. Micaela Vulcano",
+      "ogDescription": "Artículos sobre salud mental, ACT y bienestar emocional."
+    },
+    "hero": {
+      "badge": "Artículos",
+      "title": "Blog",
+      "description": "Reflexiones, herramientas y lecturas para acompañar tu bienestar emocional. Sin tecnicismos, con honestidad."
+    },
+    "posts": {
+      "empty": "Próximamente...",
+      "readArticle": "Leer artículo"
+    },
+    "cta": {
+      "title": "¿Querés saber más?",
+      "description": "Si tenés dudas sobre el proceso terapéutico o simplemente querés conversar, estoy disponible.",
+      "button": "Escribime"
+    }
+  },
+  "blogPost": {
+    "notFound": "Artículo no encontrado",
+    "backToBlog": "Volver al blog",
+    "writtenBy": "Escrito por",
+    "authorBio": "Psicóloga especializada en Terapia de Aceptación y Compromiso (ACT). Atención virtual para adolescentes y adultos.",
+    "authorLink": "Conocé más →",
+    "cta": {
+      "title": "¿Querés empezar tu proceso?",
+      "description": "Podemos tener una primera consulta sin compromiso para ver si es lo que necesitás.",
+      "button": "Escribime por WhatsApp"
+    },
+    "allArticles": "← Ver todos los artículos"
   }
 }

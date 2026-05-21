@@ -3,18 +3,20 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug, formatDate } from "@/lib/blog";
+import { getTranslations } from "next-intl/server";
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const post = await getPostBySlug(slug);
+  const t = await getTranslations({ locale, namespace: "blogPost" });
 
-  if (!post) return { title: "Artículo no encontrado" };
+  if (!post) return { title: t("notFound") };
 
   return {
     title: post.title,
@@ -29,8 +31,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogPostPage({ params }: Props) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const post = await getPostBySlug(slug);
+  const t = await getTranslations({ locale, namespace: "blogPost" });
 
   if (!post) notFound();
 
@@ -46,7 +49,7 @@ export default async function BlogPostPage({ params }: Props) {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            Volver al blog
+            {t("backToBlog")}
           </Link>
           <div className="flex flex-wrap items-center gap-3 mb-5">
             <time className="text-sm text-warm-400" dateTime={post.date}>
@@ -87,17 +90,16 @@ export default async function BlogPostPage({ params }: Props) {
               👩‍⚕️
             </div>
             <div>
-              <p className="text-xs text-warm-400 uppercase tracking-wide mb-1">Escrito por</p>
+              <p className="text-xs text-warm-400 uppercase tracking-wide mb-1">{t("writtenBy")}</p>
               <h3 className="font-semibold text-warm-900 mb-1">{post.author}</h3>
               <p className="text-warm-500 text-sm leading-relaxed">
-                Psicóloga especializada en Terapia de Aceptación y Compromiso (ACT).
-                Atención virtual para adolescentes y adultos.
+                {t("authorBio")}
               </p>
               <Link
                 href="/about"
                 className="inline-flex items-center gap-1 text-sage-600 hover:text-sage-700 text-sm font-medium mt-2 transition-colors"
               >
-                Conocé más →
+                {t("authorLink")}
               </Link>
             </div>
           </div>
@@ -106,10 +108,10 @@ export default async function BlogPostPage({ params }: Props) {
         {/* CTA */}
         <div className="mt-10 bg-gradient-to-r from-lilac-50 to-sage-50 rounded-2xl p-8 text-center border border-warm-100">
           <h3 className="font-bold text-warm-900 text-xl mb-3">
-            ¿Querés empezar tu proceso?
+            {t("cta.title")}
           </h3>
           <p className="text-warm-500 text-sm mb-6">
-            Podemos tener una primera consulta sin compromiso para ver si es lo que necesitás.
+            {t("cta.description")}
           </p>
           <Link
             href="https://wa.me/5491122554035?text=Hola%20Micaela%2C%20le%C3%AD%20tu%20blog%20y%20quiero%20consultar%20sobre%20el%20proceso%20terap%C3%A9utico."
@@ -117,7 +119,7 @@ export default async function BlogPostPage({ params }: Props) {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-sage-500 hover:bg-sage-600 text-white font-medium px-6 py-3 rounded-full transition-colors shadow-md"
           >
-            Escribime por WhatsApp
+            {t("cta.button")}
           </Link>
         </div>
 
@@ -127,7 +129,7 @@ export default async function BlogPostPage({ params }: Props) {
             href="/blog"
             className="text-warm-400 hover:text-warm-600 text-sm transition-colors"
           >
-            ← Ver todos los artículos
+            {t("allArticles")}
           </Link>
         </div>
       </div>

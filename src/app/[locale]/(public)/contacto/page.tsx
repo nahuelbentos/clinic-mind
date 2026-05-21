@@ -1,30 +1,47 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Contacto",
-  description:
-    "Contactá a la Lic. Micaela Vulcano para consultar sobre el proceso terapéutico o agendar una primera sesión. Atención virtual para adolescentes y adultos.",
-  openGraph: {
-    title: "Contacto | Lic. Micaela Vulcano",
-    description: "Consultá sobre el proceso terapéutico o agendá una primera sesión.",
-  },
-};
+interface Props {
+  params: Promise<{ locale: string }>;
+}
 
-export default function ContactoPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "contact.meta" });
+  return {
+    title: t("title"),
+    description: t("description"),
+    openGraph: {
+      title: t("ogTitle"),
+      description: t("ogDescription"),
+    },
+  };
+}
+
+export default async function ContactoPage({ params }: Props) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "contact" });
+
+  const infoBoxes = [
+    { icon: t("left.info0.icon"), title: t("left.info0.title"), val: t("left.info0.val") },
+    { icon: t("left.info1.icon"), title: t("left.info1.title"), val: t("left.info1.val") },
+    { icon: t("left.info2.icon"), title: t("left.info2.title"), val: t("left.info2.val") },
+    { icon: t("left.info3.icon"), title: t("left.info3.title"), val: t("left.info3.val") },
+  ];
+
   return (
     <>
       {/* Hero */}
       <section className="bg-gradient-to-br from-sage-50 to-warm-50 py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <span className="inline-block bg-sage-100 text-sage-700 text-sm font-medium px-4 py-1.5 rounded-full mb-5">
-            Estoy aquí
+            {t("hero.badge")}
           </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-warm-900 mb-5">Contacto</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-warm-900 mb-5">{t("hero.title")}</h1>
           <p className="text-warm-500 text-lg leading-relaxed max-w-xl mx-auto">
-            El primer paso es el más importante. Podés escribirme directamente por WhatsApp
-            o usar el formulario — te respondo a la brevedad.
+            {t("hero.description")}
           </p>
         </div>
       </section>
@@ -33,7 +50,7 @@ export default function ContactoPage() {
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left — Direct contact */}
           <div>
-            <h2 className="text-2xl font-bold text-warm-900 mb-6">Vías de contacto</h2>
+            <h2 className="text-2xl font-bold text-warm-900 mb-6">{t("left.title")}</h2>
 
             {/* WhatsApp primary */}
             <Link
@@ -48,8 +65,8 @@ export default function ContactoPage() {
                 </svg>
               </div>
               <div>
-                <p className="font-semibold text-warm-900 group-hover:text-sage-700 transition-colors">WhatsApp</p>
-                <p className="text-warm-500 text-sm">La vía más rápida — respondo en el día</p>
+                <p className="font-semibold text-warm-900 group-hover:text-sage-700 transition-colors">{t("left.whatsapp")}</p>
+                <p className="text-warm-500 text-sm">{t("left.whatsappDesc")}</p>
               </div>
               <svg className="w-5 h-5 text-warm-300 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -58,12 +75,7 @@ export default function ContactoPage() {
 
             {/* Info boxes */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-              {[
-                { icon: "📅", title: "Días de atención", val: "Lunes a Viernes" },
-                { icon: "💻", title: "Modalidad", val: "100% virtual" },
-                { icon: "⏱️", title: "Duración", val: "50 minutos" },
-                { icon: "🕐", title: "Respuesta", val: "En el día hábil" },
-              ].map((item) => (
+              {infoBoxes.map((item) => (
                 <div key={item.title} className="bg-warm-50 rounded-xl p-4 border border-warm-100">
                   <div className="text-xl mb-1">{item.icon}</div>
                   <p className="text-xs text-warm-400 uppercase tracking-wide">{item.title}</p>
@@ -74,16 +86,15 @@ export default function ContactoPage() {
 
             <div className="mt-8 bg-sage-50 rounded-2xl p-5 border border-sage-100">
               <p className="text-warm-600 text-sm leading-relaxed">
-                <span className="font-medium text-warm-800">Antes de escribir:</span> No hace falta
-                que tengas claro qué querés trabajar. Podemos hablar primero y ver juntos si el
-                proceso terapéutico es lo que necesitás.
+                <span className="font-medium text-warm-800">{t("left.noteLabel")}</span>{" "}
+                {t("left.noteText")}
               </p>
             </div>
           </div>
 
           {/* Right — Form */}
           <div>
-            <h2 className="text-2xl font-bold text-warm-900 mb-6">Formulario de contacto</h2>
+            <h2 className="text-2xl font-bold text-warm-900 mb-6">{t("right.title")}</h2>
             <ContactForm />
           </div>
         </div>

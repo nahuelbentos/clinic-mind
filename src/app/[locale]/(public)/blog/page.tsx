@@ -1,18 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts, formatDate } from "@/lib/blog";
+import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description:
-    "Artículos sobre salud mental, Terapia de Aceptación y Compromiso (ACT), bienestar emocional y psicología para la vida cotidiana.",
-  openGraph: {
-    title: "Blog | Lic. Micaela Vulcano",
-    description: "Artículos sobre salud mental, ACT y bienestar emocional.",
-  },
-};
+interface Props {
+  params: Promise<{ locale: string }>;
+}
 
-export default async function BlogPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "blog.meta" });
+  return {
+    title: t("title"),
+    description: t("description"),
+    openGraph: {
+      title: t("ogTitle"),
+      description: t("ogDescription"),
+    },
+  };
+}
+
+export default async function BlogPage({ params }: Props) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "blog" });
   const posts = await getAllPosts();
 
   return (
@@ -21,12 +31,11 @@ export default async function BlogPage() {
       <section className="bg-gradient-to-br from-warm-50 to-lilac-50 py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <span className="inline-block bg-warm-100 text-warm-700 text-sm font-medium px-4 py-1.5 rounded-full mb-5">
-            Artículos
+            {t("hero.badge")}
           </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-warm-900 mb-5">Blog</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold text-warm-900 mb-5">{t("hero.title")}</h1>
           <p className="text-warm-500 text-lg leading-relaxed">
-            Reflexiones, herramientas y lecturas para acompañar tu bienestar emocional.
-            Sin tecnicismos, con honestidad.
+            {t("hero.description")}
           </p>
         </div>
       </section>
@@ -35,7 +44,7 @@ export default async function BlogPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-4xl mx-auto">
           {posts.length === 0 ? (
-            <p className="text-center text-warm-400 py-20">Próximamente...</p>
+            <p className="text-center text-warm-400 py-20">{t("posts.empty")}</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {posts.map((post) => (
@@ -61,7 +70,7 @@ export default async function BlogPage() {
                     {post.description}
                   </p>
                   <span className="inline-flex items-center gap-1 text-sage-600 text-sm font-medium mt-4">
-                    Leer artículo
+                    {t("posts.readArticle")}
                     <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
@@ -76,15 +85,13 @@ export default async function BlogPage() {
       {/* Newsletter / CTA */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-warm-50">
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-2xl font-bold text-warm-900 mb-3">¿Querés saber más?</h2>
-          <p className="text-warm-500 mb-8">
-            Si tenés dudas sobre el proceso terapéutico o simplemente querés conversar, estoy disponible.
-          </p>
+          <h2 className="text-2xl font-bold text-warm-900 mb-3">{t("cta.title")}</h2>
+          <p className="text-warm-500 mb-8">{t("cta.description")}</p>
           <Link
             href="/contacto"
             className="inline-flex items-center justify-center gap-2 bg-sage-500 hover:bg-sage-600 text-white font-medium px-7 py-3.5 rounded-full transition-colors shadow-md"
           >
-            Escribime
+            {t("cta.button")}
           </Link>
         </div>
       </section>
