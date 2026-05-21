@@ -20,6 +20,8 @@ export async function createFeedbackAction(
     currentBehavior: formData.get("currentBehavior") as string,
     desiredBehavior: formData.get("desiredBehavior") as string,
     priority: formData.get("priority") as string,
+    screenshotUrl: (formData.get("screenshotUrl") as string) || "",
+    videoUrl: (formData.get("videoUrl") as string) || "",
   };
 
   const result = feedbackSchema.safeParse(raw);
@@ -38,6 +40,8 @@ export async function createFeedbackAction(
       currentBehavior: result.data.currentBehavior || null,
       desiredBehavior: result.data.desiredBehavior || null,
       priority: result.data.priority,
+      screenshotUrl: result.data.screenshotUrl || null,
+      videoUrl: result.data.videoUrl || null,
     },
   });
 
@@ -103,6 +107,25 @@ export async function createFeedbackAction(
             <div style="margin-top: 12px; padding: 16px; background: white; border-radius: 8px; border: 1px solid #ebe5dc;">
               <h3 style="color: #477347; font-size: 14px; margin: 0 0 8px;">Comportamiento deseado</h3>
               <p style="color: #2c2825; font-size: 14px; line-height: 1.6; margin: 0;">${result.data.desiredBehavior}</p>
+            </div>`
+                : ""
+            }
+            ${
+              result.data.screenshotUrl
+                ? `
+            <div style="margin-top: 12px; padding: 16px; background: white; border-radius: 8px; border: 1px solid #ebe5dc;">
+              <h3 style="color: #477347; font-size: 14px; margin: 0 0 8px;">Captura de pantalla</h3>
+              <img src="${result.data.screenshotUrl}" alt="Screenshot" style="max-width: 100%; border-radius: 6px; display: block;" />
+              <a href="${result.data.screenshotUrl}" style="display: inline-block; margin-top: 8px; font-size: 12px; color: #477347;">Ver imagen original →</a>
+            </div>`
+                : ""
+            }
+            ${
+              result.data.videoUrl
+                ? `
+            <div style="margin-top: 12px; padding: 16px; background: white; border-radius: 8px; border: 1px solid #ebe5dc;">
+              <h3 style="color: #477347; font-size: 14px; margin: 0 0 8px;">Video adjunto</h3>
+              <a href="${result.data.videoUrl}" style="display: inline-block; padding: 8px 16px; background: #477347; color: white; border-radius: 6px; text-decoration: none; font-size: 14px;">&#9654; Ver video →</a>
             </div>`
                 : ""
             }
