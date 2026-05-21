@@ -67,6 +67,8 @@ export const feedbackSchema = z.object({
   currentBehavior: z.string().optional(),
   desiredBehavior: z.string().optional(),
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]),
+  screenshotUrl: z.string().url("URL inválida").optional().or(z.literal("")).transform(v => v || undefined),
+  videoUrl: z.string().url("URL inválida").optional().or(z.literal("")).transform(v => v || undefined),
 });
 
 export const profileSchema = z.object({
