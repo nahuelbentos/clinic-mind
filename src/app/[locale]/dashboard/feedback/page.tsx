@@ -160,7 +160,7 @@ export default function FeedbackPage() {
               <input
                 name="attachment"
                 type="file"
-                accept="image/jpeg,image/png,image/webp,video/mp4"
+                accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/x-matroska"
                 className="sr-only"
                 onChange={handleFileChange}
               />
