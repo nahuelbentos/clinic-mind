@@ -48,7 +48,7 @@ export default function Navbar() {
                 className="text-[10px] text-sage-500 uppercase tracking-[0.06em] font-medium"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
-                Lic. en Psicología · UBA
+                {t("subtitle")}
               </span>
             </div>
           </Link>

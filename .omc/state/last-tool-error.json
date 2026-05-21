@@ -1,7 +1,7 @@
 {
-  "tool_name": "Read",
-  "tool_input_preview": "{\"file_path\":\"/Users/nahuelbentos/Documents/clinic-mind/src/app/[locale]/\\\\(public\\\\)/blog/page.tsx\"}",
-  "error": "File does not exist. Note: your current working directory is /Users/nahuelbentos/Documents/clinic-mind.",
-  "timestamp": "2026-05-19T01:28:15.853Z",
-  "retry_count": 3
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"git add \\\\\\n  prisma/schema.prisma \\\\\\n  prisma/migrations/20260521120000_add_feedback_video_url/migration.sql \\\\\\n  src/app/api/upload/route.ts \\\\\\n  src/app/\\\\[locale\\\\]/dashboard/feedba...",
+  "error": "Exit code 1\nThe following paths are ignored by one of your .gitignore files:\n.env.local.example\nsrc/generated/prisma\nhint: Use -f if you really want to add them.\nhint: Disable this message with \"git config set advice.addIgnoredFile false\"",
+  "timestamp": "2026-05-21T18:28:55.758Z",
+  "retry_count": 1
 }
