@@ -50,7 +50,7 @@ const faqs = [
   },
   {
     q: "¿Atendés adolescentes?",
-    a: "Sí, trabajo con adolescentes a partir de los 13 años. Si sos padre/madre/tutor/a, podemos coordinar una consulta inicial para conversar antes de la primera sesión.",
+    a: "Sí, trabajo con adolescentes a partir de los 15 años. Si sos padre/madre/tutor/a, podemos coordinar una consulta inicial para conversar antes de la primera sesión.",
   },
   {
     q: "¿Cómo son los pagos?",

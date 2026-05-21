@@ -11,7 +11,7 @@ const pillars = [
   {
     icon: "🌿",
     title: "Terapia basada en evidencia",
-    desc: "La ACT es una de las terapias de tercera generación con mayor respaldo científico para el tratamiento de ansiedad, depresión y más.",
+    desc: "ACT es una de las terapias de tercera generación con mayor respaldo científico para el tratamiento de ansiedad, depresión y más.",
   },
   {
     icon: "💻",
