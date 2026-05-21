@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const blob = await put(pathname, file, {
-      access: "public",
+      access: "private",
       addRandomSuffix: true,
     });
     return NextResponse.json({ url: blob.url });

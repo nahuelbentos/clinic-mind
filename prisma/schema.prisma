@@ -144,8 +144,7 @@ model Feedback {
   desiredBehavior String?
   priority        Priority       @default(MEDIUM)
   status          FeedbackStatus @default(NEW)
-  screenshotUrl   String?
-  videoUrl        String?
+  attachmentUrls  String[]
   createdAt       DateTime       @default(now())
 
   @@index([userId])

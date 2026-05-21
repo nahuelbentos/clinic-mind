@@ -13,6 +13,13 @@ export async function createFeedbackAction(
   const session = await auth();
   if (!session?.user?.id) return { error: "No autorizado" };
 
+  let parsedUrls: unknown;
+  try {
+    parsedUrls = JSON.parse((formData.get("attachmentUrls") as string) || "[]");
+  } catch {
+    parsedUrls = [];
+  }
+
   const raw = {
     type: formData.get("type") as string,
     title: formData.get("title") as string,
@@ -20,8 +27,7 @@ export async function createFeedbackAction(
     currentBehavior: formData.get("currentBehavior") as string,
     desiredBehavior: formData.get("desiredBehavior") as string,
     priority: formData.get("priority") as string,
-    screenshotUrl: (formData.get("screenshotUrl") as string) || "",
-    videoUrl: (formData.get("videoUrl") as string) || "",
+    attachmentUrls: parsedUrls,
   };
 
   const result = feedbackSchema.safeParse(raw);
@@ -40,12 +46,10 @@ export async function createFeedbackAction(
       currentBehavior: result.data.currentBehavior || null,
       desiredBehavior: result.data.desiredBehavior || null,
       priority: result.data.priority,
-      screenshotUrl: result.data.screenshotUrl || null,
-      videoUrl: result.data.videoUrl || null,
+      attachmentUrls: result.data.attachmentUrls,
     },
   });
 
-  // Send email notification
   const developerEmail = process.env.DEVELOPER_EMAIL;
   if (developerEmail) {
     const typeLabels: Record<string, string> = {
@@ -59,6 +63,26 @@ export async function createFeedbackAction(
       MEDIUM: "Media",
       HIGH: "Alta",
     };
+
+    const attachmentsHtml = result.data.attachmentUrls
+      .map((url) => {
+        const ext = url.split("?")[0].split(".").pop()?.toLowerCase() ?? "";
+        const isImage = ["jpg", "jpeg", "png", "webp"].includes(ext);
+        if (isImage) {
+          return `
+            <div style="margin-top: 12px; padding: 16px; background: white; border-radius: 8px; border: 1px solid #ebe5dc;">
+              <h3 style="color: #477347; font-size: 14px; margin: 0 0 8px;">Imagen adjunta</h3>
+              <img src="${url}" alt="Adjunto" style="max-width: 100%; border-radius: 6px; display: block;" />
+              <a href="${url}" style="display: inline-block; margin-top: 8px; font-size: 12px; color: #477347;">Ver imagen original →</a>
+            </div>`;
+        }
+        return `
+          <div style="margin-top: 12px; padding: 16px; background: white; border-radius: 8px; border: 1px solid #ebe5dc;">
+            <h3 style="color: #477347; font-size: 14px; margin: 0 0 8px;">Video adjunto</h3>
+            <a href="${url}" style="display: inline-block; padding: 8px 16px; background: #477347; color: white; border-radius: 6px; text-decoration: none; font-size: 14px;">&#9654; Ver video →</a>
+          </div>`;
+      })
+      .join("");
 
     try {
       await resend.emails.send({
@@ -110,25 +134,7 @@ export async function createFeedbackAction(
             </div>`
                 : ""
             }
-            ${
-              result.data.screenshotUrl
-                ? `
-            <div style="margin-top: 12px; padding: 16px; background: white; border-radius: 8px; border: 1px solid #ebe5dc;">
-              <h3 style="color: #477347; font-size: 14px; margin: 0 0 8px;">Captura de pantalla</h3>
-              <img src="${result.data.screenshotUrl}" alt="Screenshot" style="max-width: 100%; border-radius: 6px; display: block;" />
-              <a href="${result.data.screenshotUrl}" style="display: inline-block; margin-top: 8px; font-size: 12px; color: #477347;">Ver imagen original →</a>
-            </div>`
-                : ""
-            }
-            ${
-              result.data.videoUrl
-                ? `
-            <div style="margin-top: 12px; padding: 16px; background: white; border-radius: 8px; border: 1px solid #ebe5dc;">
-              <h3 style="color: #477347; font-size: 14px; margin: 0 0 8px;">Video adjunto</h3>
-              <a href="${result.data.videoUrl}" style="display: inline-block; padding: 8px 16px; background: #477347; color: white; border-radius: 6px; text-decoration: none; font-size: 14px;">&#9654; Ver video →</a>
-            </div>`
-                : ""
-            }
+            ${attachmentsHtml}
             <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #ebe5dc; font-size: 12px; color: #8d7a68;">
               ID: ${feedback.id} · ${new Date().toLocaleDateString("es-AR")}
             </div>
