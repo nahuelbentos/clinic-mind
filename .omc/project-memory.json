@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1779118252214,
+  "lastScanned": 1779387031340,
   "projectRoot": "/Users/nahuelbentos/Documents/clinic-mind",
   "techStack": {
     "languages": [
@@ -50,7 +50,7 @@
     "runtime": null
   },
   "build": {
-    "buildCommand": "npx tsc --noEmit 2>&1 | tail -20",
+    "buildCommand": "npx tsc --noEmit 2>&1 | head -30",
     "testCommand": "make test",
     "lintCommand": "npm run lint",
     "devCommand": "npm run dev",
@@ -88,14 +88,14 @@
       "path": "content",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1779118252184,
+      "lastAccessed": 1779387031305,
       "keyFiles": []
     },
     "messages": {
       "path": "messages",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1779118252184,
+      "lastAccessed": 1779387031309,
       "keyFiles": [
         "en.json",
         "es.json"
@@ -105,7 +105,7 @@
       "path": "prisma",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1779118252188,
+      "lastAccessed": 1779387031311,
       "keyFiles": [
         "schema.prisma",
         "seed.ts"
@@ -115,7 +115,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 8,
-      "lastAccessed": 1779118252188,
+      "lastAccessed": 1779387031311,
       "keyFiles": [
         "file.svg",
         "globe.svg",
@@ -128,7 +128,7 @@
       "path": "scripts",
       "purpose": "Build/utility scripts",
       "fileCount": 1,
-      "lastAccessed": 1779118252189,
+      "lastAccessed": 1779387031311,
       "keyFiles": [
         "setup-claude-efficiency.sh"
       ]
@@ -137,7 +137,7 @@
       "path": "src",
       "purpose": "Source code",
       "fileCount": 1,
-      "lastAccessed": 1779118252189,
+      "lastAccessed": 1779387031311,
       "keyFiles": [
         "middleware.ts"
       ]
@@ -146,7 +146,7 @@
       "path": "prisma/migrations",
       "purpose": "Database migrations",
       "fileCount": 1,
-      "lastAccessed": 1779118252189,
+      "lastAccessed": 1779387031312,
       "keyFiles": [
         "migration_lock.toml"
       ]
@@ -155,7 +155,7 @@
       "path": "src/app",
       "purpose": "Application code",
       "fileCount": 5,
-      "lastAccessed": 1779118252189,
+      "lastAccessed": 1779387031313,
       "keyFiles": [
         "favicon.ico",
         "globals.css",
@@ -166,7 +166,7 @@
       "path": "src/components",
       "purpose": "UI components",
       "fileCount": 5,
-      "lastAccessed": 1779118252190,
+      "lastAccessed": 1779387031313,
       "keyFiles": [
         "ContactForm.tsx",
         "Footer.tsx",
@@ -177,7 +177,7 @@
       "path": "src/lib",
       "purpose": "Library code",
       "fileCount": 8,
-      "lastAccessed": 1779118252190,
+      "lastAccessed": 1779387031313,
       "keyFiles": [
         "auth.ts",
         "blog.ts",
@@ -188,7 +188,7 @@
       "path": "src/types",
       "purpose": "Type definitions",
       "fileCount": 1,
-      "lastAccessed": 1779118252190,
+      "lastAccessed": 1779387031314,
       "keyFiles": [
         "next-auth.d.ts"
       ]
@@ -196,15 +196,27 @@
   },
   "hotPaths": [
     {
-      "path": "messages/es.json",
-      "accessCount": 10,
-      "lastAccessed": 1779154193700,
+      "path": "messages/en.json",
+      "accessCount": 18,
+      "lastAccessed": 1779399455011,
       "type": "file"
     },
     {
-      "path": "messages/en.json",
-      "accessCount": 10,
-      "lastAccessed": 1779154193980,
+      "path": "messages/es.json",
+      "accessCount": 18,
+      "lastAccessed": 1779399467334,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 14,
+      "lastAccessed": 1779399308123,
+      "type": "directory"
+    },
+    {
+      "path": "prisma/schema.prisma",
+      "accessCount": 7,
+      "lastAccessed": 1779388025335,
       "type": "file"
     },
     {
@@ -214,9 +226,9 @@
       "type": "file"
     },
     {
-      "path": "prisma/schema.prisma",
-      "accessCount": 5,
-      "lastAccessed": 1779122765605,
+      "path": "src/app/[locale]/(public)/blog/[slug]/page.tsx",
+      "accessCount": 6,
+      "lastAccessed": 1779387897057,
       "type": "file"
     },
     {
@@ -226,9 +238,15 @@
       "type": "file"
     },
     {
-      "path": "src/app/[locale]/(public)/blog/[slug]/page.tsx",
+      "path": "src/app/[locale]/(public)/blog/page.tsx",
       "accessCount": 4,
-      "lastAccessed": 1779154193275,
+      "lastAccessed": 1779387874154,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/validations.ts",
+      "accessCount": 4,
+      "lastAccessed": 1779388031660,
       "type": "file"
     },
     {
@@ -244,9 +262,21 @@
       "type": "file"
     },
     {
-      "path": "src/lib/validations.ts",
-      "accessCount": 2,
-      "lastAccessed": 1779118521774,
+      "path": "src",
+      "accessCount": 3,
+      "lastAccessed": 1779387395544,
+      "type": "directory"
+    },
+    {
+      "path": "src/app/[locale]/(public)/contacto/page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1779399297514,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Navbar.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1779399471311,
       "type": "file"
     },
     {
@@ -298,12 +328,6 @@
       "type": "file"
     },
     {
-      "path": "src/app/[locale]/(public)/blog/page.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1779122888157,
-      "type": "file"
-    },
-    {
       "path": "src/app/[locale]/admin/layout.tsx",
       "accessCount": 2,
       "lastAccessed": 1779122922523,
@@ -346,6 +370,24 @@
       "type": "file"
     },
     {
+      "path": "src/app/[locale]/(public)/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779387752954,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/(public)/about/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779387788183,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/(public)/servicios/page.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1779387831541,
+      "type": "file"
+    },
+    {
       "path": "docker-compose.yml",
       "accessCount": 1,
       "lastAccessed": 1779118466781,
@@ -380,18 +422,6 @@
       "accessCount": 1,
       "lastAccessed": 1779118653786,
       "type": "file"
-    },
-    {
-      "path": "src",
-      "accessCount": 1,
-      "lastAccessed": 1779121727906,
-      "type": "directory"
-    },
-    {
-      "path": "",
-      "accessCount": 1,
-      "lastAccessed": 1779121728021,
-      "type": "directory"
     },
     {
       "path": "src/app/[locale]/dashboard/layout.tsx",
@@ -457,6 +487,12 @@
       "path": "src/app/[locale]/dashboard/blog/[id]/editar/page.tsx",
       "accessCount": 1,
       "lastAccessed": 1779154242348,
+      "type": "file"
+    },
+    {
+      "path": "src/app/[locale]/(public)/layout.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779387399770,
       "type": "file"
     }
   ],

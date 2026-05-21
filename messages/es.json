@@ -6,7 +6,8 @@
     "blog": "Blog",
     "contact": "Contacto",
     "bookSession": "Agendar sesión",
-    "menuLabel": "Menú"
+    "menuLabel": "Menú",
+    "subtitle": "Lic. en Psicología · UBA"
   },
   "footer": {
     "navigation": "Navegación",
@@ -652,5 +653,18 @@
       "button": "Escribime por WhatsApp"
     },
     "allArticles": "← Ver todos los artículos"
+  },
+  "contactForm": {
+    "nameLabel": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "emailLabel": "Email",
+    "messageLabel": "Mensaje",
+    "messagePlaceholder": "¿En qué puedo ayudarte? Contame lo que necesités...",
+    "whatsappMessage": "Hola Micaela, me contacto desde el formulario de tu web.\n\nNombre: {name}\nEmail: {email}\n\n{message}",
+    "submit": "Enviar mensaje por WhatsApp",
+    "submitting": "Enviando...",
+    "success": "¡Se abrió WhatsApp con tu mensaje! Si no se abrió, escribime directamente.",
+    "error": "Hubo un problema. Por favor, escribime directamente por WhatsApp.",
+    "disclaimer": "Al enviar, se abrirá WhatsApp con tu consulta precompletada."
   }
 }

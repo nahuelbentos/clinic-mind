@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
 export default function ContactForm() {
+  const t = useTranslations("contactForm");
   const [state, setState] = useState<FormState>("idle");
   const [formData, setFormData] = useState({
     nombre: "",
@@ -22,9 +24,12 @@ export default function ContactForm() {
     e.preventDefault();
     setState("submitting");
 
-    // Build a WhatsApp message as fallback (no backend needed)
     const msg = encodeURIComponent(
-      `Hola Micaela, me contacto desde el formulario de tu web.\n\nNombre: ${formData.nombre}\nEmail: ${formData.email}\n\n${formData.mensaje}`
+      t("whatsappMessage", {
+        name: formData.nombre,
+        email: formData.email,
+        message: formData.mensaje,
+      })
     );
     window.open(`https://wa.me/5491122554035?text=${msg}`, "_blank");
 
@@ -39,7 +44,7 @@ export default function ContactForm() {
           htmlFor="nombre"
           className="block text-sm font-medium text-warm-700 mb-1.5"
         >
-          Nombre
+          {t("nameLabel")}
         </label>
         <input
           id="nombre"
@@ -48,7 +53,7 @@ export default function ContactForm() {
           required
           value={formData.nombre}
           onChange={handleChange}
-          placeholder="Tu nombre"
+          placeholder={t("namePlaceholder")}
           className="w-full bg-warm-50 border border-warm-200 text-warm-800 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-sage-300 focus:border-sage-400 transition-all placeholder:text-warm-300"
         />
       </div>
@@ -58,7 +63,7 @@ export default function ContactForm() {
           htmlFor="email"
           className="block text-sm font-medium text-warm-700 mb-1.5"
         >
-          Email
+          {t("emailLabel")}
         </label>
         <input
           id="email"
@@ -77,7 +82,7 @@ export default function ContactForm() {
           htmlFor="mensaje"
           className="block text-sm font-medium text-warm-700 mb-1.5"
         >
-          Mensaje
+          {t("messageLabel")}
         </label>
         <textarea
           id="mensaje"
@@ -86,7 +91,7 @@ export default function ContactForm() {
           rows={5}
           value={formData.mensaje}
           onChange={handleChange}
-          placeholder="¿En qué puedo ayudarte? Contame lo que necesités..."
+          placeholder={t("messagePlaceholder")}
           className="w-full bg-warm-50 border border-warm-200 text-warm-800 rounded-xl px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-sage-300 focus:border-sage-400 transition-all placeholder:text-warm-300 resize-none"
         />
       </div>
@@ -96,22 +101,22 @@ export default function ContactForm() {
         disabled={state === "submitting"}
         className="w-full bg-sage-500 hover:bg-sage-600 disabled:bg-sage-300 text-white font-medium px-6 py-3.5 rounded-full transition-colors shadow-md hover:shadow-lg text-sm"
       >
-        {state === "submitting" ? "Enviando..." : "Enviar mensaje por WhatsApp"}
+        {state === "submitting" ? t("submitting") : t("submit")}
       </button>
 
       {state === "success" && (
         <p className="text-sage-700 bg-sage-50 border border-sage-200 rounded-xl p-4 text-sm text-center">
-          ¡Se abrió WhatsApp con tu mensaje! Si no se abrió, escribime directamente.
+          {t("success")}
         </p>
       )}
       {state === "error" && (
         <p className="text-red-600 bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-center">
-          Hubo un problema. Por favor, escribime directamente por WhatsApp.
+          {t("error")}
         </p>
       )}
 
       <p className="text-xs text-warm-400 text-center">
-        Al enviar, se abrirá WhatsApp con tu consulta precompletada.
+        {t("disclaimer")}
       </p>
     </form>
   );

@@ -6,7 +6,8 @@
     "blog": "Blog",
     "contact": "Contact",
     "bookSession": "Book a session",
-    "menuLabel": "Menu"
+    "menuLabel": "Menu",
+    "subtitle": "Lic. in Psychology · UBA"
   },
   "footer": {
     "navigation": "Navigation",
@@ -652,5 +653,18 @@
       "button": "Message me on WhatsApp"
     },
     "allArticles": "← See all articles"
+  },
+  "contactForm": {
+    "nameLabel": "Name",
+    "namePlaceholder": "Your name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "messagePlaceholder": "How can I help you? Tell me what you need...",
+    "whatsappMessage": "Hello Micaela, I'm reaching out from your website form.\n\nName: {name}\nEmail: {email}\n\n{message}",
+    "submit": "Send message via WhatsApp",
+    "submitting": "Sending...",
+    "success": "WhatsApp opened with your message! If it didn't open, message me directly.",
+    "error": "There was a problem. Please message me directly via WhatsApp.",
+    "disclaimer": "By submitting, WhatsApp will open with your pre-filled inquiry."
   }
 }
