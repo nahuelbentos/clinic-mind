@@ -9,77 +9,81 @@ export default function FeedbackPage() {
   const [serverState, setServerState] = useState<{ error?: string; success?: boolean } | null>(null);
   const [isPending, startTransition] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [file, setFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+  const [uploadErrors, setUploadErrors] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const selected = e.target.files?.[0] ?? null;
-    setFile(selected);
-    setUploadError(null);
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-      setPreviewUrl(null);
+    const selected = Array.from(e.target.files ?? []);
+    if (!selected.length) return;
+    const existingNames = new Set(files.map((f) => f.name));
+    const newFiles = selected.filter((f) => !existingNames.has(f.name));
+    const combined = [...files, ...newFiles];
+    if (combined.length > 5) {
+      setUploadErrors(["Máximo 5 archivos permitidos"]);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
     }
-    if (selected && selected.type.startsWith("image/")) {
-      setPreviewUrl(URL.createObjectURL(selected));
-    }
+    const newPreviews = newFiles.map((f) =>
+      f.type.startsWith("image/") ? URL.createObjectURL(f) : ""
+    );
+    setFiles(combined);
+    setPreviews((prev) => [...prev, ...newPreviews]);
+    setUploadErrors([]);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
-  function handleRemoveFile() {
-    setFile(null);
-    setUploadError(null);
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-      setPreviewUrl(null);
-    }
-    if (formRef.current) {
-      const input = formRef.current.querySelector<HTMLInputElement>('input[name="attachment"]');
-      if (input) input.value = "";
-    }
+  function handleRemoveFile(index: number) {
+    const preview = previews[index];
+    if (preview) URL.revokeObjectURL(preview);
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+    setPreviews((prev) => prev.filter((_, i) => i !== index));
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setServerState(null);
-    setUploadError(null);
+    setUploadErrors([]);
 
     const form = e.currentTarget;
     const formData = new FormData(form);
+    let urls: string[] = [];
 
-    // Upload file if present
-    if (file) {
+    if (files.length > 0) {
       setIsUploading(true);
       try {
-        const uploadData = new FormData();
-        uploadData.set("file", file);
-        const res = await fetch("/api/upload", { method: "POST", body: uploadData });
-        const json = (await res.json()) as { url?: string; error?: string };
-        if (!res.ok || json.error) {
-          setUploadError(json.error ?? "Error al subir el archivo");
-          setIsUploading(false);
-          return;
-        }
-        if (file.type === "video/mp4") {
-          formData.set("videoUrl", json.url!);
-        } else {
-          formData.set("screenshotUrl", json.url!);
-        }
-      } catch {
-        setUploadError("Error de red al subir el archivo. El feedback se enviará sin adjunto.");
+        urls = await Promise.all(
+          files.map(async (file) => {
+            const uploadData = new FormData();
+            uploadData.set("file", file);
+            const res = await fetch("/api/upload", { method: "POST", body: uploadData });
+            const json = (await res.json()) as { url?: string; error?: string };
+            if (!res.ok || json.error) throw new Error(json.error ?? "Error al subir archivo");
+            return json.url!;
+          })
+        );
+      } catch (err) {
+        setUploadErrors([err instanceof Error ? err.message : "Error al subir archivos"]);
+        setIsUploading(false);
+        return;
       } finally {
         setIsUploading(false);
       }
     }
+
+    formData.set("attachmentUrls", JSON.stringify(urls));
 
     startTransition(async () => {
       const result = await createFeedbackAction(null, formData);
       setServerState(result);
       if (result?.success) {
         formRef.current?.reset();
-        handleRemoveFile();
+        previews.forEach((p) => p && URL.revokeObjectURL(p));
+        setFiles([]);
+        setPreviews([]);
       }
     });
   }
@@ -145,52 +149,60 @@ export default function FeedbackPage() {
           <textarea id="desiredBehavior" name="desiredBehavior" rows={3} className="w-full px-4 py-2.5 rounded-lg border border-warm-300 focus:ring-2 focus:ring-sage-500 focus:border-sage-500 outline-none text-sm resize-y" placeholder={t("desiredBehaviorPlaceholder")} />
         </div>
 
-        {/* Attachments */}
         <div>
           <label className="block text-sm font-medium text-warm-700 mb-2">
             Adjuntos <span className="text-warm-400">{t("optional")}</span>
           </label>
 
-          {!file && (
+          {files.length > 0 && (
+            <div className="flex flex-wrap gap-3 mb-3">
+              {files.map((f, i) => (
+                <div key={f.name} className="relative">
+                  {previews[i] ? (
+                    <img
+                      src={previews[i]}
+                      alt={f.name}
+                      className="h-20 w-20 object-cover rounded-lg border border-warm-200"
+                    />
+                  ) : (
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-lg border border-warm-200 bg-warm-50 text-sm text-warm-700 max-w-[180px]">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-warm-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="truncate">{f.name}</span>
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveFile(i)}
+                    className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition"
+                    aria-label={`Quitar ${f.name}`}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {files.length < 5 && (
             <label className="flex items-center gap-2 w-fit cursor-pointer px-4 py-2 rounded-lg border border-warm-300 text-sm text-warm-600 hover:bg-warm-50 transition">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
               </svg>
-              Adjuntar imagen o video
+              {files.length === 0 ? "Adjuntar archivo" : "Agregar más"}
               <input
-                name="attachment"
+                ref={fileInputRef}
                 type="file"
+                multiple
                 accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/x-matroska"
                 className="sr-only"
                 onChange={handleFileChange}
               />
             </label>
-          )}
-
-          {file && (
-            <div className="mt-2 flex items-start gap-3">
-              {previewUrl ? (
-                <img src={previewUrl} alt="Vista previa" className="h-24 w-24 object-cover rounded-lg border border-warm-200 shrink-0" />
-              ) : (
-                <div className="flex items-center gap-2 px-3 py-2 rounded-lg border border-warm-200 bg-warm-50 text-sm text-warm-700">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-warm-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span className="truncate max-w-xs">{file.name}</span>
-                </div>
-              )}
-              <button
-                type="button"
-                onClick={handleRemoveFile}
-                className="mt-1 text-warm-400 hover:text-red-500 transition"
-                aria-label="Quitar archivo"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </button>
-            </div>
           )}
 
           {isUploading && (
@@ -199,16 +211,16 @@ export default function FeedbackPage() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
-              Subiendo...
+              Subiendo {files.length} archivo{files.length !== 1 ? "s" : ""}...
             </div>
           )}
 
-          {uploadError && (
-            <p className="mt-2 text-sm text-red-600">{uploadError}</p>
-          )}
+          {uploadErrors.map((err, i) => (
+            <p key={i} className="mt-2 text-sm text-red-600">{err}</p>
+          ))}
 
           <p className="mt-1.5 text-xs text-warm-400">
-            Imágenes (JPEG, PNG, WebP) hasta 5MB · Videos MP4 hasta 50MB
+            Hasta 5 archivos · Imágenes (JPEG, PNG, WebP) hasta 5MB · Videos MP4 hasta 50MB
           </p>
         </div>
 
