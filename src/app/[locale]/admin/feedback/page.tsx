@@ -9,6 +9,10 @@ export default async function AdminFeedbackPage() {
 
   const t = await getTranslations("admin.feedbackPage");
 
+  // Los adjuntos son blobs privados: se sirven a través del proxy autenticado.
+  const proxy = (url: string) =>
+    `/api/feedback-attachment?url=${encodeURIComponent(url)}`;
+
   const typeLabels: Record<string, string> = {
     BUG: t("bug"),
     FEATURE_REQUEST: t("feature"),
@@ -76,12 +80,13 @@ export default async function AdminFeedbackPage() {
                     {fb.attachmentUrls.map((url, i) => {
                       const ext = url.split("?")[0].split(".").pop()?.toLowerCase() ?? "";
                       const isImage = ["jpg", "jpeg", "png", "webp"].includes(ext);
+                      const src = proxy(url);
                       return isImage ? (
-                        <a key={i} href={url} target="_blank" rel="noopener noreferrer">
-                          <img src={url} alt={`Adjunto ${i + 1}`} className="h-16 w-16 object-cover rounded-lg border border-warm-200 hover:opacity-80 transition" />
+                        <a key={i} href={src} target="_blank" rel="noopener noreferrer">
+                          <img src={src} alt={`Adjunto ${i + 1}`} className="h-16 w-16 object-cover rounded-lg border border-warm-200 hover:opacity-80 transition" />
                         </a>
                       ) : (
-                        <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-warm-200 bg-warm-50 text-xs text-warm-700 hover:bg-warm-100 transition">
+                        <a key={i} href={src} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-warm-200 bg-warm-50 text-xs text-warm-700 hover:bg-warm-100 transition">
                           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-warm-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                             <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
